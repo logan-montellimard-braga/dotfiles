@@ -1,0 +1,18 @@
+#!/bin/bash
+
+clip=$(xclip -o)
+greptorrent=$(pgrep rtorrent)
+clipnumber=$(xclip -o | cut -c 32-39)
+clipname=$(xclip -o | cut -c 40-99999)
+
+cd /home/logan/.rTorrent/torrents
+
+if [ $greptorrent > /dev/null ] 
+    then
+        wget "http://torrents.thepiratebay.se/$clipnumber/$clipname.torrent"
+        sleep 1s && notify-send "Torrent $clipname ajouté"
+    else
+        urxvtc_mod -name scratchrtorrent -e rtorrent
+        wget "http://torrents.thepiratebay.se/$clipnumber/$clipname.torrent" 
+        sleep 1s && notify-send "Torrent $clipname ajouté"
+fi

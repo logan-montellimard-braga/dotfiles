@@ -1,0 +1,2 @@
+# Contents of ~/.mutt/mailcap
+text/html; w3m -I %{charset} -T text/html; copiousoutput; #make sure you have w3m installed

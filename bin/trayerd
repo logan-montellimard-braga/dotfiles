@@ -1,0 +1,3 @@
+#!/bin/bash
+
+trayer --edge bottom --SetDockType true --SetPartialStrut true

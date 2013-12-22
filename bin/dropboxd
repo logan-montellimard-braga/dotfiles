@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Copyright 2008 Evenflow, Inc., 2010 Dropbox
+#
+# Environment script for the dropbox executable.
+
+PAR=$(dirname $(readlink -f $0))
+OLD_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=$PAR${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH
+exec $PAR/dropbox $@

@@ -1,0 +1,66 @@
+<?xml encoding="UTF-8" version="1.0"?>
+<actions>
+<action>
+	<icon>accessories-text-editor</icon>
+	<name>Vim</name>
+	<unique-id>1371245491147929-2</unique-id>
+	<command>urxvtc_mod -name vim -e vim %f</command>
+	<description>Ouvrir avec vim</description>
+	<patterns>*</patterns>
+	<text-files/>
+</action>
+<action>
+	<icon>catfish</icon>
+	<name>Chercher...</name>
+	<unique-id>1370810453777767-1</unique-id>
+	<command>catfish --fileman=thunar --hidden --path=%f</command>
+	<description>Chercher avec Catfish</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>terminator</icon>
+	<name>Terminal</name>
+	<unique-id>1370810453777786-2</unique-id>
+	<command>terminator --working-directory %f</command>
+	<description></description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>terminator</icon>
+	<name>Terminal (root)</name>
+	<unique-id>1370810453777800-3</unique-id>
+	<command>gksudo &quot;terminator --working-directory %f&quot;</command>
+	<description></description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>file-manager</icon>
+	<name>Ouvrir en root</name>
+	<unique-id>1370810453777813-4</unique-id>
+	<command>gksudo &quot;thunar %f&quot;</command>
+	<description>Ouvrir le répertoire en root</description>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+<action>
+	<icon>geany</icon>
+	<name>Ouvrir en root</name>
+	<unique-id>1370810453777825-5</unique-id>
+	<command>gksudo &quot;geany %f&quot;</command>
+	<description>Ouvrir le document en root</description>
+	<patterns>*</patterns>
+	<text-files/>
+</action>
+<action>
+	<icon>applications-system</icon>
+	<name>Vérifier md5</name>
+	<unique-id>1370810453777839-6</unique-id>
+	<command>zenity --info --title=&quot;Check md5 for %n&quot; --text=&quot;$(md5sum %f)&quot;</command>
+	<description></description>
+	<patterns>*.iso;*.img;*.sub</patterns>
+	<other-files/>
+</action>
+</actions>

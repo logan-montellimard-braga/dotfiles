@@ -1,0 +1,124 @@
+!-------------------------------------------------------------------------------
+!!! XFT SETTINGS !!!
+!-------------------------------------------------------------------------------
+     
+Xft.dpi:                              96
+Xft.antialias:                        true
+Xft.rgba:                             rgb
+Xft.hinting:                          true
+Xft.hintstyle:                        hintslight
+
+     
+!-------------------------------------------------------------------------------
+!!! URXVT SETTINGS !!!
+!-------------------------------------------------------------------------------
+
+urxvt*depth:                          33
+URxvt*geometry:                       80x25
+URxvt*internalBorder:                 8
+URxvt*borderLess:                     false
+URxvt*scrollBar:                      false
+URxvt*cursorBlink:                    true
+URxvt*cursorUnderline:                true
+URxvt*scrollColor:                    #181513
+URxvt.underlineURLs:                  true
+
+URxvt.url-select.underline:           true
+URxvt.url-select.launcher:            /usr/bin/iceweasel
+URxvt*perl-ext-common:                default,clipboard,url-select,keyboard-select,vtwheel
+URxvt.keysym.C-c:                     perl:clipboard:copy
+URxvt.keysym.C-p:                     perl:clipboard:paste
+URxvt.keysym.M-C-v:                   perl:clipboard:paste_escaped
+URxvt.keysym.M-Escape:                perl:keyboard-select:activate
+URxvt.keysym.M-u:                     perl:url-select:select_next
+ 
+
+!-------------------------------------------------------------------------------
+!!! THEME !!!
+!-------------------------------------------------------------------------------
+*font:                                -*-termsyn-medium-*-*-*-11-*-*-*-*-*-*-*
+*boldFont:                            -*-termsyn-bold-*-*-*-11-*-*-*-*-*-*-*
+*italicFont:                          -*-termsyn-medium-*-*-*-11-*-*-*-*-*-*-*
+*boldItalicFont:                      -*-termsyn-bold-*-*-*-11-*-*-*-*-*-*-*
+
+*cursorColor:                         #917154
+*colorIT:                             #E3AB8D
+*colorBD:                             #F0E5DF
+*colorUL:                             #cd546c
+*VT100.colorBDMode:                   false
+*VT100.colorBD:                       blue
+*VT100.colorULMode:                   true
+*VT100.colorUL:                       blue
+*VT100.veryBoldColors:                6
+
+
+!*foreground:                          #eddcd3
+!*background:                          #181512
+!
+!! Black                               Black !
+!*color0:                              #252525
+!*color8:                              #454545
+!! Red                                 Red   !
+!*color1:                              #CD546C
+!*color9:                              #EF545F
+!! Green                               Green !
+!*color2:                              #A5AF86
+!*color10:                             #BDC79E
+!! Yellow                              Yellow!
+!*color3:                              #CD7860
+!*color11:                             #E88773
+!! Blue                                Blue  !
+!*color4:                              #7A9388
+!*color12:                             #94B1A3
+!! Magenta                             Magenta
+!*color5:                              #917154
+!*color13:                             #989584
+!! Cyan                                Cyan  !
+!*color6:                              #767D75
+!*color14:                             #9DA69E
+!! White                               White !
+!*color7:                              #C2C2A8
+!*color15:                             #DBDAC1
+
+
+
+
+*background: #181512
+*foreground: #D6C3B6
+*cursorColor: #93a1a1
+*colorIT: #8c644c
+*colorUL: #646a6d
+*colorBD: #ebebeb
+
+!! black dark/light
+*color0: #332d29
+*color8: #817267
+
+!! red dark/light
+*color1: #8c644c
+*color9: #9f7155
+
+!! green dark/light
+*color2: #746C48
+*color10: #8F8558
+
+!! yellow dark/light
+*color3: #bfba92
+*color11: #E3DB9F
+! *color11: #E0DAAC
+
+!! blue dark/light
+*color4: #646a6d
+*color12: #777E82
+
+!! magenta dark/light
+*color5: #766782
+*color13: #897796
+
+!! cyan dark/light
+*color6: #4B5C5E
+*color14: #556D70
+
+!! white dark/light
+*color7: #504339
+*color15: #9a875f

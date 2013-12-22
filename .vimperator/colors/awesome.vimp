@@ -1,0 +1,48 @@
+" ==Vimperator_Color_Scheme==
+" name: awesome
+
+hi StatusLine           height: 20px; -moz-appearance: statusbar;
+hi StatusLine           color: #4B5C5E; background: #181512; font-family: nu; font-size: 10pt;
+
+hi Normal               color: #4B5C5E; background: #181512; font-family: nu; font-size: 10px;
+hi CmdLine              background: #181512; color: #8C644C; font-family: nu; padding: 1px; font-size: 10px;
+hi CmdLine>*            font-family: nu; font-size: 10px;
+
+hi CompDesc             color: #262626; width: 50%;
+hi CompIcon             width: 16px; min-width: 10px; display: inline-block; margin-right: .5ex;
+hi CompItem[selected]   color: #ffaf5f; background: #181512; font-weight: bold;
+hi CompMsg              font-style: italic; margin-left: 10px;
+hi CompResult           width: 45%; overflow: hidden;
+hi CompTitle            color: #8C644C; background: #181512;
+hi CompTitle>*          color: #8C644C; padding: 1px 0.5ex; padding: 1px 0.5ex;
+hi Filter               color: #4B5C5E; background: #ce5666; font-weight: bold;
+
+hi FrameIndicator       background-color: #cc5555; opacity: 0.5; z-index: 999; position: nu; top: 0; bottom: 0; left: 0; right: 0;
+
+hi Bell                 font-family: nu; font-size: 10pt; border: 0 none; background-color: #181512;
+hi ErrorMsg             color: #8C644C; font-family: nu; font-size: 10pt; font-weight: normal;
+hi Hint::after          content: attr(number); font-size: 10px;
+hi HintActive           background: #4B5C5E; color: #181512;
+hi HintElem             background-color: #4B5C5E; color: #8C644C;
+hi HintImage            opacity: .5;
+hi InfoMsg              font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512;
+hi Message              font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512; white-space: normal; min-width: 100%; padding-left: 2em; text-indent: -2em; display: block;
+hi WarningMsg           font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512;
+hi ModeMsg              font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512;
+hi MoreMsg              font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512;
+hi NonText              font-family: nu; font-size: 10pt; color: #4B5C5E; min-height: 16px; padding-left: 2px;
+hi Question             font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512; font-weight: bold;
+hi String               font-family: nu; font-size: 10pt; color: #eddcd3; background: #181512;
+hi Tag                  font-family: nu; font-size: 10pt; color: #eddcd3; background: #181512;
+hi Title                font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512; font-weight: bold;
+hi URL                  text-decoration: underline; color: #8C644C; background: inherit;
+hi URL:hover            text-decoration: bold; color: #4B5C5E; cursor: pointer;
+hi LineNr               font-family: nu; font-size: 10pt; color: #4B5C5E; background: #181512;
+
+
+hi ContentSeparator border-top-style:solid; border-width:1px;border-color:#D6C3B6;
+
+style -name statusbar chrome://* <<EOM
+#status-bar statusbarpanel { padding: 0 1px !important; }
+statusbarpanel > * { margin: 0 !important; padding: 0 2px 0 0 !important; }
+EOM

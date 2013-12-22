@@ -1,0 +1,12 @@
+#!/bin/bash
+
+plam=$(cat ~/.local/share/eject_status)
+
+if [ $plam == 0 ]
+    then
+        eject cdrom
+        echo "1" > ~/.local/share/eject_status
+    else
+        eject -t cdrom
+        echo "0" > ~/.local/share/eject_status
+fi

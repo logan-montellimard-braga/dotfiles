@@ -1,0 +1,14 @@
+#!/bin/bash
+
+plum=$(cat /home/logan/.local/share/urgentkey_status)
+
+if [ $plum == 0 ]
+    then
+         ncmpcpp pause &
+         comix /home/logan/images/wallpaper.jpg &
+         echo "1" > /home/logan/.local/share/urgentkey_status
+    else
+         pkill python &
+         subtler -co iceweasel
+         echo "0" > /home/logan/.local/share/urgentkey_status
+fi

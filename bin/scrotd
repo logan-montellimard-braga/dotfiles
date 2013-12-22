@@ -1,0 +1,26 @@
+#!/bin/zsh
+
+## Script prise screenshot ##
+# Entrer un premier nombre pour spécifier le délai avant l'enclenchement, suivi du nom du fichier à enregistrer. 
+# Les deux arguments sont optionels et seront remplacés automatiquement si non spécifiés.
+
+## Variables ##
+# $1 : durée en secondes avant la prise du screenshot
+# $2 : nom du screenshot à enregistrer
+
+if [ $1 > /dev/null ]
+    then
+        if [ $2 > /dev/null ]
+            then
+                scrot -cd $1 $2.png -e 'mv $f /home/logan/Images/Screenshots/'
+                notify-send "Screenshot '$2.png' enregistré"
+            else
+                scrot -cd $1 '%Y-%m-%d_$wx$h_$p.png' -e 'mv $f /home/logan/Images/Screenshots/'
+                notify-send "Screenshot enregistré"
+        fi   
+     else
+        scrot -cd 5 '%Y-%m-%d_$wx$h.png' -e 'mv $f /home/logan/Images/Screenshots/'
+        notify-send "Screenshot enregistré"
+fi
+
+

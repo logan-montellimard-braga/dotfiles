@@ -1,0 +1,74 @@
+#!/bin/bash
+
+basedir="/home/logan/Cours"
+# Matières
+if [[ $1 == "--liste" ]]; then
+    liste=1
+elif [[ $1 == "com" ]]; then
+    directory="$basedir/Communication/TD"
+elif [[ $1 == "gp" ]]; then
+    directory="$basedir/Gestion Projet/TD"
+elif [[ $1 == "algo" ]]; then
+    directory="$basedir/Algorithmique/TD"
+elif [[ $1 == "all" ]]; then
+    directory="$basedir/Allemand/TD"
+elif [[ $1 == "en" ]]; then
+    directory="$basedir/Anglais/TD"
+elif [[ $1 == "emn" ]]; then
+    directory="$basedir/Ecriture Medias/TD"
+elif [[ $1 == "hda" ]]; then
+    directory="$basedir/Histoire Art/TD"
+elif [[ $1 == "in" ]]; then
+    directory="$basedir/Images Numeriques/TD"
+elif [[ $1 == "info" ]]; then
+    directory="$basedir/Infographie/TD"
+elif [[ $1 == "iw" ]]; then
+    directory="$basedir/Integration Web/TD"
+elif [[ $1 == "pav" ]]; then
+    directory="$basedir/Prod Audiovisuelle/TD"
+elif [[ $1 == "rsx" ]]; then
+    directory="$basedir/Reseaux/TD"
+elif [[ $1 == "maths" ]]; then
+    directory="$basedir/Maths/TD"
+elif [[ $1 == "buro" ]]; then
+    directory="$basedir/Bureautique/TD"
+elif [[ $1 == "merca" ]]; then
+    directory="$basedir/Mercatique/TD"
+elif [[ $1 == "dg" ]]; then
+    directory="$basedir/Design Graphique/TD"
+# Erreurs
+elif [[ $1 == "" ]]; then
+    erreur="Erreur: Veuillez choisir une matière."
+else
+    erreur="Erreur: Veuillez entrer une matière valide.\n-> Relancez avec l'option --liste pour afficher les matières valides."
+fi
+
+# Affiche la liste des matières si l'option --liste est fournie
+if [[ $liste = 1 ]]; then
+    echo -e "Liste des matières disponibles:\n\nburo : Bureautique\nmerca: Mercatique\nmaths: Mathématiques\nalgo : Algorithmique\nall  : Allemand\nen   : Anglais\ncom  : Communication\nemn  : Ecriture Médias numériques\nhda  : Histoire des Arts\nin   : Images Numériques\ninfo : Infographie\niw   : Integration Web\npav  : Production Audiovisuelle\nrsx  : Réseaux"
+    exit 0
+fi
+
+# Coupe le programme si une erreur est détectée.
+if [[ $erreur > /dev/null ]]; then
+    echo -e "Le programme a quitté avec une erreur.\n\n-> $erreur"
+    exit 1
+fi
+
+# Données
+date=$(date +%d-%m-%Y)
+file="$directory/$1--$date.tex"
+
+if [ $2 > /dev/null ]; then
+    file="$directory/$2.tex"
+fi
+
+# Créer le fichier cours; s'il existe, le reprendre.
+if [ -e "$file" ]; then
+    echo "Le fichier $1--$date.tex existe déjà; récupération..."
+    vim "$file"
+else
+    cp /home/logan/Cours/LaTeX.tex "$file"
+    vim "$file"
+    echo "Fichier enregistré dans $file"
+fi

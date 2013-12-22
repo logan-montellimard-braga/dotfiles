@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$(ls -A /home/logan/.rTorrent/actifs)" ]; then
+   urxvtc_mod -name rtorrent -e rtorrent
+else
+   echo "Aucun téléchargement à reprendre"
+fi

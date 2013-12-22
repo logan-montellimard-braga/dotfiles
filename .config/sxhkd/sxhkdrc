@@ -1,0 +1,266 @@
+#
+# bspwm hotkeys
+#
+
+
+## CONTROLS {{{
+    # WM Controls
+# Reload bindings
+super + shift + r
+    pkill -USR1 -x sxhkd
+# Quit bspwm
+super + alt + q
+    pkill panel && bspc quit
+# Hide/Show all windows
+super + asterisk
+    bspc control --toggle-visibility
+# Show all hidden windows
+super + colon
+    bspc control --adopt-orphans
+# Change gaps on the fly
+super + shift + KP_{1,2,3,4,5,6,7,8,9,0}
+    bspc config window_gap {30,36,42,48,54,60,66,72,78,24}
+# Toggle borders
+super + {_,shift + }b
+    bspc config border_width {3,0}
+# Toggle mouse focus
+super + {_,shift + }p
+    bspc config focus_follows_pointer {true,false}
+# Enable battery saving mode
+super + u
+    pkill compton; pkill syndaemon; pkill slimlock
+super + shift + u
+    pkill compton; pkill syndaemon; pkill slimlock; pkill dzen; pkill bar; pkill urxvt; pkill tmux
+
+    # Windows Controls
+# Kill window or all windows
+super + {_,shift +} q
+    bspc window -{c,k}
+# Focus, swap, send or preselect window
+super + {_,shift + ,alt +,ctrl + }{h,j,k,l}
+    bspc window -{f,s,w,p} {left,down,up,right} 
+super + shift  + s ; {h,l}
+    bspc window -s {prev,next}
+# Cancel preselection
+super + ctrl + {_,alt + }space
+    bspc {window -p cancel,desktop -c}
+# Grow window
+super + {Left,Down,Up,Right}
+    bspc window -e {left,down,up,right} push
+# Shrink window
+super + shift + {Right,Up,Down,Left}
+    bspc window -e {right,up,down,left} pull
+# Focus last, master or next window depending on its type
+super + {a,z,e}{_, + shift, + ctrl}
+    bspc window -f {last,biggest,next}{_,.tiled,.floating}.local
+# Alt-tab
+alt + {_,shift + }Tab
+    bspc window -f {prev,next}
+alt + F9
+    bspc window -f next
+# Circulate windows
+super + {comma,semicolon}
+    bspc desktop -C {backward,forward}
+# Toggle status window
+alt + {s,f,a,l,p}
+    bspc window  -t {floating,fullscreen,sticky,locked,private} 
+# Promote window
+super + BackSpace
+    bspc window -s biggest
+# Send windows to ^n desktop
+super + shift + {1-9,0}
+    bspc window -d ^{1-9,10}
+# Send window to next desktop & follow
+super + shift + KP_Add
+    bspc window -d next && bspc desktop -f next
+super + shift + Prior
+    bspc window -d next && bspc desktop -f next
+# Send window to prev desktop & follow
+super + shift + KP_Subtract
+    bspc window -d prev && bspc desktop -f prev
+super + shift + Next
+    bspc window -d prev && bspc desktop -f prev
+# Rotate windowd tree
+super + ctrl + x ; {h,j,k,l}
+    bspc window -R {left,down,up,right} 90
+super + ctrl + w ; {h,j,k,l}
+    bspc window -R {left,down,up,right} 270
+super + ctrl + m ; {h,j,k,l}
+    bspc window -R {left,down,up,right} 180
+# Hide windows
+super + {_,shift + }y
+    xdo hide {_,-dr}
+# Float next window
+super + {_,shift +}ugrave
+    bspc rule -a \* --floating {_,--center }--one-shot
+
+
+    # Desktop Controls
+# Go to ^n desktop
+super + alt + shift + {1-9,0}
+    bspc desktop -f ^{1-9,10}
+# Cycle desktops
+{Prior,Next}
+    bspc desktop -f {next,prev}
+# Cycle occupied desktops
+super + {KP_Add,KP_Subtract}
+    bspc desktop -f {next,prev}.occupied
+super + {Prior,Next}
+    bspc desktop -f {next,prev}.occupied
+# Cycle free desktops
+alt + {KP_Add,KP_Subtract}
+    bspc desktop -f {next,prev}.free
+alt + {Prior,Next}
+    bspc desktop -f {next,prev}.free
+# Balance desktop
+super + d
+    bspc desktop -B
+# Next layout
+super + {exclam,n}
+    bspc desktop -l next
+# Focus last desktop
+super + alt + Tab
+    bspc desktop -f last
+super + Home
+    bspc desktop -f last
+# Rotate desktop
+super + shift + {x,w,m}
+    bspc desktop -R {90,270,180}
+# Add and delete a desktop
+super + alt + KP_{Add,Subtract}
+    bspc monitor -{a,r} " vi " && bspc config window_gap 24
+super + alt + {Prior,Next}
+    bspc monitor -{a,r} " vi " && bspc config window_gap 24
+# Swap desktops
+super + s ; KP_{Add,Subtract}
+    bspc desktop -s {next,prev}
+super + s ; {Prior,Next}
+    bspc desktop -s {next,prev}
+
+
+    # Mouse controls
+~button1
+    bspc pointer -g focus
+super + button{1-3}
+    bspc pointer -g {move,resize_side,resize_corner}
+super + !button{1-3}
+    bspc pointer -t %i %i
+super + @button{1-3}
+    bspc pointer -u
+## }}}
+
+
+
+## APPS {{{
+super + {_,shift +} Return
+    urxvtc_mod -name {urxvt,UrXvT} 
+ctrl + space
+    pkill dunst
+super + space
+    dmenu_run -nb '#181512' -nf '#4B5C5E' -sb '#181512' -sf '#8C644C' -p '>>' -fn '-*-nu-medium-*-*-*-*-*-*-*-*-*-*-*' -i
+alt + space
+    kill_applet
+super + g
+    magnet
+super + x
+    slimlock
+super + f
+    runOrRaise ranger inTerm
+super + alt + f
+    xdotool search --onlyvisible ranger windowunmap || xdotool search ranger windowmap
+super + t
+    runOrRaise newsbeuter inTerm
+super + alt + t
+    xdotool search --onlyvisible newsbeuter windowunmap || xdotool search newsbeuter windowmap
+super + m
+    runOrRaise mutt inTerm
+super + alt + m
+    xdotool search --onlyvisible mutt windowunmap || xdotool search mutt windowmap
+super + w
+    runOrRaise iceweasel
+super + alt + w
+    xdotool search --onlyvisible iceweasel windowunmap || xdotool search iceweasel windowmap
+super + ctrl + f
+    runOrRaise thunar
+super + ctrl + alt + f
+    xdotool search --onlyvisible thunar windowunmap || xdotool search thunar windowmap
+super + ctrl + Return
+    runOrRaise trayerd && nm-applet
+super + shift + ctrl + Return
+    pkill trayer && pkill nm-applet
+super + i
+    amixer set PCM 230 && amixer set Master 65 unmute && notify-send -u critical "Son activé!"
+super + shift + i
+    amixer set PCM 0 && amixer set Master 0 mute
+## }}}
+
+
+
+## SCRATCHPADS {{{
+super + Tab
+    xdotool search --onlyvisible --classname scratchpad windowunmap || xdotool search --classname scratchpad windowmap || urxvtc_mod -name scratchpad -e tmux &
+super + F7
+    xdotool search --onlyvisible --classname scratchncmpcpp windowunmap || xdotool search --classname scratchncmpcpp windowmap || urxvtc_mod -name scratchncmpcpp -e ncmpcpp &
+super + c
+    xdotool search --onlyvisible --classname scratchwcalc windowunmap || xdotool search --classname scratchwcalc windowmap || urxvtc_mod -name scratchwcalc -e wcalc &
+super + r
+    xdotool search --onlyvisible --classname scratchrtorrent windowunmap || xdotool search --classname scratchrtorrent windowmap || urxvtc_mod -name scratchrtorrent -e rtorrent &
+super + v
+    xdotool search --onlyvisible --classname scratchweechat windowunmap || xdotool search --classname scratchweechat windowmap || urxvtc_mod -name scratchweechat -e weechat-curses &
+super + o
+    xdotool search --onlyvisible --classname scratchhtop windowunmap || xdotool search --classname scratchhtop windowmap || urxvtc_mod -name scratchhtop -e htop &
+## }}}
+
+
+
+## Dzen scripts {{{
+super + F1 ; {F1,Prior,Next}
+    /home/logan/.xmonad/sc /home/logan/.xmonad/scripts/{dzen_date.sh,dzen_date_next.sh,dzen_date_prev.sh}
+super + F2 ; {F2,h,n}
+    /home/logan/.xmonad/sc /home/logan/.xmonad/scripts/{dzen_memtop.sh,dzen_hardware2.sh,network2.sh}
+super + F3 ; {F3,h,n}
+    /home/logan/.xmonad/sc /home/logan/.xmonad/scripts/{dzen_cputop.sh,dzen_hardware.sh,dzen_network.sh}
+super + F4 ; {F4,a,b,l}
+    /home/logan/.xmonad/sc /home/logan/.xmonad/scripts/{dzen_music.sh,dzen_artistinfo.sh,dzen_albuminfo.sh,dzen_lyrics.sh}
+### }}}
+
+
+
+## MULTIMEDIA {{{
+XF86AudioPlay
+    ncmpcpp toggle
+XF86AudioPrev
+    ncmpcpp prev
+XF86AudioNext
+    ncmpcpp next
+XF86AudioMute
+    amixer set Master toggle
+XF86AudioLowerVolume
+    amixer set Master 5%-
+XF86AudioRaiseVolume
+    amixer set Master 5%+
+XF86HomePage
+    iceweasel /home/logan/.config/infoconf/html
+XF86Search
+    iceweasel
+XF86Mail
+    icedove
+XF86Calculator
+    speedcrunch
+XF86Eject
+    toggleeject
+Print
+    scrotd 0
+super + Print
+    scrotd 5
+XF86TouchpadToggle
+    touchpadToggle
+XF86MonBrightnessDown
+    xbacklight -dec 10
+super + XF86MonBrightnessDown
+    xbacklight -set 0
+XF86MonBrightnessUp
+    xbacklight -inc 10
+super + XF86MonBrightnessUp
+    xbacklight -set 100
+## }}}

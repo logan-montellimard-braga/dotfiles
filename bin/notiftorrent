@@ -1,0 +1,4 @@
+#!/bin/bash
+
+notify-send "Torrent $1 terminé"
+mv "/home/logan/.rTorrent/actifs/$1" "/home/logan/Téléchargements/Torrents/$1"

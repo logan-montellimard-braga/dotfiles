@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ $3 > /dev/null ]
+    then
+        iceweasel "http://translate.google.fr/?hl=fr&tab=wT#$2/$3/$1"
+        subtler -co iceweasel
+    else
+        iceweasel "http://translate.google.fr/?hl=fr&tab=wT#en/fr/$1"
+        subtler -co iceweasel
+fi

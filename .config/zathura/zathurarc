@@ -1,0 +1,56 @@
+set scroll-wrap		    	"false"
+set font                    "nu 9"
+set statusbar-bg            "#181512"
+set statusbar-fg            "#d6c3b6"
+set completion-bg           "#181512"
+set completion-fg           "#4B5C5E"
+set completion-highlight-bg "#181512"
+set completion-highlight-fg "#8c644c"
+set inputbar-bg             "#181512"
+set inputbar-fg             "#d6c3b6"
+set notification-error-bg   "#181512"
+set notification-error-fg   "#8c644c"
+set notification-warning-bg "#181512"
+set notification-warning-fg "#766782"
+set recolor-darkcolor       "#181512"
+set pages-per-row	    	"1"
+set highlight-color         "#8c644C"
+set highlight-active-color  "#8C644C"
+set page-padding            "4"
+set recolor                 "false"
+set render-loading          "true"
+set scroll-step             "130"
+set adjust-open             "best-fit"
+set zoom-max                "1600"
+set zoom-min                "5"
+set zoom-step               "10"
+set show-scrollbars         "false"
+set default-fg              "#d6c3b6"
+set default-bg              "#ebebeb"
+set show-directories        "false"
+
+map <PageUp> scroll full-up
+map <PageDown> scroll full-down
+map <S-PageUp> scroll top
+map <S-PageDown> scroll bottom
+map <Space> adjust_window
+map + zoom in
+map - zoom out
+map <F1> set "pages-per-row 1"
+map <F2> set "pages-per-row 2"
+map <F3> adjust_window best-fit
+map <F4> adjust_window width
+map <F11> toggle_fullscreen
+map <Right> navigate next
+map <Left> navigate previous
+map e scroll right
+map a scroll left
+map i toggle_index
+map <C-q> quit
+map r reload
+map R recolor
+map p toggle_inputbar
+map s toggle_statusbar
+map o follow
+map t rotate rotate-cw
+map T rotate rotate-ccw

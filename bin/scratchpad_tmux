@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -n "$TMUX" ]; then
+    urxvtc_mod -name scratchpad -e 'tmux attach'
+else
+    urxvtc_mod -name scratchpad -e tmux
+fi

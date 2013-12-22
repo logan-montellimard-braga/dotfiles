@@ -1,0 +1,10 @@
+#!/bin/bash
+instances=$(pgrep dzen | wc -w)
+
+if [ $(pgrep dzen | wc -w) -gt 2 ]; then
+    number=`echo $instances-2 | bc `
+    kill $(pgrep dzen | tail -n"$number" );
+fi
+if [ $(pgrep feh | wc -w) -gt 0 ]; then
+    kill $(pgrep feh | tail -n2);
+fi

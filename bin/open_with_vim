@@ -1,0 +1,3 @@
+#!/bin/bash
+
+urxvtc_mod -name rangervim -e vim "$1"

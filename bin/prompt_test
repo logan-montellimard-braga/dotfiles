@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Voulez-vous installer ce programme?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) echo "Vous avez choisi oui!"; break;;
+        No ) echo "Vous avez choisi non!"; exit;;
+    esac
+done

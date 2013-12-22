@@ -1,0 +1,32 @@
+# Write your default config options here!
+
+# use alsa for audio output
+ao=alsa
+
+# use X11 for video output
+vo=xv 
+
+# Set subtitle file encoding
+unicode=no                          
+utf8=yes
+
+# Extras                             
+idx=yes                              
+softvol=1                           
+softvol-max=600 
+nolirc=yes
+ass=yes
+embeddedfonts=yes
+msgcolor=yes
+msgmodule=yes
+nomouseinput=yes
+
+# font="Nu"
+# ass-font-color="ffffffff"
+
+ffactor="10" #black outline
+sub-bg-alpha="0" #background color ala closed captions
+sub-bg-color="0" #black to white
+# subfont-text-scale="5.7" #truetype font scaling
+# subfont-blur="1" #Slight blur
+spuaa=20 #Lissage des sous titres DVD (?) 

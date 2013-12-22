@@ -1,0 +1,129 @@
+#
+# ~/.mutt/muttrc -- Mutt configuration
+#
+source ~/.mutt/aliases
+set alias_file=~/.mutt/aliases
+# Name Info
+macro pager \cz <pipe-entry>'urlview'<enter> 'Follow links with urlview' 
+macro pager \ca <pipe-entry>'iceweasel'<enter> 'Follow links with iceweasel'
+
+# Folders
+mailboxes     = "+INBOX"
+set spoolfile = "+INBOX"
+set postponed = "+[Gmail]/Drafts"
+set mbox_type=Maildir
+set copy = yes
+set record = /home/logan/.mutt/mail/sent 
+
+# Archive Messages (A)
+macro index,pager A "unset trash\n " "Gmail archive message"
+
+# Thread Sort
+set sort=threads
+
+# Need trash patch for this to work
+set trash = "+[Gmail]/Trash"
+
+# store message headers locally to speed things up
+set header_cache = ~/.mutt/hcache
+
+# allow mutt to open new imap connection automatically
+unset imap_passive
+
+# keep imap connection alive by polling intermittently (time in seconds)
+set imap_keepalive = 300
+
+# how often to check for new mail (time in seconds)
+set mail_check = 120
+
+# Auto display html
+set mailcap_path 	= ~/.mutt/mailcap
+auto_view text/html
+
+set beep_new
+
+# Colors
+
+## Colours for items in the index                                                                                                                                         
+color index brightred default ~N
+color index brightred default ~O
+color index brightwhite default ~F
+color index black red ~T
+color index black default ~D
+mono index bold ~N
+mono index bold ~F
+mono index bold ~T
+mono index bold ~D
+
+## Highlights inside the body of a message.                                                                                                                               
+
+## URLs                                                                                                                                                                    
+color body red default "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+color body cyan default "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+mono body bold "(http|ftp|news|telnet|finger)://[^ \"\t\r\n]*"
+mono body bold "mailto:[-a-z_0-9.]+@[-a-z_0-9.]+"
+
+## Email addresses.                                                                                                                                                       
+color body cyan default "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+
+## Header                                                                                                                                                                 
+color header blue default "^from:"
+color body   red default "De :"
+color body   red default "À :"
+color body   red default "Envoyé le :"
+color body   red default "Objet :"
+color body   cyan default "On (Mon|Thu|Wed|Tue|Fri|Sun|Fat), (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) [-0-9.][-0-9.], 20[-0-9.][-0-9.] at [-0-9.][-0-9.]:[-0-9.][-0-9.]:[-0-9.][-0-9.](AM|PM) \\+[-0-9.][-0-9.][-0-9.][-0-9.],"
+color body   cyan default "[-a-z_0-9.]* [-a-z_0-9.]* wrote:"
+color header cyan default "^To:"
+color header cyan default "^cc:"
+color header cyan default "^date:"
+color header cyan default "^newsgroups:"
+color header cyan default "^reply-to:"
+color header blue default "^subject:"
+color header cyan default "^x-spam-rule:"
+color header cyan default "^x-mailer:"
+color header brightred default "^message-id:"
+color header brightred default "^Organization:"
+color header brightred default "^Organisation:"
+color header brightred default "^User-Agent:"
+color header brightred default "^message-id: .*pine"
+color header brightred default "^X-Fnord:"
+color header brightred default "^X-WebTV-Stationery:"
+color header brightred default "^X-Message-Flag:"
+color header brightred default "^X-Spam-Status:"
+color header brightred default "^X-SpamProbe:"
+color header brightred default "^X-SpamProbe: SPAM"
+
+## Coloring quoted text - coloring the first 7 levels:                                                                                                                    
+color quoted black default
+color quoted1 black default
+color quoted2 black default
+color quoted3 black default
+color quoted4 black default
+color quoted5 black default
+color quoted6 black default
+color quoted7 black default
+
+## Default color definitions                                                                                                                                              
+#color hdrdefault white green                                                                                                                                             
+color signature brightwhite default
+color indicator cyan default
+color attachment yellow white
+color error brightmagenta default
+color message default default
+color search green default 
+color status red default
+color tree red default
+color normal default default
+color tilde brightred default
+color bold brightyellow default
+#color underline magenta black                                                                                                                                            
+color markers blue default
+
+## Colour definitions when on a mono screen                                                                                                                               
+mono bold bold
+mono underline underline
+mono indicator reverse
+mono attachment underline
+
+source ~/.mutt/gpg.rc

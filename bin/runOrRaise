@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $(pgrep $1 | wc -w) -gt 0 ]; then
+    if [ $1 == "iceweasel" ]; then
+        wmctrl -a vimperator
+    elif [ $1 == "thunar" ]; then
+        wmctrl -a "Gestionnaire de fichiers"
+    else
+        wmctrl -a $1
+    fi
+else
+    if [ $2 == "inTerm" ]; then
+        urxvtc_mod -name $1 -e $1
+    else
+        $1
+    fi
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+file=`echo $1 | sed s/\.[^\.]*$//`
+
+latex $file.tex && dvipdf $file.dvi

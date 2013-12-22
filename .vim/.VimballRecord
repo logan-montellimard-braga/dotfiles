@@ -1,0 +1,6 @@
+loremipsum.vba: call delete('/home/logan/.vim/autoload/loremipsum.vim')|call delete('/home/logan/.vim/autoload/loremipsum.txt')|call delete('/home/logan/.vim/plugin/loremipsum.vim')|call delete('/home/logan/.vim/doc/loremipsum.txt')
+tcomment.vba: call delete('/home/logan/.vim/doc/tcomment.txt')|call delete('/home/logan/.vim/plugin/tcomment.vim')|call delete('/home/logan/.vim/autoload/tcomment.vim')
+tagbar.vmb: call delete('/home/logan/.vim/README.md')|call delete('/home/logan/.vim/autoload/tagbar.vim')|call delete('/home/logan/.vim/doc/tagbar.txt')|call delete('/home/logan/.vim/plugin/tagbar.vim')|call delete('/home/logan/.vim/syntax/tagbar.vim')
+supertab.vmb: call delete('/home/logan/.vim/doc/supertab.txt')|call delete('/home/logan/.vim/plugin/supertab.vim')
+rainbow_parenthsis-4.0.vba: call delete('/home/logan/.vim/autoload/rainbow_parenthsis.vim')|call delete('/home/logan/.vim/doc/rainbow_parenthsis.txt')|call delete('/home/logan/.vim/plugin/rainbow_parenthsis.vim')|call delete('/home/logan/.vim/rainbow_parenthsis_options.vim')
+qfn.vba: call delete('/home/logan/.vim/plugin/qfn.vim')|call delete('/home/logan/.vim/doc/qfn.txt')

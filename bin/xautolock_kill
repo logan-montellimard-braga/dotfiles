@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pkill xautolock &
+notify-send -u critical "xautolock stoppé, pensez à la remettre!"

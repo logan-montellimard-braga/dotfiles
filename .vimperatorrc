@@ -1,0 +1,2 @@
+colorscheme awesome
+:set status=location,bookmark,history,position,tabcount,input

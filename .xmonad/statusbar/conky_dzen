@@ -1,0 +1,12 @@
+background yes
+out_to_console yes
+out_to_x no
+update_interval 3
+
+TEXT
+^ca(3, ~/.xmonad/sc ~/.xmonad/scripts/dzen_lyrics.sh)^ca(1, ~/.xmonad/sc ~/.xmonad/scripts/dzen_music.sh)${if_mpd_playing}^fg(\#4B5C5E)^i(/home/logan/.xmonad/statusbar/icons/mini/note6.xbm)${if_empty ${exec mpc | grep -i pause | cut -c 2-6}} ^fg(\#8c646C)${mpd_title}${else} ^fg(\#332D29)Pause${endif}${endif}^ca()^ca()^ca(1, ~/.xmonad/sc)            ^ca()\
+^ca(3, amixer set PCM 90%)^ca(1, amixer set PCM 0%)^fg(\#4B5C5E)${execi 3 /home/logan/.xmonad/scripts/bar_vol.sh}^ca()^ca()^ca(1, ~/.xmonad/sc)            ^ca()\
+^ca(3,~/.xmonad/sc ~/.xmonad/scripts/dzen_battery.sh)^ca(1,~/.xmonad/sc ~/.xmonad/scripts/dzen_battery.sh)^fg(\#4B5C5E)${execi 60 /home/logan/.xmonad/scripts/bar_battery.sh}^ca()^ca()^ca(1, ~/.xmonad/sc)            ^ca()\
+^ca(3,~/.xmonad/sc ~/.xmonad/scripts/dzen_hardware.sh)^ca(1,~/.xmonad/sc ~/.xmonad/scripts/dzen_cputop.sh)^fg(\#4B5C5E)^i(/home/logan/.xmonad/statusbar/icons/mini/cpu4.xbm) ${execi 60 /home/logan/.xmonad/scripts/bar_cpu.sh}^ca()^ca()^ca(1, ~/.xmonad/sc)            ^ca()\
+^ca(3, ~/.xmonad/sc ~/.xmonad/scripts/dzen_network2.sh)^ca(1, ~/.xmonad/sc ~/.xmonad/scripts/dzen_memtop.sh)^fg(\#4B5C5E)^i(/home/logan/.xmonad/statusbar/icons/mini/mem4.xbm) ${execi 60 /home/logan/.xmonad/scripts/bar_ram.sh}^ca()^ca()^ca(1, ~/.xmonad/sc)            ^ca()\
+^ca(3,~/.xmonad/sc ~/.xmonad/scripts/dzen_date_next.sh)^ca(1,~/.xmonad/sc ~/.xmonad/scripts/dzen_date.sh)^fg(\#4B5C5E)^i(/home/logan/.xmonad/statusbar/icons/mini/clock11.xbm) ^fg(\#8C644C)${time %H:%M}^ca()^ca()^ca(1, ~/.xmonad/sc)  ^ca()

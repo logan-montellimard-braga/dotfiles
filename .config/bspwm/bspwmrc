@@ -1,0 +1,132 @@
+#! /bin/sh
+
+
+## DESKTOPS {{{
+bspc monitor -d " i " " ii " " iii " " iv " " v "
+
+    # layouts
+bspc desktop " i "      -l tiled
+bspc desktop " ii "     -l monocle
+bspc desktop " iii "    -l monocle
+bspc desktop " iv "     -l monocle
+bspc desktop " v "      -l tiled
+## }}}
+
+
+## APPS {{{
+    # float
+bspc rule -a xmessage                       --floating --center --focus
+bspc rule -a Dialog                         --floating --center
+bspc rule -a htop                           --floating --center
+bspc rule -a display                        --floating --center
+bspc rule -a display.im6                    --floating --center
+bspc rule -a xev                            --floating --center
+bspc rule -a trayer                         --floating --sticky
+bspc rule -a feh                            --floating --unmanage
+
+    # desktop 1
+bspc rule -a urxvt                          -d " i " --follow --focus
+bspc rule -a xterm                          -d " i " --follow --focus
+bspc rule -a xfce4-terminal                 -d " i " --follow --focus
+bspc rule -a xfontsel                       -d " i " --follow --focus
+bspc rule -a easystroke                     -d " i " --follow --focus
+
+    # desktop 2
+bspc rule -a newsbeuter                     -d " ii " --follow --focus
+bspc rule -a Iceweasel                      -d " ii " --follow --focus
+bspc rule -a mutt                           -d " ii " --follow --focus
+bspc rule -a Icedove                        -d " ii " --follow --focus
+bspc rule -a Chromium                       --follow --focus
+bspc rule -a dwb                            --follow --focus
+
+    # desktop 3
+bspc rule -a mplayer2                       -d " iii " --floating --center --follow --focus
+bspc rule -a Mplayer                        -d " iii " --floating --center --follow --focus
+bspc rule -a xv                             -d " iii " --floating --center --follow --focus
+bspc rule -a vlc                            -d " iii " --floating --center --follow --focus
+bspc rule -a comix                          -d " iii " --follow --focus
+bspc rule -a zathura                        -d " iii " --follow --focus
+
+    # desktop 4
+bspc rule -a Transmission-gtk               -d " iv " --follow --focus --floating
+bspc rule -a xfburn                         -d " iv " --follow --focus
+bspc rule -a easytag                        -d " iv " --follow --focus
+bspc rule -a sonata                         -d " iv " --follow --focus
+bspc rule -a libreoffice-startcenter        -d " iv " --follow --focus
+bspc rule -a libreoffice-writer             -d " iv " --follow --focus
+bspc rule -a algobox                        -d " iv " --follow --focus
+bspc rule -a Gimp                           -d " iv " --floating
+bspc rule -a Inkscape                       -d " iv "
+bspc rule -a Audacity                       -d " iv "
+
+    # desktop 5
+bspc rule -a nitrogen                       -d " v " --floating --center --follow --focus
+bspc rule -a ranger                         -d " v " --follow --focus
+bspc rule -a Thunar                         -d " v " --follow --focus
+bspc rule -a lxappearance                   -d " v " --follow --focus
+bspc rule -a geany                          -d " v " --follow --focus
+bspc rule -a gparted                        -d " v " --follow --focus
+bspc rule -a bleachbit                      -d " v " --follow --focus
+bspc rule -a virtualbox                     -d " v " --floating --center
+bspc rule -a file-roller                    -d " v " --floating --center
+
+
+    # scratchpads
+bspc rule -a scratchpad                     --sticky --floating --focus --center
+bspc rule -a scratchncmpcpp                 --sticky --floating --focus --center
+bspc rule -a scratchwcalc                   --sticky --floating --focus --center
+bspc rule -a scratchrtorrent                --sticky --floating --focus --center
+bspc rule -a scratchweechat                 --sticky --floating --focus --center
+bspc rule -a scratchhtop                    --sticky --floating --focus --center
+## }}}
+
+
+## COLORS {{{
+bspc config focused_border_color            "#332D29"
+bspc config normal_border_color             "#181512"
+bspc config focused_sticky_border_color     "#332D29"
+bspc config normal_sticky_border_color      "#181512"
+bspc config focused_locked_border_color     "#8C644C"
+bspc config normal_locked_border_color      "#181512"
+bspc config focused_private_border_color    "#4B5C5E"
+bspc config normal_private_border_color     "#181512"
+bspc config urgent_border_color             "#E0DAAC"
+bspc config presel_border_color             "#746C48"
+## }}}
+
+
+## SETTINGS {{{
+bspc config border_width                    3
+bspc config window_gap                      24
+bspc config top_padding                     6
+bspc config left_padding                    -6
+bspc config right_padding                   -6
+bspc config bottom_padding                  -6
+bspc config focused_frame_opacity           0.05
+bspc config normal_frame_opacity            0.0
+
+bspc config growth_factor                   0.03
+bspc config split_ratio                     0.50
+bspc config borderless_monocle              false
+bspc config gapless_monocle                 false
+bspc config focus_follows_pointer           true
+bspc config history_aware_focus             true
+bspc config auto_alternate                  true
+bspc config auto_cancel                     true
+bspc config apply_floating_atom             true
+bspc config ignore_ewmh_focus               true
+## }}}
+
+
+## AUTOSTART {{{
+panel &
+conky -c /home/logan/.xmonad/statusbar/conky_dzen | dzen2 -x '450' -y '0' -w '1230' -h '16' -ta 'r' -bg '#181512' -fg '#ebebeb' -fn '-artwiz-nu-medium-*-normal-*-11-*-*-*-*-*-*-*' &
+xsetroot -cursor_name left_ptr &
+hsetroot -tile /home/logan/Images/patterns/tweed/tweed/tweed_@2X.png &
+unclutter &
+compton &
+xautolock -time 10 -locker 'slimlock' &
+gnome-keyring-daemon --start --components=pkcs11 &
+syndaemon -dkK -i 2 &
+easystroke
+## }}}

@@ -1,0 +1,8 @@
+#!/bin/bash
+IFS=: read -ra _dirs_in_path <<< "$PATH"
+
+for _dir in "${_dirs_in_path[@]}"; do
+    for _file in "${_dir}"/*; do
+        [[ -x ${_file} && -f ${_file} ]] && printf '%s\n' "${_file##*/}"
+    done
+done

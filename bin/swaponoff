@@ -1,0 +1,5 @@
+#!/bin/bash
+
+su -c 'swapoff -a && sudo swapon -a'
+
+exit 0
