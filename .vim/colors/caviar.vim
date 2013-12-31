@@ -3,8 +3,9 @@ let g:colors_name = "16color"
 """ GENERAL """
     " Interface
     hi Normal                  ctermfg=none
-    hi Cursor                  ctermfg=none     ctermbg=1       cterm=none
+    hi Cursor                  ctermfg=1        ctermbg=1       cterm=bold
     hi CursorLine              ctermfg=none     ctermbg=0       cterm=bold
+    hi CursorColumn            ctermfg=none     ctermbg=0       cterm=bold
     hi LineNr                  ctermfg=0        ctermbg=none    cterm=none
     hi CursorLineNr            ctermfg=9        ctermbg=0       cterm=none
     hi Delimiter               ctermfg=13       ctermbg=none    cterm=none
@@ -14,7 +15,7 @@ let g:colors_name = "16color"
     hi ModeMsg                 ctermfg=0        ctermbg=none    cterm=none
     hi MoreMsg                 ctermfg=2        ctermbg=none    cterm=none
     hi Underlined              ctermfg=0        ctermbg=none    cterm=none
-    hi VertSplit               ctermfg=0        ctermbg=0       cterm=bold
+    hi VertSplit               ctermfg=8        ctermbg=8       cterm=bold,reverse
     hi Visual                  ctermfg=3        ctermbg=5       cterm=bold
     hi VisualNOS               ctermfg=1        ctermbg=235     cterm=bold
     hi WildMenu                ctermfg=104      ctermbg=1       cterm=underline
@@ -34,17 +35,17 @@ let g:colors_name = "16color"
     hi NonText                 ctermfg=0        ctermbg=none    cterm=none
 
     " Diff
-    hi DiffLine                ctermfg=5        ctermbg=none    cterm=none
-    hi DiffOldLine             ctermfg=14       ctermbg=none    cterm=none
-    hi DiffOldFile             ctermfg=0        ctermbg=none    cterm=none
-    hi DiffNewFile             ctermfg=15       ctermbg=none    cterm=none
-    hi DiffAdd                 ctermfg=2        ctermbg=none    cterm=none
-    hi DiffAdded               ctermfg=10       ctermbg=none    cterm=none
-    hi DiffDelete              ctermfg=1        ctermbg=none    cterm=none
-    hi DiffRemoved             ctermfg=9        ctermbg=none    cterm=none
-    hi DiffChange              ctermfg=6        ctermbg=none    cterm=none
-    hi DiffChanged             ctermfg=14       ctermbg=none    cterm=none
-    hi DiffText                ctermfg=5        ctermbg=none    cterm=none
+    hi DiffLine                ctermfg=none     ctermbg=none    cterm=none
+    hi DiffOldLine             ctermfg=0        ctermbg=1       cterm=none
+    hi DiffOldFile             ctermfg=0        ctermbg=9       cterm=bold
+    hi DiffNewFile             ctermfg=0        ctermbg=10      cterm=bold
+    hi DiffAdd                 ctermfg=none     ctermbg=2       cterm=none
+    hi DiffAdded               ctermfg=0        ctermbg=2       cterm=none
+    hi DiffDelete              ctermfg=none     ctermbg=1       cterm=none
+    hi DiffRemoved             ctermfg=0        ctermbg=1       cterm=none
+    hi DiffChange              ctermfg=none     ctermbg=5       cterm=none
+    hi DiffChanged             ctermfg=0        ctermbg=5       cterm=none
+    hi DiffText                ctermfg=none     ctermbg=none    cterm=none
 
     " Errors & Warnings
     hi Error                   ctermfg=9        ctermbg=none    cterm=bold
@@ -108,7 +109,7 @@ let g:colors_name = "16color"
 
     " Overlength function
     hi OverLength              ctermfg=none     ctermbg=7       cterm=none
-    hi ColorColumn             ctermfg=none     ctermbg=7       cterm=bold
+    hi ColorColumn             ctermfg=none     ctermbg=0       cterm=bold
 
     " Easymotion
     hi EasyMotionTarget        ctermfg=3        ctermbg=6       cterm=bold
@@ -134,6 +135,38 @@ let g:colors_name = "16color"
     hi htmlTag                 ctermfg=6        ctermbg=none    cterm=none
     hi htmlEndTag              ctermfg=6        ctermbg=none    cterm=none
     hi htmlTagName             ctermfg=1        ctermbg=none    cterm=none
+    hi htmlTitle               ctermfg=10       ctermbg=none    cterm=bold
+    hi htmlH1                  ctermfg=11       ctermbg=none    cterm=bold
+    hi htmlLink                ctermfg=13       ctermbg=none    cterm=none
+    hi htmlSpecialChar         ctermfg=10       ctermbg=0       cterm=none
+    hi htmlSpecialTagName      ctermfg=5        ctermbg=none    cterm=none
+
+    " css
+    hi cssMedia                ctermfg=13       ctermbg=0      cterm=bold
+    hi cssMediaKeyword         ctermfg=13       ctermbg=0      cterm=bold
+    hi cssMediaType            ctermfg=1        ctermbg=0      cterm=bold
+    hi cssMediaProp            ctermfg=1        ctermbg=0      cterm=bold
+    hi cssValueLength          ctermfg=12       ctermbg=none   cterm=none
+    hi cssValueTime            ctermfg=12       ctermbg=none   cterm=none
+    hi cssColor                ctermfg=none     ctermbg=none   cterm=none
+    hi cssPseudoClassId        ctermfg=none     ctermbg=0      cterm=none
+    hi cssClassName            ctermfg=6        ctermbg=none   cterm=bold
+    hi cssIncludeKeyword       ctermfg=none     ctermbg=0      cterm=bold
+    hi cssUnitDecorators       ctermfg=4        ctermbg=none   cterm=none
+    hi cssVendor               ctermfg=5        ctermbg=none   cterm=none
+    hi cssBraces               ctermfg=3        ctermbg=none   cterm=bold
+    hi cssImportant            ctermfg=none     ctermbg=1      cterm=none
+    hi cssNoise                ctermfg=7        ctermbg=none   cterm=none
+    hi cssIdentifier           ctermfg=10       ctermbg=none   cterm=bold
+    hi cssTagName              ctermfg=1        ctermbg=none   cterm=bold
+    hi cssSelectorOp           ctermfg=1        ctermbg=none   cterm=bold
+
+    " JS
+    hi javascriptBraces        ctermfg=1        ctermbg=none   cterm=bold
+    hi javascriptParens        ctermfg=3        ctermbg=none   cterm=bold
+    hi javascriptNumber        ctermfg=1        ctermbg=none   cterm=none
+    hi javascriptConditional   ctermfg=9        ctermbg=none   cterm=none
+
 
     " xml
     hi xmlTag                  ctermfg=6        ctermbg=none    cterm=none

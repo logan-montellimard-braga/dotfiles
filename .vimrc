@@ -41,6 +41,7 @@
      Bundle 'tristen/vim-sparkup'
      Bundle 'vim-scripts/SrcExpl'
      Bundle 'tpope/vim-repeat'
+     Bundle 'groenewege/vim-less'
 """ END PLUGINS }}}
 
 
@@ -59,7 +60,7 @@
         set noexrc                                  " don't use other .*rc(s)
         syntax on                                   " syntax highlighting
         set t_Co=256                                " 256-colors
-        colors caviar                              " select colorscheme
+        colors 16color                              " select colorscheme
         set ttymouse=xterm2                         " Currently being tested
         set background=dark                         " dark background
         set cursorline                              " hilight cursor line
@@ -71,12 +72,11 @@
         set scrolloff=5                             " lines above/below cursor
         set showcmd                                 " show cmds being typed
         set title                                   " set window title
-        set fillchars+=vert:§                       " vertical splits separator
+        set fillchars+=vert:*                       " vertical splits separator
         set laststatus=2                            " always show statusline
         set mouse=a                                 " mouse in all modes
         set list                                    " Show whitespaces
         set listchars=tab:>.,trail:.,extends:#,nbsp:. " Which whitespaces to show
-        autocmd filetype html,xml set listchars-=tab:>. " disable tabs showing for html
         set noerrorbells                            " disable beep
         set novisualbell                            " disable flashing
 
@@ -143,6 +143,7 @@
         set foldnestmax=10                          " max 10 nested folds
         set foldlevelstart=99                       " folds open by default
         set textwidth=80
+        set formatoptions+=aw
         set wrapmargin=2
 
     " Files & buffers
@@ -272,6 +273,9 @@
         endfunction
 
     " Utilities
+        " Less compilation
+        nnoremap <leader>css :w <BAR> !lessc % > %:t:r.css<CR><space>
+
         " Go to first non-blank char with Home
         noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
         imap <silent> <Home> <C-O><Home>
@@ -460,8 +464,8 @@
 
     " Highlight occurences of the word under cursor
     nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
-    autocmd CursorMoved * silent! exe printf('match Occurences /\V\<%s\>/', escape(expand('<cword>'), '/\'))
-    let g:occurences = 1
+    " autocmd CursorMoved * silent! exe printf('match Occurences /\V\<%s\>/', escape(expand('<cword>'), '/\'))
+    let g:occurences = 0
     function! ToggleOccurences()
             if g:occurences == 0
                 match
@@ -508,6 +512,16 @@
             set laststatus=0
         else
             set laststatus=2
+        endif
+    endfunction
+
+    " Toggle cursor column
+    noremap <silent><leader>bb :call ToggleCursorColumn()<CR>
+    function! ToggleCursorColumn()
+        if (&cursorcolumn)
+            set nocursorcolumn
+        else
+            set cursorcolumn
         endif
     endfunction
 """ END PLUGINS & FUNCTIONS KEYMAPS }}}
