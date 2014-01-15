@@ -42,6 +42,9 @@
      Bundle 'vim-scripts/SrcExpl'
      Bundle 'tpope/vim-repeat'
      Bundle 'groenewege/vim-less'
+     Bundle 'xolox/vim-notes'
+     Bundle 'xolox/vim-misc'
+     Bundle 'tpope/vim-fugitive'
 """ END PLUGINS }}}
 
 
@@ -54,15 +57,15 @@
         set shortmess=aTis
         set cmdheight=1
         set nolinebreak
-        set showbreak=\ ↳\                          " display an arrow in front of wrapped lines
+        set showbreak=\.\.\.\                          " display an arrow in front of wrapped lines
         set nopaste                                 " disable paste mode by default
         set colorcolumn=
         set noexrc                                  " don't use other .*rc(s)
         syntax on                                   " syntax highlighting
         set t_Co=256                                " 256-colors
-        colors 16color                              " select colorscheme
+        colors solarized                             " select colorscheme
         set ttymouse=xterm2                         " Currently being tested
-        set background=dark                         " dark background
+        set background=light                         " dark background
         set cursorline                              " hilight cursor line
         set more                                    " use more as a pager
         set number                                  " show line numbers
@@ -76,7 +79,7 @@
         set laststatus=2                            " always show statusline
         set mouse=a                                 " mouse in all modes
         set list                                    " Show whitespaces
-        set listchars=tab:>.,trail:.,extends:#,nbsp:. " Which whitespaces to show
+        set listchars=tab:>-,trail:.,extends:>,precedes:<,nbsp:!,conceal:?
         set noerrorbells                            " disable beep
         set novisualbell                            " disable flashing
 
@@ -90,7 +93,9 @@
             setl statusline+=%1*%y%*      "filetype
             setl statusline+=[%{strlen(&fenc)?&fenc:'none'}%1*,%* "file encoding
             setl statusline+=%{&ff}]
+            setl statusline+=\ %1*%{fugitive#statusline()}%*
             setl statusline+=%=      "left/right separator
+            setl statusline+=%*%{WS_Show()}
             setl statusline+=%1*[%*ASCII:%1*%03.3b,%*HEX:%1*\%02.2B]\ \ \ \ %*
             setl statusline+=%c%1*,%*      "cursor column
             setl statusline+=%l%1*/%L\ \ \ %*\    "cursor line/total lines
@@ -122,6 +127,15 @@
             call SetStatus()
         endfunction
         au BufLeave * call SetStatusLeaveBuffer()
+        " au BufEnter     * :diffoff
+        " Get Whistespace showing status
+        function! WS_Show()
+            if (&list)
+                return "⁋ "
+            else
+                return ""
+            endif
+        endfunction
 
         " Get file size
         function! FileSize()
@@ -189,6 +203,22 @@
         autocmd! FileType javascript,arduino,php,html,xhtml,css,xml set shiftwidth=4 softtabstop=4 tabstop=4
         autocmd! FileType make                                      set local noexpandtab
 
+        " Filetype auto detection when editing a file without extension
+        augroup newFileDetection
+            autocmd CursorMovedI * call CheckFileType()
+        augroup END
+        function! CheckFileType()
+            if exists("b:countCheck") == 0
+                let b:countCheck = 0
+            endif
+            let b:countCheck += 1
+            if &filetype == "" && b:countCheck > 20 && b:countCheck < 200
+                filetype detect
+            elseif b:countCheck >=200 || &filetype != ""
+                autocmd! newFileDetection
+            endif
+        endfunction
+
     " Searching
         set incsearch                               " live-search
         set hlsearch                                " highlight search
@@ -225,11 +255,19 @@
     let mapleader=","                               " change leader key
 
     " Buffers & windows
+        " Disable diff
+        noremap <leader>do :diffoff<CR>
+        " Tabs
+        nnoremap <leader>gT  :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+        nnoremap <leader>gt  :execute 'silent! tabmove ' . (tabpagenr())<CR>
+        nnoremap <leader>tq :tabclose<CR>
+        nnoremap <leader>tol :tabonly<CR>
+        nnoremap <leader>tn :tabnew<CR>
         " Kill buffer
         noremap ]k :bd<CR>
         noremap [k :bd<CR>
-        noremap <leader>bk :bd<CR>
-        noremap <leader>bq :bd<CR>
+        nnoremap <leader>bk :bp<bar>sp<bar>bn<bar>bd<CR>
+        nnoremap <leader>bq :bp<bar>sp<bar>bn<bar>bd<CR>
         " Split windows/buffers into new windows/buffers
         nmap <leader>s<left>   :leftabove  vnew<CR>
         nmap <leader>s<right>  :rightbelow vnew<CR>
@@ -249,28 +287,24 @@
         map <leader>q <C-w>q
         map <leader>bn ]b
         map <leader>bp [b
+        map <leader>wol :only<CR>
+        nnoremap <leader>rr <C-w>r
+        nnoremap <leader>rR <C-w>R
+        nnoremap <leader>rt <C-w>T
+        nnoremap <leader>x <C-w>x
+        nnoremap <leader>X <C-w>X
+        nnoremap <leader><S-k> <C-w>K
+        nnoremap <leader><S-j> <C-w>J
+        nnoremap <leader><S-h> <C-w>H
+        nnoremap <leader><S-l> <C-w>L
+        nnoremap <leader>= <C-w>=
         " Better resizing
         nnoremap <C-w>< 20<C-w><
         nnoremap <C-w>> 20<C-w>>
         nnoremap <C-w>m< 60<C-w><
         nnoremap <C-w>m> 60<C-w>>
         nnoremap <C-w>b <C-w>=
-        nnoremap <silent><C-W>mm :call MaximizeToggle()<CR>
-        function! MaximizeToggle()
-            if exists("s:maximize_session")
-                exec "source " . s:maximize_session
-                call delete(s:maximize_session)
-                unlet s:maximize_session
-                let &hidden=s:maximize_hidden_save
-                unlet s:maximize_hidden_save
-            else
-                let s:maximize_hidden_save = &hidden
-                let s:maximize_session = tempname()
-                set hidden
-                exec "mksession! " . s:maximize_session
-                only
-            endif
-        endfunction
+        nnoremap <C-w>mm <C-w><bar>
 
     " Utilities
         " Less compilation
@@ -287,6 +321,7 @@
         " Standard remaps
         noremap ;; i
         inoremap ;; <Esc>
+        inoremap jj <Esc>
         map ; .
         " Select all text
         nnoremap <leader>v V`]
@@ -330,6 +365,14 @@
 
 
 """ PLUGINS & FUNCTIONS MAPPINGS {{{
+    nnoremap <silent><leader>bg :call ToggleBG()<CR>
+    function! ToggleBG()
+        if (&background == "light")
+            set background=dark
+        else
+            set background=light
+        endif
+    endfunction
     " Syntastic
     nnoremap <silent><F1> :call ToggleSyntasticCheck()<CR>
     inoremap <silent><F1> <ESC>:call ToggleSyntasticCheck()<CR>a
@@ -478,6 +521,16 @@
             endif
     endfunction
 
+    " Toggle whitespace showing
+    nnoremap <silent> <leader>ws :call ToggleWhiteSpaces()<CR>
+    function! ToggleWhiteSpaces()
+        if (&list)
+            set nolist
+        else
+            set list
+        endif
+    endfunction
+
     " Show syntax highlighting group for word under cursor
     nmap <leader>wc :call SynStack()<CR>
     func! SynStack()
@@ -531,6 +584,10 @@
     " Omni Completion
     set completeopt=longest,menuone
     set wildmode=longest,list:longest
+
+    " Notes
+    let g:notes_directories = ['~/Documents/Notes']
+    let g:notes_title_sync = 'rename_file'
 
     " Yankring
     let g:yankring_history_dir = '/home/logan/.vim/plugin'
