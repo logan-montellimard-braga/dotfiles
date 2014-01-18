@@ -54,10 +54,10 @@
     " Interface
         set nocompatible                            " don't vi-compatible
         set noshowmode                              " don't show mode
-        set shortmess=aTis
+        set shortmess=aTs
         set cmdheight=1
         set nolinebreak
-        set showbreak=\.\.\.\                          " display an arrow in front of wrapped lines
+        set showbreak=\»\                          " display an arrow in front of wrapped lines
         set nopaste                                 " disable paste mode by default
         set colorcolumn=
         set noexrc                                  " don't use other .*rc(s)
@@ -91,14 +91,19 @@
             setl statusline+=%1*%r%*   " read only flag
             setl statusline+=\ [%{FileSize()}] " get size of the current file
             setl statusline+=%1*%y%*      "filetype
-            setl statusline+=[%{strlen(&fenc)?&fenc:'none'}%1*,%* "file encoding
-            setl statusline+=%{&ff}]
+            " setl statusline+=[%{strlen(&fenc)?&fenc:'none'}%1*,%* "file encoding
+            " setl statusline+=%{&ff}]
+            setl statusline+=%{Encoding()}
             setl statusline+=\ %1*%{fugitive#statusline()}%*
             setl statusline+=%=      "left/right separator
-            setl statusline+=%*%{WS_Show()}
-            setl statusline+=%1*[%*ASCII:%1*%03.3b,%*HEX:%1*\%02.2B]\ \ \ \ %*
-            setl statusline+=%c%1*,%*      "cursor column
-            setl statusline+=%l%1*/%L\ \ \ %*\    "cursor line/total lines
+            setl statusline+=[¶:%1*%{WS_Show()}%*
+            setl statusline+=\ ✔:%1*%{Spell_Show()}%*
+            setl statusline+=\ ☱:%1*%{Foldmethod_Show()}%*]
+            setl statusline+=\ [➔:%1*%{Tabs_Show()}%*
+            setl statusline+=\ ⌘:%1*%{Tabs_Info()}%*]
+            " setl statusline+=1*[%*ASCII:%1*%03.3b,%*HEX:%1*\%02.2B]\ \ \ \ %*
+            setl statusline+=\ \ %c%1*,%*      "cursor column
+            setl statusline+=%l%1*/%L\ \ %*    "cursor line/total lines
             setl statusline+=%p%%\    "percent through file
         endfunction
         " Update when switching mode
@@ -121,27 +126,55 @@
         au InsertEnter  * call SetStatusInsertMode(v:insertmode)
         au InsertLeave  * call SetStatusInsertMode('normal')
         au BufEnter     * call SetStatusInsertMode('normal')
-        " Update when leaving Buffer
         function! SetStatusLeaveBuffer()
             setl statusline=""
             call SetStatus()
         endfunction
         au BufLeave * call SetStatusLeaveBuffer()
-        " au BufEnter     * :diffoff
-        " Get Whistespace showing status
+        " Statusline functions
         function! WS_Show()
             if (&list)
-                return "⁋ "
+                return "on"
             else
-                return ""
+                return "off"
             endif
         endfunction
-
-        " Get file size
+        function! Foldmethod_Show()
+            return  &foldmethod
+        endfunction
+        function! Spell_Show()
+            if (&spell == 0)
+                return  "off"
+            else
+                return "on(" . &spelllang . ")"
+        endfunction
+        function! Tabs_Show()
+            if &expandtab
+                return "off"
+            else
+                return "on"
+            endif
+        endfunction
+        function! Tabs_Info()
+            return &shiftwidth . &softtabstop . &tabstop
+        endfunction
+        function! Encoding()
+            if (&fileencoding == "utf-8") && (&ff == "unix")
+                return "[✔]"
+            elseif &fileencoding == ""
+                if &encoding != ""
+                    return "[" . &encoding . "," . &ff . "]"
+                else
+                    return "[-?- " . &ff . "]"
+                endif
+            else
+                return "[" . &fileencoding . "," . &ff . "]"
+            endif
+        endfunction
         function! FileSize()
                 let bytes = getfsize(expand("%:p"))
                 if bytes <= 0
-                    return "0Ko"
+                    return "0"
                 endif
                 if bytes < 1024
                     return bytes . "o"
@@ -152,6 +185,7 @@
 
     " Wrapping & folding
         set nowrap                                  " don't wrap lines
+        set sidescrolloff=10
         set foldcolumn=0                            " hide folding column
         set foldmethod=indent                       " folds using indent
         set foldnestmax=10                          " max 10 nested folds
@@ -167,7 +201,7 @@
         set history=1000                            " Number of history actions to keep
         set undolevels=1000                         " Number of undos to keep
         au BufRead,BufNewFile *.txt set ft=sh       " opens .txt with highlight
-        set wildignore=*/tmp/*,*.so,*.swp,*.zip,.bak,.pyc,.o,.ojb,.,a,.pdf,.jpg,.gif,.png,.avi,.mkv,.so      "ignore these files
+        set wildignore=*/tmp/*,*.so,*.swp,*.zip,.bak,.pyc,.o,.ojb,.,a,.pdf,.jpg,.gif,.png,.avi,.mkv,.so
 
     " Editing
         set spelllang=fr
@@ -238,13 +272,16 @@
         set autoread                                " refresh if changed
         set backup                                  " backup current file
         set backupdir=/tmp                          " backup directory
-        set backupext=~                             " append ~ to backups
+        set backupext=.vimbackup                  " append ~ to backups
+        set backupskip="/tmp/*,/var/tmp/*"
+        set patchmode=
         set undofile                                " store undos
         set undodir=/tmp                            " undo directory
+        set backupcopy=auto
         set confirm                                 " confirm changed files
         set noautowrite                             " never autowrite files
         set swapfile                                " make swap files
-        set updatecount=50                          " update swp after 50 characters difference
+        set updatecount=100
         set dir=/tmp                                " store everything
         autocmd BufWinLeave *.* mkview
         autocmd BufWinEnter *.* silent loadview
@@ -309,7 +346,8 @@
     " Utilities
         " Less compilation
         nnoremap <leader>css :w <BAR> !lessc % > %:t:r.css<CR><space>
-
+        " Convert file code to html
+        noremap <leader>we :runtime!syntax/2html.vim<CR>
         " Go to first non-blank char with Home
         noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
         imap <silent> <Home> <C-O><Home>
@@ -447,6 +485,24 @@
         endif
     endfunction
 
+    " Toggle foldmethod
+    noremap <leader>z :call ToggleFoldMethod()<CR>
+    function! ToggleFoldMethod()
+        if (&foldmethod == "indent")
+            set foldmethod=manual
+            echo "Foldmethod: manual"
+        elseif (&foldmethod == "manual")
+            set foldmethod=syntax
+            echo "Foldmethod: syntax"
+        elseif (&foldmethod == "syntax")
+            set foldmethod=marker
+            echo "Foldmethod: marker"
+        else
+            set foldmethod=indent
+            echo "Foldmethod: indent (Default)"
+        endif
+    endfunction
+
     " Toggle numbers/relative numbers
     noremap <silent><F11> :call ToggleNumbersType()<CR>
     inoremap <silent><F11> <ESC>:call ToggleNumbersType()<CR>a
@@ -505,6 +561,16 @@
         endif
     endfunction
 
+    " Toggle auto formatting
+    noremap <leader>fo :call ToggleFormat()<CR>
+    function! ToggleFormat()
+        if &formatoptions == ""
+            set formatoptions+=aw
+        else
+            set formatoptions=
+        endif
+    endfunction
+
     " Highlight occurences of the word under cursor
     nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
     " autocmd CursorMoved * silent! exe printf('match Occurences /\V\<%s\>/', escape(expand('<cword>'), '/\'))
@@ -555,6 +621,16 @@
             set nospell
         else
             set spell
+        endif
+    endfunction
+
+    " Toggle expandtab
+    noremap <silent><leader><Tab> :call ToggleTabs()<CR>
+    function! ToggleTabs()
+        if &expandtab
+            set noexpandtab
+        else
+            set expandtab
         endif
     endfunction
 
