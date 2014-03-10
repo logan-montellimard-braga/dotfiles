@@ -102,12 +102,12 @@ _zsh_highlight_add-highlighter() {
 
 ZSH_HIGHLIGHT_STYLES+=(
   default                       'fg=default'
-  unknown-token                 'fg=6,bg=0'
+  unknown-token                 'fg=7,bg=1'
   reserved-word                 'fg=5,bold'
   alias                         'fg=4'
   builtin                       'fg=5'
   function                      'fg=4'
-  command                       'fg=10'
+  command                       'fg=default'
   hashed-command                'fg=8'
   path                          'fg=13'
   globbing                      'fg=5,bold'

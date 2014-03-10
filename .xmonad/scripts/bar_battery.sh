@@ -5,9 +5,9 @@ source $(dirname $0)/config.sh
 STATE=`acpi -b | awk '{gsub(/,/,""); print $3}'`
 BAT=`acpi -b | awk '{gsub(/%,/,""); print $4}' | sed 's/%//g' | cut -c 1-3 | bc`
 if [ $BAT -le 15 ] && [ $STATE != "Charging" ]; then
-    BATBAR=`echo $BAT | dzen2-gdbar -bg $bar_bg -fg $bar_fg_warning -h 1 -w 50 | sed "s/\ .*\%//g"`
+    BATBAR=`echo $BAT | dzen2-gdbar -bg $bar_bg -fg $bar_fg_warning -h 1 -w $width | sed "s/\ .*\%//g"`
 else
-    BATBAR=`echo $BAT | dzen2-gdbar -bg $bar_bg -fg $bar_fg -h 1 -w 50 | sed "s/\ .*\%//g"`
+    BATBAR=`echo $BAT | dzen2-gdbar -bg $bar_bg -fg $bar_fg -h 1 -w $width | sed "s/\ .*\%//g"`
 fi
 
 if [ $STATE == "Full" ] || [ $STATE == "Charging" ]; then

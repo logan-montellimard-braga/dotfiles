@@ -61,3 +61,8 @@ function suc {
         su -c "$*"
     fi
 } 
+
+## Coffeescript watch
+# function coffeewatch {
+#   coffee -wc -o "../../js" 
+# }

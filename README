@@ -8,5 +8,6 @@ You can contact me at <braga dot logan at gmail dot com> if you need anything.
 At the time of the current commit, I am using:
 BSPWM
 Bar + dzen2
-caviar theme (mod of earsplit's mod of Erosion)
-...
+mocha theme
+
+![Mocha theme](https://github.com/loganbraga/dotfiles/blob/master/screenshot.png)

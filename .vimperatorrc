@@ -1,2 +1,2 @@
-colorscheme awesome
+colorscheme mocha
 :set status=location,bookmark,history,position,tabcount,input

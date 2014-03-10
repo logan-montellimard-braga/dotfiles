@@ -46,6 +46,7 @@ alias -g usb0="/dev/sdb1"
 alias -g usb1="/dev/sdc1"
 alias -g usb2="/dev/sdd1"
 
-
-
-
+alias -g folio="/home/logan/Git/loganbraga.github.io"
+alias -g dotfiles="/home/logan/Git/dotfiles"
+alias -g euler="/home/logan/Git/euler-project"
+alias -g rosenberg="/home/logan/Git/rosenberg"

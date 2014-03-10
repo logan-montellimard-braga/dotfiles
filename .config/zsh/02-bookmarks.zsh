@@ -1,6 +1,7 @@
 hash -d b=~/bin
 hash -d c=~/Cours
 hash -d calgo=~/Cours/Algorithmique
+hash -d cdroit=~/Cours/Droit
 hash -d call=~/Cours/Allemand
 hash -d cen=~/Cours/Anglais
 hash -d ccom=~/Cours/Communication

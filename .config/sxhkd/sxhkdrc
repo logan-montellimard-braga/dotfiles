@@ -153,11 +153,11 @@ super + @button{1-3}
 
 ## APPS {{{
 super + {_,shift +} Return
-    urxvtc_mod -name {urxvt,UrXvT} 
+    urxvtc_mod -name {urxvt,UrXvT}
 ctrl + space
     pkill dunst
 super + space
-    dmenu_run -nb '#181512' -nf '#4B5C5E' -sb '#181512' -sf '#8C644C' -p '>>' -fn '-*-nu-medium-*-*-*-*-*-*-*-*-*-*-*' -i
+    dmenu_run -nb '#3B3228' -nf '#d0c8c6' -sb '#3B3228' -sf '#beb55b' -p '>>' -fn '-*-nu-medium-*-*-*-*-*-*-*-*-*-*-*' -i
 alt + space
     kill_applet
 super + g

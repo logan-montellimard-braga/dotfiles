@@ -293,11 +293,27 @@ show-read-articles yes
 # EOF
 # a simple newsbeuter color scheme.
 
-color listnormal default default
-color listfocus cyan default
-color info red default underline
-color background white default
+# color listnormal default default
+# color listfocus cyan default
+# color info red default underline
+# color background white default
+# color article default default
+# color listnormal_unread magenta default
+# color listfocus_unread magenta default bold
+highlight article "^(Fil|Titre|Auteur|Lien|Date|URL de téléchargement de podcast|~|Liens):" green default underline
+
+
+
+
+color background default default
+color listnormal yellow default
+color listnormal_unread red default
+color listfocus white green bold
+color listfocus_unread black green  bold
+color info white red bold
 color article default default
-color listnormal_unread magenta default
-color listfocus_unread magenta default bold
-highlight article "^(Fil|Titre|Auteur|Lien|Date|URL de téléchargement de podcast|~|Liens):" cyan default underline
+
+# highlights
+highlight article "^(Title):.*$" green default
+highlight article "https?://[^ ]+" red default
+highlight article "\\[image\\ [0-9]+\\]" yellow default

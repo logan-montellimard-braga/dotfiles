@@ -8,43 +8,48 @@
 
 
 """ PLUGINS {{{
-     Bundle 'gmarik/vundle'
-     Bundle 'kien/ctrlp.vim'
-     Bundle 'sjl/gundo.vim'
-     Bundle 'scrooloose/syntastic'
-     Bundle 'tpope/vim-abolish'
-     Bundle 'mileszs/ack.vim'
-     Bundle 'Lokaltog/vim-easymotion'
-     Bundle 'scrooloose/nerdtree'
-     Bundle 'nathanaelkane/vim-indent-guides'
-     Bundle 'vim-scripts/loremipsum'
-     Bundle 'tsaleh/vim-matchit'
-     Bundle 'fholgado/minibufexpl.vim'
-     Bundle 'chrisbra/NrrwRgn'
-     Bundle 'tpope/vim-pastie'
-     Bundle 'kshenoy/vim-signature'
-     Bundle 'tpope/vim-speeddating'
-     Bundle 'tpope/vim-surround'
-     Bundle 'godlygeek/tabular'
-     Bundle 'majutsushi/tagbar'
-     Bundle 'vim-scripts/tComment'
-     Bundle 'tpope/vim-unimpaired'
-     Bundle 'vim-scripts/YankRing.vim'
-     Bundle 'MarcWeber/vim-addon-mw-utils'
-     Bundle 'tomtom/tlib_vim'
-     Bundle 'garbas/vim-snipmate'
-     Bundle 'honza/vim-snippets'
-     Bundle 'tpope/vim-endwise'
-     Bundle 'tpope/vim-ragtag'
-     Bundle 'ervandew/supertab'
-     Bundle 'vim-scripts/Auto-Pairs'
-     Bundle 'tristen/vim-sparkup'
-     Bundle 'vim-scripts/SrcExpl'
-     Bundle 'tpope/vim-repeat'
-     Bundle 'groenewege/vim-less'
-     Bundle 'xolox/vim-notes'
-     Bundle 'xolox/vim-misc'
-     Bundle 'tpope/vim-fugitive'
+    Bundle 'gmarik/vundle'
+        " Files & navigation
+        Bundle 'kien/ctrlp.vim'
+        Bundle 'scrooloose/nerdtree'
+        Bundle 'fholgado/minibufexpl.vim'
+        Bundle 'mileszs/ack.vim'
+        Bundle 'Lokaltog/vim-easymotion'
+        " Languages helpers
+        Bundle 'scrooloose/syntastic'
+        Bundle 'nathanaelkane/vim-indent-guides'
+        Bundle 'vim-scripts/tComment'
+        Bundle 'tpope/vim-endwise'
+        Bundle 'godlygeek/tabular'
+        Bundle 'tsaleh/vim-matchit'
+        Bundle 'vim-scripts/Auto-Pairs'
+            " Web developpment
+            Bundle 'tpope/vim-ragtag'
+            Bundle 'tristen/vim-sparkup'
+            Bundle 'miripiruni/CSScomb-for-Vim'
+            " Publication
+            Bundle 'vim-scripts/loremipsum'
+            Bundle 'jcf/vim-latex'
+            Bundle 'tpope/vim-abolish'
+            " Snippets
+            Bundle 'MarcWeber/vim-addon-mw-utils'
+            Bundle 'tomtom/tlib_vim'
+            Bundle 'garbas/vim-snipmate'
+            Bundle 'honza/vim-snippets'
+        " Utility
+        Bundle 'kshenoy/vim-signature'
+        Bundle 'sjl/gundo.vim'
+        Bundle 'vim-scripts/YankRing.vim'
+        Bundle 'chrisbra/NrrwRgn'
+        Bundle 'tpope/vim-surround'
+        Bundle 'tpope/vim-unimpaired'
+        Bundle 'majutsushi/tagbar'
+        Bundle 'ervandew/supertab'
+        Bundle 'vim-scripts/SrcExpl'
+        Bundle 'tpope/vim-repeat'
+        Bundle 'xolox/vim-notes'
+        Bundle 'xolox/vim-misc'
+        Bundle 'tpope/vim-fugitive'
 """ END PLUGINS }}}
 
 
@@ -63,16 +68,16 @@
         set noexrc                                  " don't use other .*rc(s)
         syntax on                                   " syntax highlighting
         set t_Co=256                                " 256-colors
-        colors solarized                             " select colorscheme
+        colors base16-mocha                             " select colorscheme
         set ttymouse=xterm2                         " Currently being tested
-        set background=light                         " dark background
+        set background=dark                         " dark background
         set cursorline                              " hilight cursor line
         set more                                    " use more as a pager
         set number                                  " show line numbers
         set ruler
         set relativenumber                          " use line numbers from the current line
         set numberwidth=5                           " number of line numbers to show
-        set scrolloff=5                             " lines above/below cursor
+        set scrolloff=3                             " lines above/below cursor
         set showcmd                                 " show cmds being typed
         set title                                   " set window title
         set fillchars+=vert:*                       " vertical splits separator
@@ -228,12 +233,13 @@
         autocmd! FileType sh,zsh,bash                               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
         autocmd! FileType cpp                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=make
         autocmd! FileType vhdl                                      set shiftwidth=2 softtabstop=2 tabstop=2
+        autocmd! FileType tex                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
         autocmd! FileType python                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
         autocmd! FileType perl                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
         autocmd! FileType java                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
         autocmd! FileType lua                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
-        autocmd! FileType tex                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=pdflatex\ %
         autocmd! FileType c                                         set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=make
+        autocmd! FileType scss,sass                                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=sass\ %\ %:t:r.css
         autocmd! FileType javascript,arduino,php,html,xhtml,css,xml set shiftwidth=4 softtabstop=4 tabstop=4
         autocmd! FileType make                                      set local noexpandtab
 
@@ -283,6 +289,7 @@
         set swapfile                                " make swap files
         set updatecount=100
         set dir=/tmp                                " store everything
+        " Save folds upon exit
         autocmd BufWinLeave *.* mkview
         autocmd BufWinEnter *.* silent loadview
 """ }}} END OPTIONS
@@ -313,10 +320,6 @@
         nnoremap <leader>sv <C-w>v<C-w>l             " vertical
         nnoremap <leader>sh <C-w>s<C-w>l             " horizontal
         " Easy window navigation
-        map <C-h> <C-w>h
-        map <C-j> <C-w>j
-        map <C-k> <C-w>k
-        map <C-l> <C-w>l
         map <leader>h <C-w>h
         map <leader>j <C-w>j
         map <leader>k <C-w>k
@@ -344,8 +347,15 @@
         nnoremap <C-w>mm <C-w><bar>
 
     " Utilities
-        " Less compilation
-        nnoremap <leader>css :w <BAR> !lessc % > %:t:r.css<CR><space>
+        " Copy to system clipboard
+        vnoremap <leader>yy "*y
+        vnoremap <leader>yc "+y
+        " Sass compilation
+        " nnoremap <leader>css :w <BAR> !sass %  %:t:r.css<CR><space>
+        " General compilation
+        nnoremap <leader>ma :make<CR>
+        " Open current file in sublimetext (stupid teachers needing a visual editor to help, that's for you ;) )
+        nnoremap <leader>st :! sublimetext % &<CR>
         " Convert file code to html
         noremap <leader>we :runtime!syntax/2html.vim<CR>
         " Go to first non-blank char with Home
@@ -355,14 +365,14 @@
         noremap <leader>ve :edit ~/.vimrc<CR>
         noremap <leader>vs :source ~/.vimrc<CR>
         " delete trailing whitespaces
-        nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+        nnoremap <leader>W my :%s/\s\+$//<cr>:let @/=''<CR>'y
         " Standard remaps
-        noremap ;; i
+        noremap ;; a
         inoremap ;; <Esc>
         inoremap jj <Esc>
         map ; .
         " Select all text
-        nnoremap <leader>v V`]
+        nnoremap <leader>vv V`]
         " We don't need any help!
         inoremap <F1> <ESC>
         nnoremap <F1> <ESC>
@@ -370,16 +380,23 @@
         " Clear the search highlighting
         nmap <silent> <leader>n :nohlsearch<CR>
         nmap <silent> <leader><space> :let @/ = ""<CR>
+        " Compile and view latex
+        " noremap <leader>cl :silent! call Tex_RunLaTeX()<CR>
+        noremap <leader>vl :silent! call Tex_ViewLaTeX()<CR>
 
     " Motions
         " Move faster
         map <leader>G <C-d>
         map <leader>g <C-u>
-        map <C-j> <C-d>
-        map <C-k> <C-u>
+        noremap <C-j> <C-d>
+        noremap <C-k> <C-u>
         nnoremap <leader>$ <Home>
+        " Break line at cursor position
+        noremap Kj <Esc>i<Enter><Esc>
+        noremap KJ <Esc>r<Enter>
         " Go to the 80th char of the line
         noremap <leader>oo 80\|
+        inoremap <silent>ùù <Esc>80\|
         " Treat wrapped lines as normal lines
         nnoremap j gj
         nnoremap k gk
@@ -399,6 +416,9 @@
         nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
         " Fold line
         vnoremap <Space> zf
+
+
+        inoremap <leader>ai <M-I>
 """ END KEYMAPS }}}
 
 
@@ -450,6 +470,16 @@
     " Signature
     nnoremap <F7> :SignatureToggle<CR>
     inoremap <F7> <ESC>:SignatureToggle<CR>a
+
+    " CSS Comb
+    nnoremap <leader>csc :call CSSCombSecure()<CR>
+    function! CSSCombSecure()
+        if ((&filetype == "css") || (&filetype == "scss"))
+            CSScomb
+        else
+            echo "Not a css file"
+        endif
+    endfunction
 
     " Toggle syntax highlight
     nnoremap <F8> :if exists("syntax_on")
@@ -661,6 +691,13 @@
     set completeopt=longest,menuone
     set wildmode=longest,list:longest
 
+    " Latex-suite
+    let g:Tex_CompileRule_pdf = "pdflatex $*"
+    let g:Tex_DefaultTargetFormat = "pdf"
+    let g:Tex_ViewRule_pdf = "zathura"
+    let g:Tex_ViewRuleComplete_pdf = 'zathura $*.pdf &'
+    let g:Tex_MultipleCompileFormats = "pdf"
+
     " Notes
     let g:notes_directories = ['~/Documents/Notes']
     let g:notes_title_sync = 'rename_file'
@@ -679,14 +716,15 @@
     let g:yankring_window_width = 30
 
     " Autopairs
-    let g:AutoPairs = {'(':')', '[':']', '<':'>', '&':'&', '|':'|', '{':'}',"'":"'",'"':'"', '`':'`'}
+    let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"'}
+    " '`':'`'}
     let g:AutoPairsShortcutToggle = '<leader>ac'
 
     " Signature
     let g:SignatureMarkOrder = "\m."
     let g:SignatureMarkTextHL = 'Signature'
     let g:SignatureMarkerTextHL = 'Markers'
-    let g:SignaturePurgeConfirmation = 1
+    let g:SignaturePurgeConfirmation = 0
     let g:SignaturePrioritizeMarks = 0
     let g:SignaturePeriodicRefresh = 1
 
@@ -714,6 +752,10 @@
 
     " Loremipsum
     let g:loremipsum_words = 50
+
+    " PHP
+    let php_sql_query = 1 "Coloration des requetes SQL
+    let php_htmlInStrings = 1 "Coloration des balises HTML
 
     " Matchit
     let b:match_ignorecase = 1
