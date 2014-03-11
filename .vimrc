@@ -192,7 +192,7 @@
 
     " Wrapping & folding
         set nowrap                                  " don't wrap lines
-        set sidescrolloff=10
+        set sidescrolloff=5
         set foldcolumn=0                            " hide folding column
         set foldmethod=indent                       " folds using indent
         set foldnestmax=10                          " max 10 nested folds
@@ -201,7 +201,7 @@
         set formatoptions+=aw
         set wrapmargin=2
         set foldtext=NeatFoldText()
-        function! NeatFoldText() "{{{2
+        function! NeatFoldText()
             let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
             let lines_count = v:foldend - v:foldstart + 1
             let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
@@ -225,7 +225,7 @@
         set spelllang=fr
         set nospell
         set nostartofline                           " no goto #1 char in line
-        set iskeyword+=_,$,@,%,#                    " not word dividers
+        set iskeyword+=$,@,%,#,-                    " not word dividers
         set backspace=indent,eol,start              " smart backspace
         set nrformats+=alpha                        " incr/decr letters C-a/-x
         au FileType c,cpp setlocal comments -=:// comments +=f://
@@ -250,10 +250,14 @@
         autocmd! FileType python                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
         autocmd! FileType perl                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
         autocmd! FileType java                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+        autocmd! FileType haskell                                   set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
         autocmd! FileType lua                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
-        autocmd! FileType c                                         set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=make
+        autocmd! FileType c                                         set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc
+        autocmd! FileType php                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
+        autocmd! FileType html,xhtml,htm,xml                        set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
         autocmd! FileType scss,sass                                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=sass\ %\ %:t:r.css
-        autocmd! FileType javascript,arduino,php,html,xhtml,css,xml set shiftwidth=4 softtabstop=4 tabstop=4
+        autocmd! FileType coffee                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=coffee\ -c\ %
+        autocmd! FileType javascript,arduino,css                    set shiftwidth=4 softtabstop=4 tabstop=4
         autocmd! FileType make                                      set local noexpandtab
 
         " Filetype auto detection when editing a file without extension
@@ -362,6 +366,12 @@
         nnoremap <C-w>mm <C-w><bar>
 
     " Utilities
+        " Intelligent commands
+        command! WQ wq
+        command! Wq wq
+        command! W up
+        command! Q q
+        cnoremap :w :up
         " Copy to system clipboard
         vnoremap <leader>yy "*y
         vnoremap <leader>yc "+y
