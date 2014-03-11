@@ -50,6 +50,8 @@
         Bundle 'xolox/vim-notes'
         Bundle 'xolox/vim-misc'
         Bundle 'tpope/vim-fugitive'
+        Bundle 'vim-scripts/mru.vim'
+        Bundle 'terryma/vim-multiple-cursors'
 """ END PLUGINS }}}
 
 
@@ -198,6 +200,17 @@
         set textwidth=80
         set formatoptions+=aw
         set wrapmargin=2
+        set foldtext=NeatFoldText()
+        function! NeatFoldText() "{{{2
+            let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+            let lines_count = v:foldend - v:foldstart + 1
+            let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+            let foldchar = matchstr(&fillchars, 'fold:\zs.')
+            let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+            let foldtextend = lines_count_text . repeat(foldchar, 8)
+            let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+            return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+        endfunction
 
     " Files & buffers
         set hidden                                  " buffer change silent
@@ -231,7 +244,7 @@
         autocmd! FileType asciidoc                                  set nocindent noautoindent
         autocmd! FileType ruby                                      set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
         autocmd! FileType sh,zsh,bash                               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-        autocmd! FileType cpp                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=make
+        autocmd! FileType cpp                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %
         autocmd! FileType vhdl                                      set shiftwidth=2 softtabstop=2 tabstop=2
         autocmd! FileType tex                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
         autocmd! FileType python                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
@@ -299,6 +312,8 @@
     let mapleader=","                               " change leader key
 
     " Buffers & windows
+        " New buffer
+        noremap <leader>nb :enew<CR>
         " Disable diff
         noremap <leader>do :diffoff<CR>
         " Tabs
@@ -560,6 +575,9 @@
     " NrrwRgn
     xmap <leader>nr <Plug>NrrwrgnDo
 
+    " MRU
+    noremap <leader>ru :MRU<CR>
+
     " CtrlP
     nnoremap <leader>pp :CtrlP<CR>
     nnoremap <leader>pb :CtrlPBuffer<CR>
@@ -761,13 +779,31 @@
     let b:match_ignorecase = 1
 
     " NrrwRgn
-    let g:nrrw_rgn_vert = 0
-    let g:nrrw_rgn_hl = 'NrrwRg'
+    let g:nrrw_rgn_vert = 1
+    let g:nrrw_rgn_hl = 'Comment'
     let g:nrrw_rgn_wdth = 30
+
+    " MRU
+    let g:MRU_File = '/home/logan/.vim/plugin/mru_files'
+    let g:MRU_Max_Entries = 25
+    let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*\|*.vim\|*.out\|*.swp\|*.vim\|*.o'
+    let g:MRU_Window_Height = 10
+    let g:MRU_Auto_Close = 1
+
+    " Multiple Cursors
+    highlight multiple_cursors_cursor cterm=bold ctermfg=none ctermbg=black
+    highlight multiple_cursors_visual cterm=bold ctermfg=red ctermbg=black
 
     " NERDTree
     let g:NERDTreeWinPos = "left"
+    let g:NERDTreeWinSize = 30
     let g:NERDTreeHijackNetrw=1
+    let g:NERDTreeHighlightCursorline = 1
+    let g:NERDTreeQuitOnOpen = 1
+    let g:NERDTreeShowLineNumbers = 1
+    let g:NERDTreeMinimalUI = 1
+    let g:NERDTreeIgnore=['\.vim$', '\~$', '\.out$']
+    let g:NERDTreeSortOrder=['\/$', '\.rb$', '\.cpp', '\.php$', '\.hs', '*', '\.swp$', '\.bak$', '\~$']
 
     " EasyMotion
     let g:EasyMotion_leader_key = '<Leader><Leader>'
