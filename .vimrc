@@ -48,8 +48,8 @@
         Bundle 'ervandew/supertab'
         Bundle 'vim-scripts/SrcExpl'
         Bundle 'tpope/vim-repeat'
-        Bundle 'xolox/vim-notes'
-        Bundle 'xolox/vim-misc'
+        " Bundle 'xolox/vim-notes'
+        " Bundle 'xolox/vim-misc'
         Bundle 'tpope/vim-fugitive'
         Bundle 'vim-scripts/mru.vim'
         Bundle 'terryma/vim-multiple-cursors'
@@ -820,8 +820,9 @@
 
     " NrrwRgn
     let g:nrrw_rgn_vert = 1
-    let g:nrrw_rgn_hl = 'Comment'
-    let g:nrrw_rgn_wdth = 30
+    let g:nrrw_rgn_hl = 'Search'
+    let g:nrrw_rgn_wdth = (winwidth(0)/2)
+    let g:nrrw_topbot_leftright = 'botright'
 
     " MRU
     let g:MRU_File = '/home/logan/.vim/plugin/mru_files'
@@ -829,6 +830,7 @@
     let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*\|*.vim\|*.out\|*.swp\|*.vim\|*.o'
     let g:MRU_Window_Height = 10
     let g:MRU_Auto_Close = 1
+    let g:MRU_Use_Current_Window = 1
 
     " Multiple Cursors
     highlight multiple_cursors_cursor cterm=bold ctermfg=none ctermbg=black
