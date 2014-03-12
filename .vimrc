@@ -228,7 +228,7 @@
         set iskeyword+=$,@,%,#,-                    " not word dividers
         set backspace=indent,eol,start              " smart backspace
         set nrformats+=alpha                        " incr/decr letters C-a/-x
-        au FileType c,cpp setlocal comments -=:// comments +=f://
+        autocmd Filetype c,cpp setlocal comments -=:// comments +=f://
 
     " Indentation
         set expandtab                               " no real tabs
@@ -240,25 +240,29 @@
         set autoindent                              " preserve indentation
         set copyindent                              " copy the previous indentation
         set cindent
-        " Filetype specific indentation
-        autocmd! FileType asciidoc                                  set nocindent noautoindent
-        autocmd! FileType ruby                                      set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
-        autocmd! FileType sh,zsh,bash                               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-        autocmd! FileType cpp                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %
-        autocmd! FileType vhdl                                      set shiftwidth=2 softtabstop=2 tabstop=2
-        autocmd! FileType tex                                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
-        autocmd! FileType python                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
-        autocmd! FileType perl                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
-        autocmd! FileType java                                      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
-        autocmd! FileType haskell                                   set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
-        autocmd! FileType lua                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
-        autocmd! FileType c                                         set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc
-        autocmd! FileType php                                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
-        autocmd! FileType html,xhtml,htm,xml                        set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
-        autocmd! FileType scss,sass                                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=sass\ %\ %:t:r.css
-        autocmd! FileType coffee                                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=coffee\ -c\ %
-        autocmd! FileType javascript,arduino,css                    set shiftwidth=4 softtabstop=4 tabstop=4
-        autocmd! FileType make                                      set local noexpandtab
+        " Filetype specific indentation & compilation
+        autocmd FileType asciidoc                set nocindent noautoindent
+        autocmd FileType ruby                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
+        autocmd FileType cpp                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
+        autocmd FileType vhdl                    set shiftwidth=2 softtabstop=2 tabstop=2
+        autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
+        autocmd FileType python                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
+        autocmd FileType perl                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
+        autocmd FileType java                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+        autocmd FileType haskell                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
+        autocmd FileType lua                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
+        autocmd FileType c                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
+        autocmd FileType php                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
+        autocmd FileType html,xhtml,htm,xml      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
+        autocmd FileType scss,sass               set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=sass\ %\ %:t:r.css
+        autocmd FileType coffee                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=coffee\ -c\ %
+        autocmd FileType javascript,arduino,css  set shiftwidth=4 softtabstop=4 tabstop=4
+        autocmd FileType make                    set local noexpandtab
+        " Make & view for c & c++ & hs
+        autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
+        autocmd FileType cpp nnoremap <leader>mkv :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
+        autocmd FileType haskell nnoremap <leader>mkv :w <bar> exec '!ghc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
 
         " Filetype auto detection when editing a file without extension
         augroup newFileDetection
@@ -745,8 +749,8 @@
 
     " Autopairs
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
+    autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     let g:AutoPairsShortcutToggle = '<leader>ac'
-    autocmd! FileType c,cpp let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
     " Signature
     let g:SignatureMarkOrder = "\m."
