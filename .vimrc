@@ -744,9 +744,9 @@
     let g:yankring_window_width = 30
 
     " Autopairs
-    let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"'}
-    " '`':'`'}
+    let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     let g:AutoPairsShortcutToggle = '<leader>ac'
+    autocmd! FileType c,cpp let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
 
     " Signature
     let g:SignatureMarkOrder = "\m."
