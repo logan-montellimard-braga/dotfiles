@@ -23,6 +23,7 @@
         Bundle 'godlygeek/tabular'
         Bundle 'tsaleh/vim-matchit'
         Bundle 'vim-scripts/Auto-Pairs'
+        Bundle 'vim-scripts/Align'
             " Web developpment
             Bundle 'tpope/vim-ragtag'
             Bundle 'tristen/vim-sparkup'
@@ -200,6 +201,7 @@
         set textwidth=80
         set formatoptions+=aw
         set wrapmargin=2
+        set nojoinspaces
         set foldtext=NeatFoldText()
         function! NeatFoldText()
             let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
@@ -375,7 +377,7 @@
         command! Wq wq
         command! W up
         command! Q q
-        cnoremap :w :up
+        noremap :w :up
         " Copy to system clipboard
         vnoremap <leader>yy "*y
         vnoremap <leader>yc "+y
@@ -452,6 +454,26 @@
 
 
 """ PLUGINS & FUNCTIONS MAPPINGS {{{
+    " Toggle the quickfix window.
+    nnoremap <silent><leader>/ :QFix<CR>
+    nnoremap <silent><leader>! :QFix!<CR>
+    command! -bang -nargs=? QFix call QFixToggle(<bang>0)
+    let g:jah_Quickfix_Win_Height = 10
+    function! QFixToggle(forced)
+        if exists("g:qfix_win") && a:forced == 0
+            cclose
+        else
+            execute "copen " . g:jah_Quickfix_Win_Height
+        endif
+    endfunction
+    " Track the quickfix window
+    augroup QFixToggle
+        autocmd!
+        autocmd BufWinEnter quickfix let g:qfix_win = bufnr("$")
+        autocmd BufWinLeave * if exists("g:qfix_win") && expand("<abuf>") == g:qfix_win | unlet! g:qfix_win | endif
+    augroup END
+
+    " Toggle light/dark background
     nnoremap <silent><leader>bg :call ToggleBG()<CR>
     function! ToggleBG()
         if (&background == "light")
@@ -460,6 +482,7 @@
             set background=light
         endif
     endfunction
+
     " Syntastic
     nnoremap <silent><F1> :call ToggleSyntasticCheck()<CR>
     inoremap <silent><F1> <ESC>:call ToggleSyntasticCheck()<CR>a
@@ -475,6 +498,9 @@
             SyntasticReset
        endif
     endfunction
+
+    " Align
+    vnoremap <leader>= :Align =<CR>
 
     "  NERDTree
     nnoremap <silent> <F2> :NERDTreeToggle<CR>
