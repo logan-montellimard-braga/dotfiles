@@ -39,6 +39,9 @@
             Bundle 'honza/vim-snippets'
         " Utility
         Bundle 'kshenoy/vim-signature'
+        Bundle 'tpope/vim-dispatch'
+        Bundle 'mattn/gist-vim'
+        Bundle 'mattn/webapi-vim'
         Bundle 'sjl/gundo.vim'
         Bundle 'vim-scripts/YankRing.vim'
         Bundle 'chrisbra/NrrwRgn'
@@ -63,6 +66,7 @@
         set nocompatible                            " don't vi-compatible
         set noshowmode                              " don't show mode
         set shortmess=aTs
+        set termencoding=utf-8
         set cmdheight=1
         set nolinebreak
         set showbreak=\»\                          " display an arrow in front of wrapped lines
@@ -221,7 +225,7 @@
         set history=1000                            " Number of history actions to keep
         set undolevels=1000                         " Number of undos to keep
         au BufRead,BufNewFile *.txt set ft=sh       " opens .txt with highlight
-        set wildignore=*/tmp/*,*.so,*.swp,*.zip,.bak,.pyc,.o,.ojb,.,a,.pdf,.jpg,.gif,.png,.avi,.mkv,.so
+        set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~
 
     " Editing
         set spelllang=fr
@@ -230,7 +234,6 @@
         set iskeyword+=$,@,%,#,-                    " not word dividers
         set backspace=indent,eol,start              " smart backspace
         set nrformats+=alpha                        " incr/decr letters C-a/-x
-        autocmd Filetype c,cpp setlocal comments -=:// comments +=f://
 
     " Indentation
         set expandtab                               " no real tabs
@@ -242,11 +245,13 @@
         set autoindent                              " preserve indentation
         set copyindent                              " copy the previous indentation
         set cindent
+
         " Filetype specific indentation & compilation
         autocmd FileType asciidoc                set nocindent noautoindent
         autocmd FileType ruby                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
         autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
         autocmd FileType cpp                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
+        autocmd Filetype c,cpp                   setlocal comments -=:// comments +=f://
         autocmd FileType vhdl                    set shiftwidth=2 softtabstop=2 tabstop=2
         autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
         autocmd FileType python                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
@@ -291,6 +296,8 @@
         set matchtime=2                             " time to blink match {}
         set matchpairs+=<:>                         " for ci< or ci>
         set showmatch                               " tmpjump to match-bracket
+        set matchtime=2
+        set grepprg=ack\ -H\ --nocolor\ --nogroup\ --column
         autocmd BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \     exe "normal! g`\"" |
@@ -378,13 +385,19 @@
         command! W up
         command! Q q
         noremap :w :up
+        noremap :wq :wq
+        nnoremap <C-c> <C-a>
         " Copy to system clipboard
         vnoremap <leader>yy "*y
         vnoremap <leader>yc "+y
-        " Sass compilation
-        " nnoremap <leader>css :w <BAR> !sass %  %:t:r.css<CR><space>
+        " Gist access
+        nnoremap <leader>gi :Gist<CR>
+        vnoremap <leader>gi :Gist<CR>
+        nnoremap <leader>gpi :Gist -p<CR>
+        nnoremap <leader>ggi :Gist -l<CR>
         " General compilation
-        nnoremap <leader>ma :make<CR>
+        nnoremap <leader>ma :Make<CR>
+        nnoremap <leader>!ma :Make!<CR>
         " Open current file in sublimetext (stupid teachers needing a visual editor to help, that's for you ;) )
         nnoremap <leader>st :! sublimetext % &<CR>
         " Convert file code to html
@@ -412,8 +425,9 @@
         nmap <silent> <leader>n :nohlsearch<CR>
         nmap <silent> <leader><space> :let @/ = ""<CR>
         " Compile and view latex
-        " noremap <leader>cl :silent! call Tex_RunLaTeX()<CR>
         noremap <leader>vl :silent! call Tex_ViewLaTeX()<CR>
+        " Reindent whole file
+        nnoremap <leader>if mfgg=G'fzz
 
     " Motions
         " Move faster
@@ -437,8 +451,8 @@
         nnoremap <left> <nop>
         nnoremap <right> <nop>
         " Move a line of text using ,m{j,k}
-        nmap <leader>m<Down> mz:m+<CR>
-        nmap <leader>m<Up> mz:m-2<CR>
+        nmap <leader>mj mz:m+<CR>
+        nmap <leader>mk mz:m-2<CR>
 
     " Folding & wrapping
         " Toggle text wrapping
@@ -447,8 +461,6 @@
         nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
         " Fold line
         vnoremap <Space> zf
-
-
         inoremap <leader>ai <M-I>
 """ END KEYMAPS }}}
 
@@ -610,7 +622,7 @@
     inoremap <F12> <ESC>:call <SID>ToggleMouse()<CR>a
 
     " MiniBufExpl
-    nnoremap <silent> <Leader>t :MBEToggle<cr>
+    nnoremap <silent> <leader>tb :MBEToggle<cr>
 
     " NrrwRgn
     xmap <leader>nr <Plug>NrrwrgnDo
@@ -661,7 +673,6 @@
 
     " Highlight occurences of the word under cursor
     nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
-    " autocmd CursorMoved * silent! exe printf('match Occurences /\V\<%s\>/', escape(expand('<cword>'), '/\'))
     let g:occurences = 0
     function! ToggleOccurences()
             if g:occurences == 0
@@ -757,15 +768,15 @@
     let g:Tex_MultipleCompileFormats = "pdf"
 
     " Notes
-    let g:notes_directories = ['~/Documents/Notes']
-    let g:notes_title_sync = 'rename_file'
+    " let g:notes_directories = ['~/Documents/Notes']
+    " let g:notes_title_sync = 'rename_file'
 
     " Yankring
     let g:yankring_history_dir = '/home/logan/.vim/plugin'
-    let g:yankring_max_history = 250
-    let g:yankring_min_element_length = 3
+    let g:yankring_max_history = 500
+    let g:yankring_min_element_length = 5
     let g:yankring_max_element_length = 4194304
-    let g:yankring_max_display = 250
+    let g:yankring_max_display = 500
     let g:yankring_persist = 1
     let g:yankring_dot_repeat_yank = 1
     let g:yankring_manual_clipboard_check = 1
@@ -776,7 +787,7 @@
     " Autopairs
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
-    let g:AutoPairsShortcutToggle = '<leader>ac'
+    let g:AutoPairsShortcutToggle = '<leader>ap'
 
     " Signature
     let g:SignatureMarkOrder = "\m."
@@ -794,7 +805,7 @@
 
     " Tagbar
     let g:tagbar_compact = 1
-    let g:tagbar_indent = 4
+    let g:tagbar_indent = 2
     let g:tagbar_show_linenumbers = 0
     let g:tagbar_singleclick = 1
     let g:tagbar_iconchars = ['+', '-']
@@ -826,7 +837,7 @@
 
     " MRU
     let g:MRU_File = '/home/logan/.vim/plugin/mru_files'
-    let g:MRU_Max_Entries = 25
+    let g:MRU_Max_Entries = 100
     let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*\|*.vim\|*.out\|*.swp\|*.vim\|*.o'
     let g:MRU_Window_Height = 10
     let g:MRU_Auto_Close = 1
