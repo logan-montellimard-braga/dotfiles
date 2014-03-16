@@ -251,7 +251,7 @@
         autocmd FileType ruby                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
         autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
         autocmd FileType cpp                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
-        autocmd Filetype c,cpp                   setlocal comments -=:// comments +=f://
+        autocmd FileType c,cpp                   setlocal comments -=:// comments +=f://
         autocmd FileType vhdl                    set shiftwidth=2 softtabstop=2 tabstop=2
         autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
         autocmd FileType python                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
@@ -860,7 +860,15 @@
 
     " EasyMotion
     let g:EasyMotion_leader_key = '<Leader><Leader>'
-    let g:EasyMotion_keys = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let g:EasyMotion_keys = 'BCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let g:EasyMotion_smartcase = 1
+    let g:EasyMotion_enter_jump_first = 1
+    let g:EasyMotion_space_jump_first = 1
+    let g:EasyMotion_use_upper = 1
+    hi EasyMotionTarget cterm=bold ctermfg=white ctermbg=1
+    hi EasyMotionTarget2First cterm=bold ctermfg=white ctermbg=14
+    hi EasyMotionTarget2Second cterm=bold ctermfg=white ctermbg=14
+    hi EasyMotionShade cterm=none ctermfg=white ctermbg=10
 
     " tComment
     let g:tcommentBlankLines = 0
