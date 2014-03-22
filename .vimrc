@@ -18,24 +18,22 @@
         " Languages helpers
         Bundle 'scrooloose/syntastic'
         Bundle 'nathanaelkane/vim-indent-guides'
-        Bundle 'vim-scripts/tComment'
+        Bundle 'tpope/vim-commentary'
         Bundle 'tpope/vim-endwise'
         Bundle 'godlygeek/tabular'
         Bundle 'tsaleh/vim-matchit'
         Bundle 'vim-scripts/Auto-Pairs'
         Bundle 'vim-scripts/Align'
+        Bundle 'vim-scripts/AutoComplPop'
             " Web developpment
             Bundle 'tpope/vim-ragtag'
             Bundle 'tristen/vim-sparkup'
             Bundle 'miripiruni/CSScomb-for-Vim'
             " Publication
-            Bundle 'vim-scripts/loremipsum'
             Bundle 'jcf/vim-latex'
             Bundle 'tpope/vim-abolish'
             " Snippets
-            Bundle 'MarcWeber/vim-addon-mw-utils'
-            Bundle 'tomtom/tlib_vim'
-            Bundle 'garbas/vim-snipmate'
+            Bundle 'SirVer/ultisnips'
             Bundle 'honza/vim-snippets'
         " Utility
         Bundle 'kshenoy/vim-signature'
@@ -50,12 +48,12 @@
         Bundle 'majutsushi/tagbar'
         Bundle 'ervandew/supertab'
         Bundle 'vim-scripts/SrcExpl'
+        Bundle 'vim-scripts/gitignore'
         Bundle 'tpope/vim-repeat'
-        " Bundle 'xolox/vim-notes'
-        " Bundle 'xolox/vim-misc'
         Bundle 'tpope/vim-fugitive'
         Bundle 'vim-scripts/mru.vim'
         Bundle 'terryma/vim-multiple-cursors'
+        Bundle 'christoomey/vim-tmux-navigator'
 """ END PLUGINS }}}
 
 
@@ -89,7 +87,7 @@
         set title                                   " set window title
         set fillchars+=vert:*                       " vertical splits separator
         set laststatus=2                            " always show statusline
-        set mouse=a                                 " mouse in all modes
+        set mouse=nch                              " mouse in all modes
         set list                                    " Show whitespaces
         set listchars=tab:>-,trail:.,extends:>,precedes:<,nbsp:!,conceal:?
         set noerrorbells                            " disable beep
@@ -369,7 +367,6 @@
         nnoremap <leader><S-j> <C-w>J
         nnoremap <leader><S-h> <C-w>H
         nnoremap <leader><S-l> <C-w>L
-        nnoremap <leader>= <C-w>=
         " Better resizing
         nnoremap <C-w>< 20<C-w><
         nnoremap <C-w>> 20<C-w>>
@@ -405,9 +402,11 @@
         " Go to first non-blank char with Home
         noremap <expr> <silent> <Home> col('.') == match(getline('.'),'\S')+1 ? '0' : '^'
         imap <silent> <Home> <C-O><Home>
-        " Quickly edit/source .vimrc
-        noremap <leader>ve :edit ~/.vimrc<CR>
-        noremap <leader>vs :source ~/.vimrc<CR>
+        " Quickly edit/source .vimrc and useful files
+        nnoremap <leader>vv :edit ~/.vimrc<CR>
+        nnoremap <leader>vs :source ~/.vimrc<CR>
+        nnoremap <leader>vz :edit ~/.zshrc<CR>
+        nnoremap <leader>vt :edit ~/.tmux.conf<CR>
         " delete trailing whitespaces
         nnoremap <leader>W my :%s/\s\+$//<cr>:let @/=''<CR>'y
         " Standard remaps
@@ -416,7 +415,7 @@
         inoremap jj <Esc>
         map ; .
         " Select all text
-        nnoremap <leader>vv V`]
+        nnoremap <leader>va V`]
         " We don't need any help!
         inoremap <F1> <ESC>
         nnoremap <F1> <ESC>
@@ -431,10 +430,6 @@
 
     " Motions
         " Move faster
-        map <leader>G <C-d>
-        map <leader>g <C-u>
-        noremap <C-j> <C-d>
-        noremap <C-k> <C-u>
         nnoremap <leader>$ <Home>
         " Break line at cursor position
         noremap Kj <Esc>i<Enter><Esc>
@@ -470,7 +465,7 @@
     nnoremap <silent><leader>/ :QFix<CR>
     nnoremap <silent><leader>! :QFix!<CR>
     command! -bang -nargs=? QFix call QFixToggle(<bang>0)
-    let g:jah_Quickfix_Win_Height = 10
+    let g:jah_Quickfix_Win_Height = 5
     function! QFixToggle(forced)
         if exists("g:qfix_win") && a:forced == 0
             cclose
@@ -631,13 +626,14 @@
     noremap <leader>ru :MRU<CR>
 
     " CtrlP
-    nnoremap <leader>pp :CtrlP<CR>
-    nnoremap <leader>pb :CtrlPBuffer<CR>
-    nnoremap <leader>pm :CtrlPMixed<CR>
+    " nnoremap <leader>pp :CtrlP<CR>
+    " nnoremap <leader>pb :CtrlPBuffer<CR>
+    nnoremap <leader>pp :CtrlPMixed<CR>
 
     " Highlight characters past 80, toggle with <leader>ol
     nnoremap <silent> <leader>ol :call ToggleOverLengthHighlight()<CR>
     nnoremap <silent> <leader>cc :call ToggleColorColumn()<CR>
+    hi OverLength ctermfg=none ctermbg=11 cterm=none
     let g:overlength_enabled = 0
     function! ToggleOverLengthHighlight()
         if g:overlength_enabled == 0
@@ -673,6 +669,7 @@
 
     " Highlight occurences of the word under cursor
     nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
+    hi Occurences ctermfg=none ctermbg=11 cterm=none
     let g:occurences = 0
     function! ToggleOccurences()
             if g:occurences == 0
@@ -757,8 +754,10 @@
 
 """ PLUGINS SETTINGS {{{
     " Omni Completion
-    set completeopt=longest,menuone
+    set completeopt=longest,menuone,preview
     set wildmode=longest,list:longest
+    set omnifunc=syntaxcomplete#Complete
+    set complete=.,w,u,i,]
 
     " Latex-suite
     let g:Tex_CompileRule_pdf = "pdflatex $*"
@@ -766,10 +765,6 @@
     let g:Tex_ViewRule_pdf = "zathura"
     let g:Tex_ViewRuleComplete_pdf = 'zathura $*.pdf &'
     let g:Tex_MultipleCompileFormats = "pdf"
-
-    " Notes
-    " let g:notes_directories = ['~/Documents/Notes']
-    " let g:notes_title_sync = 'rename_file'
 
     " Yankring
     let g:yankring_history_dir = '/home/logan/.vim/plugin'
@@ -787,6 +782,7 @@
     " Autopairs
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+    autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
     let g:AutoPairsShortcutToggle = '<leader>ap'
 
     " Signature
@@ -819,12 +815,9 @@
                      \ "Source_Explorer",
                      \ ]
 
-    " Loremipsum
-    let g:loremipsum_words = 50
-
     " PHP
-    let php_sql_query = 1 "Coloration des requetes SQL
-    let php_htmlInStrings = 1 "Coloration des balises HTML
+    let php_sql_query = 1
+    let php_htmlInStrings = 1
 
     " Matchit
     let b:match_ignorecase = 1
@@ -860,7 +853,7 @@
 
     " EasyMotion
     let g:EasyMotion_leader_key = '<Leader><Leader>'
-    let g:EasyMotion_keys = 'BCDEFGHIJKLMNOPQRSTUVWXYZ'
+    let g:EasyMotion_keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     let g:EasyMotion_smartcase = 1
     let g:EasyMotion_enter_jump_first = 1
     let g:EasyMotion_space_jump_first = 1
@@ -869,10 +862,6 @@
     hi EasyMotionTarget2First cterm=bold ctermfg=white ctermbg=14
     hi EasyMotionTarget2Second cterm=bold ctermfg=white ctermbg=14
     hi EasyMotionShade cterm=none ctermfg=white ctermbg=10
-
-    " tComment
-    let g:tcommentBlankLines = 0
-    let g:tcommentModeExtra = ">>"
 
     " CtrlP
     let g:ctrlp_working_path_mode = 'ra'
@@ -893,6 +882,24 @@
         \ 'mode': 'passive',
         \ 'active_filetypes':
             \ ['c', 'php', 'cpp', 'haskell', 'ruby', 'javascript', 'perl', 'python', 'sh'] }
+
+    " AutoComplPop
+    let g:acp_behaviorKeywordLength = 4
+    let g:acp_behaviorKeywordIgnores = ["get","if","while","for","unless","until","rescue","main","iostream","files"]
+    let g:acp_completeOption = '.,w,u,i,]'
+    let g:acp_behaviorKeywordCommand = "\<C-p>"
+    let g:acp_behaviorFileLength = 4
+    let g:acp_behaviorRubyOmniMethodLength = 3
+    let g:acp_behaviorRubyOmniSymbolLength = 3
+    let g:acp_behaviorHtmlOmniLength = 4
+    let g:acp_behaviorCssOmniPropertyLength = 3
+    let g:acp_behaviorCssOmniValueLength = 2
+
+    " UltiSnips
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsListSnippets="<c-b>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 """ END PLUGINS SETTINGS }}}
 
 
