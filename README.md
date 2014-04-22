@@ -6,7 +6,7 @@ sharing purposes.
 You can contact me at <braga dot logan at gmail dot com> if you need anything.
 
 At the time of the current commit, I am using:
-BSPWM
+BSPWM / XMonad
 Bar + dzen2
 mocha theme
 
