@@ -51,6 +51,7 @@
         Bundle 'vim-scripts/gitignore'
         Bundle 'tpope/vim-repeat'
         Bundle 'tpope/vim-fugitive'
+        Bundle 'svermeulen/vim-easyclip'
         Bundle 'vim-scripts/mru.vim'
         Bundle 'terryma/vim-multiple-cursors'
         Bundle 'christoomey/vim-tmux-navigator'
@@ -193,6 +194,33 @@
                 endif
         endfunction
 
+    "  Tabline
+    function! MyTabLine()
+        let s = ''
+        for i in range(tabpagenr('$'))
+            let tabnr = i + 1 " range() starts at 0
+            let winnr = tabpagewinnr(tabnr)
+            let buflist = tabpagebuflist(tabnr)
+            let bufnr = buflist[winnr - 1]
+            let bufname = fnamemodify(bufname(bufnr), ':t')
+
+            let s .= '%' . tabnr . 'T'
+            let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+            let s .= ' ' . tabnr
+
+            let n = tabpagewinnr(tabnr,'$')
+            if n > 1 | let s .= ':' . n | endif
+
+            let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
+
+            let bufmodified = getbufvar(bufnr, "&mod")
+            if bufmodified | let s .= '+ ' | endif
+        endfor
+        let s .= '%#TabLineFill#'
+        return s
+    endfunction
+    set tabline=%!MyTabLine()
+
     " Wrapping & folding
         set nowrap                                  " don't wrap lines
         set sidescrolloff=5
@@ -246,7 +274,7 @@
 
         " Filetype specific indentation & compilation
         autocmd FileType asciidoc                set nocindent noautoindent
-        autocmd FileType ruby                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType ruby,eruby             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
         autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
         autocmd FileType cpp                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
         autocmd FileType c,cpp                   setlocal comments -=:// comments +=f://
@@ -267,23 +295,24 @@
         " Make & view for c & c++ & hs
         autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
         autocmd FileType cpp nnoremap <leader>mkv :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
+        autocmd FileType cpp nnoremap <leader>gtk :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' `pkg-config gtkmm-2.4 --cflags --libs`'<CR>
         autocmd FileType haskell nnoremap <leader>mkv :w <bar> exec '!ghc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
 
         " Filetype auto detection when editing a file without extension
-        augroup newFileDetection
-            autocmd CursorMovedI * call CheckFileType()
-        augroup END
-        function! CheckFileType()
-            if exists("b:countCheck") == 0
-                let b:countCheck = 0
-            endif
-            let b:countCheck += 1
-            if &filetype == "" && b:countCheck > 20 && b:countCheck < 200
-                filetype detect
-            elseif b:countCheck >=200 || &filetype != ""
-                autocmd! newFileDetection
-            endif
-        endfunction
+        " augroup newFileDetection
+        "     autocmd CursorMovedI * call CheckFileType()
+        " augroup END
+        " function! CheckFileType()
+        "     if exists("b:countCheck") == 0
+        "         let b:countCheck = 0
+        "     endif
+        "     let b:countCheck += 1
+        "     if &filetype == "" && b:countCheck > 20 && b:countCheck < 200
+        "         filetype detect
+        "     elseif b:countCheck >=200 || &filetype != ""
+        "         autocmd! newFileDetection
+        "     endif
+        " endfunction
 
     " Searching
         set incsearch                               " live-search
@@ -304,19 +333,19 @@
     " Backup & storage
         set autochdir                               " always use current directory
         set autoread                                " refresh if changed
-        set backup                                  " backup current file
-        set backupdir=/tmp                          " backup directory
-        set backupext=.vimbackup                  " append ~ to backups
-        set backupskip="/tmp/*,/var/tmp/*"
-        set patchmode=
-        set undofile                                " store undos
-        set undodir=/tmp                            " undo directory
-        set backupcopy=auto
         set confirm                                 " confirm changed files
         set noautowrite                             " never autowrite files
+        set backup                                  " backup current file
+        set backupcopy=auto
+        set backupdir=~/.vim/backup//               " backup directory
+        set backupext=.vimbackup                    " append ~ to backups
+        set backupskip="/tmp/*,/var/tmp/*"
+        set undofile                                " store undos
+        set undodir=~/.vim/undo//                   " undo directory
         set swapfile                                " make swap files
-        set updatecount=100
-        set dir=/tmp                                " store everything
+        set dir=~/.vim/swap//                       " store everything
+        set updatecount=200
+        set patchmode=
         " Save folds upon exit
         autocmd BufWinLeave *.* mkview
         autocmd BufWinEnter *.* silent loadview
@@ -416,6 +445,11 @@
         map ; .
         " Select all text
         nnoremap <leader>va V`]
+        "drag visual block
+        vnoremap <S-K> xkP`[V`]
+        vnoremap <S-J> xp`[V`]
+        vnoremap <S-L> >gv
+        vnoremap <S-H> <gv
         " We don't need any help!
         inoremap <F1> <ESC>
         nnoremap <F1> <ESC>
@@ -532,6 +566,13 @@
     " Signature
     nnoremap <F7> :SignatureToggle<CR>
     inoremap <F7> <ESC>:SignatureToggle<CR>a
+
+    " EasyClip
+    nmap dx <Plug>MoveMotionLinePlug
+    xmap dx <Plug>MoveMotionXPlug
+    nmap <silent> gs <plug>SubstituteOverMotionMap
+    nmap gss <plug>SubstituteLine
+    xmap gs <plug>XEasyClipPaste
 
     " CSS Comb
     nnoremap <leader>csc :call CSSCombSecure()<CR>
@@ -863,6 +904,11 @@
     hi EasyMotionTarget2Second cterm=bold ctermfg=white ctermbg=14
     hi EasyMotionShade cterm=none ctermfg=white ctermbg=10
 
+    " Indent-guide
+    let g:indent_guides_auto_colors = 0
+    hi IndentGuidesOdd   ctermbg=0
+    hi IndentGuidesEven  ctermbg=8
+
     " CtrlP
     let g:ctrlp_working_path_mode = 'ra'
     let g:ctrlp_switch_buffer = 1
@@ -878,22 +924,36 @@
     let g:syntastic_check_on_wq=1
     let g:syntastic_cpp_check_header = 1
     let g:syntastic_cpp_compiler_options = ' -std=c++0x'
+    let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+    let g:syntastic_html_checkers = ['tidy', 'validator']
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
             \ ['c', 'php', 'cpp', 'haskell', 'ruby', 'javascript', 'perl', 'python', 'sh'] }
 
     " AutoComplPop
-    let g:acp_behaviorKeywordLength = 4
+    let g:acp_behaviorKeywordLength = 5
     let g:acp_behaviorKeywordIgnores = ["get","if","while","for","unless","until","rescue","main","iostream","files"]
-    let g:acp_completeOption = '.,w,u,i,]'
+    let g:acp_completeOption = '.,w, b, k, u,i,]'
     let g:acp_behaviorKeywordCommand = "\<C-p>"
     let g:acp_behaviorFileLength = 4
-    let g:acp_behaviorRubyOmniMethodLength = 3
-    let g:acp_behaviorRubyOmniSymbolLength = 3
+    let g:acp_behaviorRubyOmniMethodLength = 4
+    let g:acp_behaviorRubyOmniSymbolLength = 4
     let g:acp_behaviorHtmlOmniLength = 4
     let g:acp_behaviorCssOmniPropertyLength = 3
-    let g:acp_behaviorCssOmniValueLength = 2
+    let g:acp_behaviorCssOmniValueLength = 3
+
+    " Supertab
+    let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+
+    " EasyClip
+    let g:EasyClipAutoFormat = 1
+    let g:EasyClipYankHistorySize = 100
+    let g:EasyClipAlwaysMoveCursorToEndOfPaste = 1
+    let g:EasyClipDoSystemSync = 1
+    let g:EasyClipUseCutDefaults = 0
+    let g:EasyClipUsePasteToggleDefaults = 0
+    let g:EasyClipUseYankDefaults = 0
 
     " UltiSnips
     let g:UltiSnipsExpandTrigger="<tab>"
