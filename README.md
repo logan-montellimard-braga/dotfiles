@@ -3,7 +3,7 @@ I stole some, made some from scratch or just modded others.
 Feel free to do whatever you want to do with it, I just git them as backup and
 sharing purposes.
 
-You can contact me at <braga dot logan at gmail dot com> if you need anything.
+You can contact me at <contact@loganbraga.fr> if you need anything.
 
 At the time of the current commit, I am using:
 BSPWM / XMonad
