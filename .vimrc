@@ -1,122 +1,139 @@
+" -----------------------------------------------------------------------------
+" | Author : Logan BRAGA                                                      |
+" |          <contact@loganbraga.fr>                                          |
+" |          <loganbraga.fr>                                                  |
+" |                                                                           |
+" | No claim, I just took and mixed some config stuffs, made other.           |
+" | Do What The Fuck You Want To Public Licence.                              |
+" -----------------------------------------------------------------------------
+
+
 """"" VIM CONFIGURATION FILE {{{{{
 """ INITIALISATION {{{
-    filetype off                                    " required to init
-    set rtp+=~/.vim/ftplugin/
-    set rtp+=~/.vim/bundle/vundle/
-    call vundle#rc()
+    filetype off                   " required to init
+    set rtp+=~/.vim/ftplugin/      " Add filetype plugins
+    set rtp+=~/.vim/bundle/vundle/ " Let vundle manage itself
+    call vundle#rc()               " Call vundle
 """ END INITIALISATION }}}
 
 
 """ PLUGINS {{{
     Bundle 'gmarik/vundle'
         " Files & navigation
-        Bundle 'kien/ctrlp.vim'
-        Bundle 'scrooloose/nerdtree'
-        Bundle 'fholgado/minibufexpl.vim'
-        Bundle 'mileszs/ack.vim'
-        Bundle 'Lokaltog/vim-easymotion'
+            Bundle 'kien/ctrlp.vim'
+            Bundle 'scrooloose/nerdtree'
+            Bundle 'fholgado/minibufexpl.vim'
+            Bundle 'vim-scripts/mru.vim'
+            Bundle 'mileszs/ack.vim'
+            Bundle 'Lokaltog/vim-easymotion'
+            Bundle 'tommcdo/vim-exchange'
+            Bundle 'qstrahl/vim-dentures'
+            Bundle 'tpope/vim-surround'
         " Languages helpers
-        Bundle 'scrooloose/syntastic'
-        Bundle 'nathanaelkane/vim-indent-guides'
-        Bundle 'tpope/vim-commentary'
-        Bundle 'tpope/vim-endwise'
-        Bundle 'godlygeek/tabular'
-        Bundle 'tsaleh/vim-matchit'
-        Bundle 'vim-scripts/Auto-Pairs'
-        Bundle 'vim-scripts/Align'
-        Bundle 'vim-scripts/AutoComplPop'
+            Bundle 'scrooloose/syntastic'
+            Bundle 'nathanaelkane/vim-indent-guides'
+            Bundle 'tpope/vim-commentary'
+            Bundle 'tpope/vim-endwise'
+            Bundle 'godlygeek/tabular'
+            Bundle 'tsaleh/vim-matchit'
+            Bundle 'vim-scripts/Auto-Pairs'
+            Bundle 'vim-scripts/Align'
+            Bundle 'vim-scripts/AutoComplPop'
             " Web developpment
-            Bundle 'tpope/vim-ragtag'
-            Bundle 'tristen/vim-sparkup'
-            Bundle 'miripiruni/CSScomb-for-Vim'
+                Bundle 'tpope/vim-rails'
+                Bundle 'KurtPreston/vim-autoformat-rails'
+                Bundle 'tpope/vim-bundler'
+                Bundle 'tpope/vim-haml'
+                Bundle 'kchmck/vim-coffee-script'
+                Bundle 'tpope/vim-ragtag'
+                Bundle 'tristen/vim-sparkup'
+                Bundle 'miripiruni/CSScomb-for-Vim'
             " Publication
-            Bundle 'jcf/vim-latex'
-            Bundle 'tpope/vim-abolish'
+                Bundle 'jcf/vim-latex'
+                Bundle 'tpope/vim-abolish'
             " Snippets
-            Bundle 'SirVer/ultisnips'
-            Bundle 'honza/vim-snippets'
+                Bundle 'SirVer/ultisnips'
+                Bundle 'honza/vim-snippets'
         " Utility
-        Bundle 'kshenoy/vim-signature'
-        Bundle 'tpope/vim-dispatch'
-        Bundle 'mattn/gist-vim'
-        Bundle 'mattn/webapi-vim'
-        Bundle 'sjl/gundo.vim'
-        Bundle 'vim-scripts/YankRing.vim'
-        Bundle 'chrisbra/NrrwRgn'
-        Bundle 'tpope/vim-surround'
-        Bundle 'tpope/vim-unimpaired'
-        Bundle 'majutsushi/tagbar'
-        Bundle 'ervandew/supertab'
-        Bundle 'vim-scripts/SrcExpl'
-        Bundle 'vim-scripts/gitignore'
-        Bundle 'tpope/vim-repeat'
-        Bundle 'tpope/vim-fugitive'
-        Bundle 'svermeulen/vim-easyclip'
-        Bundle 'vim-scripts/mru.vim'
-        Bundle 'terryma/vim-multiple-cursors'
-        Bundle 'christoomey/vim-tmux-navigator'
+            Bundle 'sjl/gundo.vim'
+            Bundle 'vim-scripts/YankRing.vim'
+            Bundle 'tpope/vim-unimpaired'
+            Bundle 'ervandew/supertab'
+            Bundle 'tpope/vim-repeat'
+            Bundle 'svermeulen/vim-easyclip'
+            " Git & Gist
+                Bundle 'mattn/gist-vim'
+                Bundle 'mattn/webapi-vim'
+                Bundle 'vim-scripts/gitignore'
+                Bundle 'tpope/vim-fugitive'
+            " Code analysys
+                Bundle 'chrisbra/NrrwRgn'
+                Bundle 'majutsushi/tagbar'
+                Bundle 'vim-scripts/SrcExpl'
+            " User-interface
+                Bundle 'kshenoy/vim-signature'
+                Bundle 'christoomey/vim-tmux-navigator'
+                Bundle 'tpope/vim-dispatch'
 """ END PLUGINS }}}
 
 
 """ OPTIONS {{{
-    filetype indent plugin on                      " enable ft+plugin detect
-    set viminfo='100,f1                             " save folds upon exit
+    filetype indent plugin on " enable ft+plugin detect
+    set viminfo='100,f1       " save folds upon exit
     " Interface
-        set nocompatible                            " don't vi-compatible
-        set noshowmode                              " don't show mode
-        set shortmess=aTs
-        set termencoding=utf-8
-        set cmdheight=1
-        set nolinebreak
-        set showbreak=\»\                          " display an arrow in front of wrapped lines
-        set nopaste                                 " disable paste mode by default
-        set colorcolumn=
-        set noexrc                                  " don't use other .*rc(s)
-        syntax on                                   " syntax highlighting
-        set t_Co=256                                " 256-colors
-        colors base16-mocha                             " select colorscheme
-        set ttymouse=xterm2                         " Currently being tested
-        set background=dark                         " dark background
-        set cursorline                              " hilight cursor line
-        set more                                    " use more as a pager
-        set number                                  " show line numbers
-        set ruler
-        set relativenumber                          " use line numbers from the current line
-        set numberwidth=5                           " number of line numbers to show
-        set scrolloff=3                             " lines above/below cursor
-        set showcmd                                 " show cmds being typed
-        set title                                   " set window title
-        set fillchars+=vert:*                       " vertical splits separator
-        set laststatus=2                            " always show statusline
-        set mouse=nch                              " mouse in all modes
-        set list                                    " Show whitespaces
-        set listchars=tab:>-,trail:.,extends:>,precedes:<,nbsp:!,conceal:?
-        set noerrorbells                            " disable beep
-        set novisualbell                            " disable flashing
+        set nocompatible                                                   " don't vi-compatible
+        set noshowmode                                                     " don't show mode
+        set shortmess=aTs                                                  " Shorten error messages
+        set termencoding=utf-8                                             " Work with URXVT
+        set cmdheight=1                                                    " Command zone is 1-line high
+        set nolinebreak                                                    " Don't auto break lines
+        set showbreak=\...\                                                " display a sign in front of wrapped lines
+        set nopaste                                                        " disable paste mode by default
+        set colorcolumn=                                                   " Cursor column not set by default
+        set noexrc                                                         " don't use other .*rc(s)
+        syntax on                                                          " syntax highlighting
+        set t_Co=256                                                       " 256-colors
+        colors base16-mocha                                                " select colorscheme
+        set ttymouse=xterm2                                                " Currently being tested
+        set background=dark                                                " dark background
+        set cursorline                                                     " hilight cursor line
+        set more                                                           " use more as a pager
+        set number                                                         " show line numbers
+        set ruler                                                          " Vertical line cursor
+        set relativenumber                                                 " use line numbers from the current line
+        set numberwidth=5                                                  " number of line numbers to show
+        set scrolloff=3                                                    " lines above/below cursor
+        set showcmd                                                        " show cmds being typed
+        set title                                                          " set window title
+        set fillchars+=vert:*                                              " vertical splits separator
+        set laststatus=2                                                   " always show statusline
+        set mouse=nch                                                      " mouse
+        set list                                                           " Show whitespaces
+        set listchars=tab:>-,trail:.,extends:>,precedes:<,nbsp:!,conceal:? " How to show whitespaces
+        set noerrorbells                                                   " disable beep
+        set novisualbell                                                   " disable flashing
 
     " Statusline
         function! SetStatus()
-            setl statusline+=%1*\ %<%.50f%* " tail of the filename
-            setl statusline+=%1*%m%*   " modified flag
-            setl statusline+=%1*%h%*   " help file flag
-            setl statusline+=%1*%r%*   " read only flag
-            setl statusline+=\ [%{FileSize()}] " get size of the current file
-            setl statusline+=%1*%y%*      "filetype
-            " setl statusline+=[%{strlen(&fenc)?&fenc:'none'}%1*,%* "file encoding
-            " setl statusline+=%{&ff}]
-            setl statusline+=%{Encoding()}
-            setl statusline+=\ %1*%{fugitive#statusline()}%*
-            setl statusline+=%=      "left/right separator
-            setl statusline+=[¶:%1*%{WS_Show()}%*
-            setl statusline+=\ ✔:%1*%{Spell_Show()}%*
-            setl statusline+=\ ☱:%1*%{Foldmethod_Show()}%*]
-            setl statusline+=\ [➔:%1*%{Tabs_Show()}%*
-            setl statusline+=\ ⌘:%1*%{Tabs_Info()}%*]
-            " setl statusline+=1*[%*ASCII:%1*%03.3b,%*HEX:%1*\%02.2B]\ \ \ \ %*
-            setl statusline+=\ \ %c%1*,%*      "cursor column
-            setl statusline+=%l%1*/%L\ \ %*    "cursor line/total lines
-            setl statusline+=%p%%\    "percent through file
+            setl statusline+=%1*\ %<%.50f%*                  " tail of the filename
+            setl statusline+=%1*%m%*                         " modified flag
+            setl statusline+=%1*%h%*                         " help file flag
+            setl statusline+=%1*%r%*                         " read only flag
+            setl statusline+=\ [%{FileSize()}]               " get size of the current file
+            setl statusline+=%1*%y%*                         " filetype
+            setl statusline+=%{Encoding()}                   " encoding
+            setl statusline+=\ %1*%{fugitive#statusline()}%* " git integration
+            setl statusline+=%=                              " left/right separator
+            setl statusline+=[¶:%1*%{WS_Show()}%*            " show whitespace showing mode " 
+            setl statusline+=\ ✔:%1*%{Spell_Show()}%*        " spellcheck infos
+            setl statusline+=\ ☱:%1*%{Foldmethod_Show()}%*]  " foldmethod infos
+            setl statusline+=\ [➔:%1*%{Tabs_Show()}%*        " tabs showing status
+            setl statusline+=\ ⌘:%1*%{Tabs_Info()}%*]        " tabs infos
+            setl statusline+=\ \ %c%1*,%*                    " cursor column
+            setl statusline+=%l%1*/%L\ \ %*                  " cursor line/total lines
+            setl statusline+=%p%%\                           " percent through file
         endfunction
+
         " Update when switching mode
         function! SetStatusInsertMode(mode)
             setl statusline=%*
@@ -137,11 +154,13 @@
         au InsertEnter  * call SetStatusInsertMode(v:insertmode)
         au InsertLeave  * call SetStatusInsertMode('normal')
         au BufEnter     * call SetStatusInsertMode('normal')
+
         function! SetStatusLeaveBuffer()
             setl statusline=""
             call SetStatus()
         endfunction
         au BufLeave * call SetStatusLeaveBuffer()
+
         " Statusline functions
         function! WS_Show()
             if (&list)
@@ -150,15 +169,18 @@
                 return "off"
             endif
         endfunction
+
         function! Foldmethod_Show()
             return  &foldmethod
         endfunction
+
         function! Spell_Show()
             if (&spell == 0)
                 return  "off"
             else
                 return "on(" . &spelllang . ")"
         endfunction
+
         function! Tabs_Show()
             if &expandtab
                 return "off"
@@ -166,9 +188,11 @@
                 return "on"
             endif
         endfunction
+
         function! Tabs_Info()
             return &shiftwidth . &softtabstop . &tabstop
         endfunction
+
         function! Encoding()
             if (&fileencoding == "utf-8") && (&ff == "unix")
                 return "[✔]"
@@ -182,6 +206,7 @@
                 return "[" . &fileencoding . "," . &ff . "]"
             endif
         endfunction
+
         function! FileSize()
                 let bytes = getfsize(expand("%:p"))
                 if bytes <= 0
@@ -203,16 +228,12 @@
             let buflist = tabpagebuflist(tabnr)
             let bufnr = buflist[winnr - 1]
             let bufname = fnamemodify(bufname(bufnr), ':t')
-
             let s .= '%' . tabnr . 'T'
             let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
             let s .= ' ' . tabnr
-
             let n = tabpagewinnr(tabnr,'$')
             if n > 1 | let s .= ':' . n | endif
-
             let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
-
             let bufmodified = getbufvar(bufnr, "&mod")
             if bufmodified | let s .= '+ ' | endif
         endfor
@@ -222,17 +243,18 @@
     set tabline=%!MyTabLine()
 
     " Wrapping & folding
-        set nowrap                                  " don't wrap lines
-        set sidescrolloff=5
-        set foldcolumn=0                            " hide folding column
-        set foldmethod=indent                       " folds using indent
-        set foldnestmax=10                          " max 10 nested folds
-        set foldlevelstart=99                       " folds open by default
-        set textwidth=80
-        set formatoptions+=aw
-        set wrapmargin=2
-        set nojoinspaces
-        set foldtext=NeatFoldText()
+        set nowrap                  " don't wrap lines
+        set sidescrolloff=5         " move UI focus when approaching edge of screen
+        set foldcolumn=0            " hide folding column
+        set foldmethod=indent       " folds using indent
+        set foldnestmax=10          " max 10 nested folds
+        set foldlevelstart=99       " folds open by default
+        set textwidth=80            " lines should be 80-char long
+        set formatoptions+=lwcroqnj " auto format
+        set formatoptions-=t        " auto format : don't format text
+        set wrapmargin=2            " 2 chars border for wrapping
+        set nojoinspaces            " don't duplicate spaces when joining
+        set foldtext=NeatFoldText() " custom folding bar
         function! NeatFoldText()
             let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
             let lines_count = v:foldend - v:foldstart + 1
@@ -245,38 +267,38 @@
         endfunction
 
     " Files & buffers
-        set hidden                                  " buffer change silent
-        set equalalways
-        set lazyredraw
-        set history=1000                            " Number of history actions to keep
-        set undolevels=1000                         " Number of undos to keep
-        au BufRead,BufNewFile *.txt set ft=sh       " opens .txt with highlight
+        set hidden                            " buffer change silent
+        set equalalways                       " same-sized splits
+        set lazyredraw                        " don't redraw every second
+        set history=1000                      " Number of history actions to keep
+        set undolevels=1000                   " Number of undos to keep
+        au BufRead,BufNewFile *.txt set ft=sh " opens .txt with highlight
         set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~
 
     " Editing
-        set spelllang=fr
-        set nospell
-        set nostartofline                           " no goto #1 char in line
-        set iskeyword+=$,@,%,#,-                    " not word dividers
-        set backspace=indent,eol,start              " smart backspace
-        set nrformats+=alpha                        " incr/decr letters C-a/-x
+        set spelllang=fr               " Frenchie here
+        set nospell                    " don't autocorrect by default
+        set nostartofline              " no goto #1 char in line
+        set iskeyword+=$,@,%,#,-,_     " not word dividers
+        set backspace=indent,eol,start " smart backspace
+        set nrformats+=alpha           " incr/decr letters C-a/-x
 
     " Indentation
-        set expandtab                               " no real tabs
-        set shiftround                              " be clever with tabs
-        set shiftwidth=4                            " tabs width
-        set smarttab                                " tab to 0,4,8 etc.
-        set softtabstop=4                           " tab feels like <tab>
-        set tabstop=4                               " replace <TAB> w/4 spaces
-        set autoindent                              " preserve indentation
-        set copyindent                              " copy the previous indentation
+        set expandtab     " no real tabs
+        set shiftround    " be clever with tabs
+        set shiftwidth=4  " tabs width
+        set smarttab      " tab to 0,4,8 etc.
+        set softtabstop=4 " tab feels like <tab>
+        set tabstop=4     " replace <TAB> w/4 spaces
+        set autoindent    " preserve indentation
+        set copyindent    " copy the previous indentation
         set cindent
 
         " Filetype specific indentation & compilation
         autocmd FileType asciidoc                set nocindent noautoindent
-        autocmd FileType ruby,eruby             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType ruby,eruby              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
         autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-        autocmd FileType cpp                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
+        autocmd FileType cpp                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=g++\ %\ -o\ %:t:r
         autocmd FileType c,cpp                   setlocal comments -=:// comments +=f://
         autocmd FileType vhdl                    set shiftwidth=2 softtabstop=2 tabstop=2
         autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
@@ -287,73 +309,63 @@
         autocmd FileType lua                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
         autocmd FileType c                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
         autocmd FileType php                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
-        autocmd FileType html,xhtml,htm,xml      set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
-        autocmd FileType scss,sass               set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=sass\ %\ %:t:r.css
-        autocmd FileType coffee                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=coffee\ -c\ %
-        autocmd FileType javascript,arduino,css  set shiftwidth=4 softtabstop=4 tabstop=4
+        autocmd FileType html,xhtml,htm,xml,css  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
+        autocmd FileType haml                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=haml\ %\ %:t:r.html
+        autocmd FileType scss,sass               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=sass\ %\ %:t:r.css
+        autocmd FileType less                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
+        autocmd FileType coffee                  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
+        autocmd BufNewFile,BufReadPost *.coffee  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
+        autocmd FileType javascript,arduino      set shiftwidth=2 softtabstop=2 tabstop=2
         autocmd FileType make                    set local noexpandtab
+
         " Make & view for c & c++ & hs
         autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
         autocmd FileType cpp nnoremap <leader>mkv :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
         autocmd FileType cpp nnoremap <leader>gtk :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' `pkg-config gtkmm-2.4 --cflags --libs`'<CR>
         autocmd FileType haskell nnoremap <leader>mkv :w <bar> exec '!ghc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
 
-        " Filetype auto detection when editing a file without extension
-        " augroup newFileDetection
-        "     autocmd CursorMovedI * call CheckFileType()
-        " augroup END
-        " function! CheckFileType()
-        "     if exists("b:countCheck") == 0
-        "         let b:countCheck = 0
-        "     endif
-        "     let b:countCheck += 1
-        "     if &filetype == "" && b:countCheck > 20 && b:countCheck < 200
-        "         filetype detect
-        "     elseif b:countCheck >=200 || &filetype != ""
-        "         autocmd! newFileDetection
-        "     endif
-        " endfunction
-
     " Searching
-        set incsearch                               " live-search
-        set hlsearch                                " highlight search
-        set magic
-        set ignorecase                              " case insensitive search
-        set smartcase                               " ignore case, except if explicitely capitals
-        set matchtime=2                             " time to blink match {}
-        set matchpairs+=<:>                         " for ci< or ci>
-        set showmatch                               " tmpjump to match-bracket
-        set matchtime=2
-        set grepprg=ack\ -H\ --nocolor\ --nogroup\ --column
+        set incsearch                                       " live-search
+        set hlsearch                                        " highlight search
+        set magic                                           " It's magic
+        set ignorecase                                      " case insensitive search
+        set smartcase                                       " ignore case, except if explicitely capitals
+        set matchtime=2                                     " time to blink match {}
+        set matchpairs+=<:>                                 " for ci< or ci>
+        set showmatch                                       " tmpjump to match-bracket
+        set matchtime=2                                     " Don't blink too much when matching structures
+        set grepprg=ack\ -H\ --nocolor\ --nogroup\ --column " Ack is the new grep
+        " Save cursor position
         autocmd BufReadPost *
             \ if line("'\"") > 0 && line("'\"") <= line("$") |
             \     exe "normal! g`\"" |
             \ endif
 
     " Backup & storage
-        set autochdir                               " always use current directory
-        set autoread                                " refresh if changed
-        set confirm                                 " confirm changed files
-        set noautowrite                             " never autowrite files
-        set backup                                  " backup current file
-        set backupcopy=auto
-        set backupdir=~/.vim/backup//               " backup directory
-        set backupext=.vimbackup                    " append ~ to backups
-        set backupskip="/tmp/*,/var/tmp/*"
-        set undofile                                " store undos
-        set undodir=~/.vim/undo//                   " undo directory
-        set swapfile                                " make swap files
-        set dir=~/.vim/swap//                       " store everything
-        set updatecount=200
-        set patchmode=
+        set autochdir                 " always use current directory
+        set autoread                  " refresh if changed
+        set confirm                   " confirm changed files
+        set noautowrite               " never autowrite files
+        set backup                    " backup current file
+        set backupcopy=auto           " Optimize backup time
+        set backupdir=~/.vim/backup// " backup directory
+        set backupskip="/tmp/*,/var/tmp/*" " Don't backup for these files
+        set backupext=.vimbackup      " append ~ to backups
+        set undofile                  " store undos
+        set undodir=~/.vim/undo//     " undo directory
+        set swapfile                  " make swap files
+        set dir=/tmp//                " store everything
+        set updatecount=200           " Swap file after X chars changed
+        set patchmode=                " No origin file
+
         " Save folds upon exit
-        autocmd BufWinLeave *.* mkview
-        autocmd BufWinEnter *.* silent loadview
+        " autocmd BufWinLeave *.* mkview
+        " autocmd BufWinEnter *.* silent loadview
 """ }}} END OPTIONS
 
 
 """ KEYMAPS {{{
-    let mapleader=","                               " change leader key
+    let mapleader=","
 
     " Buffers & windows
         " New buffer
@@ -376,8 +388,8 @@
         nmap <leader>s<right>  :rightbelow vnew<CR>
         nmap <leader>s<up>     :leftabove  new<CR>
         nmap <leader>s<down>   :rightbelow new<CR>
-        nnoremap <leader>sv <C-w>v<C-w>l             " vertical
-        nnoremap <leader>sh <C-w>s<C-w>l             " horizontal
+        nnoremap <leader>sv <C-w>v<C-w>l
+        nnoremap <leader>sh <C-w>s<C-w>l
         " Easy window navigation
         map <leader>h <C-w>h
         map <leader>j <C-w>j
@@ -416,11 +428,6 @@
         " Copy to system clipboard
         vnoremap <leader>yy "*y
         vnoremap <leader>yc "+y
-        " Gist access
-        nnoremap <leader>gi :Gist<CR>
-        vnoremap <leader>gi :Gist<CR>
-        nnoremap <leader>gpi :Gist -p<CR>
-        nnoremap <leader>ggi :Gist -l<CR>
         " General compilation
         nnoremap <leader>ma :Make<CR>
         nnoremap <leader>!ma :Make!<CR>
@@ -443,6 +450,10 @@
         inoremap ;; <Esc>
         inoremap jj <Esc>
         map ; .
+        " Run rspec
+        nnoremap <leader>spc :Dispatch rspec --drb<CR>
+        " Redraw
+        nnoremap <leader>rd :redraw!<CR>
         " Select all text
         nnoremap <leader>va V`]
         "drag visual block
@@ -475,10 +486,10 @@
         nnoremap j gj
         nnoremap k gk
         " Learn to use hjkl instead of arrows
-        nnoremap <up> <nop>
-        nnoremap <down> <nop>
-        nnoremap <left> <nop>
-        nnoremap <right> <nop>
+        " nnoremap <up> <nop>
+        " nnoremap <down> <nop>
+        " nnoremap <left> <nop>
+        " nnoremap <right> <nop>
         " Move a line of text using ,m{j,k}
         nmap <leader>mj mz:m+<CR>
         nmap <leader>mk mz:m-2<CR>
@@ -523,6 +534,12 @@
             set background=light
         endif
     endfunction
+
+    " Gist
+    nnoremap <leader>gi :Gist<CR>
+    vnoremap <leader>gi :Gist<CR>
+    nnoremap <leader>gpi :Gist -p<CR>
+    nnoremap <leader>ggi :Gist -l<CR>
 
     " Syntastic
     nnoremap <silent><F1> :call ToggleSyntasticCheck()<CR>
@@ -667,8 +684,6 @@
     noremap <leader>ru :MRU<CR>
 
     " CtrlP
-    " nnoremap <leader>pp :CtrlP<CR>
-    " nnoremap <leader>pb :CtrlPBuffer<CR>
     nnoremap <leader>pp :CtrlPMixed<CR>
 
     " Highlight characters past 80, toggle with <leader>ol
@@ -702,7 +717,7 @@
     noremap <leader>fo :call ToggleFormat()<CR>
     function! ToggleFormat()
         if &formatoptions == ""
-            set formatoptions+=aw
+            set formatoptions+=lwcroqnj
         else
             set formatoptions=
         endif
@@ -824,6 +839,9 @@
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
+    autocmd FileType eruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|', '<%':'%>', '<%=':'%>'}
+    autocmd FileType haml let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+    autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"'"}
     let g:AutoPairsShortcutToggle = '<leader>ap'
 
     " Signature
@@ -877,10 +895,6 @@
     let g:MRU_Auto_Close = 1
     let g:MRU_Use_Current_Window = 1
 
-    " Multiple Cursors
-    highlight multiple_cursors_cursor cterm=bold ctermfg=none ctermbg=black
-    highlight multiple_cursors_visual cterm=bold ctermfg=red ctermbg=black
-
     " NERDTree
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeWinSize = 30
@@ -888,7 +902,7 @@
     let g:NERDTreeHighlightCursorline = 1
     let g:NERDTreeQuitOnOpen = 1
     let g:NERDTreeShowLineNumbers = 1
-    let g:NERDTreeMinimalUI = 1
+    let g:NERDTreeMinimalUI = 0
     let g:NERDTreeIgnore=['\.vim$', '\~$', '\.out$']
     let g:NERDTreeSortOrder=['\/$', '\.rb$', '\.cpp', '\.php$', '\.hs', '*', '\.swp$', '\.bak$', '\~$']
 
@@ -929,7 +943,7 @@
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes':
-            \ ['c', 'php', 'cpp', 'haskell', 'ruby', 'javascript', 'perl', 'python', 'sh'] }
+            \ ['c', 'php', 'cpp', 'haskell', 'javascript', 'perl', 'python', 'sh'] }
 
     " AutoComplPop
     let g:acp_behaviorKeywordLength = 5
@@ -942,6 +956,11 @@
     let g:acp_behaviorHtmlOmniLength = 4
     let g:acp_behaviorCssOmniPropertyLength = 3
     let g:acp_behaviorCssOmniValueLength = 3
+
+    " Coffeescript
+    let coffee_compile_vert = 1
+    let coffee_watch_vert = 1
+    let coffee_run_vert = 1
 
     " Supertab
     let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
@@ -963,10 +982,4 @@
 """ END PLUGINS SETTINGS }}}
 
 
-""" MISC {{{
-    " Use ~/.vimrc.local if exists
-    if filereadable($HOME."/.vimrc.local")
-        source $HOME/.vimrc.local
-    endif
-""" END MISC }}}}}
 """"" END VIM CONFIGURATION FILE {{{{{
