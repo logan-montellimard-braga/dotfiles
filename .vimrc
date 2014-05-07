@@ -13,67 +13,70 @@
     filetype off                   " required to init
     set rtp+=~/.vim/ftplugin/      " Add filetype plugins
     set rtp+=~/.vim/bundle/vundle/ " Let vundle manage itself
-    call vundle#rc()               " Call vundle
 """ END INITIALISATION }}}
 
 
 """ PLUGINS {{{
-    Bundle 'gmarik/vundle'
+    call vundle#begin()
+    Plugin 'gmarik/vundle'                      " Manage plugins
         " Files & navigation
-            Bundle 'kien/ctrlp.vim'
-            Bundle 'scrooloose/nerdtree'
-            Bundle 'fholgado/minibufexpl.vim'
-            Bundle 'vim-scripts/mru.vim'
-            Bundle 'mileszs/ack.vim'
-            Bundle 'Lokaltog/vim-easymotion'
-            Bundle 'tommcdo/vim-exchange'
-            Bundle 'qstrahl/vim-dentures'
-            Bundle 'tpope/vim-surround'
+            Plugin 'kien/ctrlp.vim'                  " Fuzzy finder
+            Plugin 'scrooloose/nerdtree'             " Files tree
+            Plugin 'fholgado/minibufexpl.vim'        " Buffers menu
+            Plugin 'vim-scripts/mru.vim'             " Recently opened files
+            Plugin 'mileszs/ack.vim'                 " Ack is the new grep
+            Plugin 'Lokaltog/vim-easymotion'         " Quick motions
+            Plugin 'tommcdo/vim-exchange'            " Swap words and lines
+            Plugin 'qstrahl/vim-dentures'            " Select blocs by indent level
+            Plugin 'tpope/vim-surround'              " Change surroundings
         " Languages helpers
-            Bundle 'scrooloose/syntastic'
-            Bundle 'nathanaelkane/vim-indent-guides'
-            Bundle 'tpope/vim-commentary'
-            Bundle 'tpope/vim-endwise'
-            Bundle 'godlygeek/tabular'
-            Bundle 'tsaleh/vim-matchit'
-            Bundle 'vim-scripts/Auto-Pairs'
-            Bundle 'vim-scripts/Align'
-            Bundle 'vim-scripts/AutoComplPop'
-            " Web developpment
-                Bundle 'tpope/vim-rails'
-                Bundle 'KurtPreston/vim-autoformat-rails'
-                Bundle 'tpope/vim-bundler'
-                Bundle 'tpope/vim-haml'
-                Bundle 'kchmck/vim-coffee-script'
-                Bundle 'tpope/vim-ragtag'
-                Bundle 'tristen/vim-sparkup'
-                Bundle 'miripiruni/CSScomb-for-Vim'
+            Plugin 'scrooloose/syntastic'            " Syntax checker
+            Plugin 'nathanaelkane/vim-indent-guides' " Show indent lines
+            Plugin 'tpope/vim-commentary'            " Toggle universal comments
+            Plugin 'tpope/vim-endwise'               " Auto close blocks
+            Plugin 'godlygeek/tabular'               " Page layout
+            Plugin 'tsaleh/vim-matchit'              " Expands %
+            Plugin 'vim-scripts/Auto-Pairs'          " Auto close structures
+            Plugin 'vim-scripts/Align'               " Align texts by symbols
+            Plugin 'vim-scripts/AutoComplPop'        " Autocomplete popup
+            " Web developpment and Ruby
+                Plugin 'tpope/vim-rails'                 " Rails utilities
+                Plugin 'tpope/vim-cucumber'              " Cucumber support
+                Plugin 'thoughtbot/vim-rspec'            " Rspec support
+                Plugin 'tpope/vim-bundler'               " Bundler wrapper
+                Plugin 'tpope/vim-haml'                  " Haml support
+                Plugin 'kchmck/vim-coffee-script'        " Coffeescript support
+                Plugin 'tpope/vim-ragtag'                " Web tags boilerplate
+                Plugin 'tristen/vim-sparkup'             " HTML Zen-coding
+                Plugin 'miripiruni/CSScomb-for-Vim'      " Clean CSS files
             " Publication
-                Bundle 'jcf/vim-latex'
-                Bundle 'tpope/vim-abolish'
+                Plugin 'jcf/vim-latex'                   " Latex Suite
+                Plugin 'tpope/vim-abolish'               " Avoid typos
             " Snippets
-                Bundle 'SirVer/ultisnips'
-                Bundle 'honza/vim-snippets'
+                Plugin 'SirVer/ultisnips'                " Code snippets plugin
+                Plugin 'honza/vim-snippets'              " Said code snippets
         " Utility
-            Bundle 'sjl/gundo.vim'
-            Bundle 'vim-scripts/YankRing.vim'
-            Bundle 'tpope/vim-unimpaired'
-            Bundle 'ervandew/supertab'
-            Bundle 'tpope/vim-repeat'
-            Bundle 'svermeulen/vim-easyclip'
+            Plugin 'sjl/gundo.vim'                   " Undo tree history
+            Plugin 'tpope/vim-speeddating'           " Correct use of date inc/dec
+            Plugin 'vim-scripts/YankRing.vim'        " Store yanked texts
+            Plugin 'tpope/vim-unimpaired'            " Cool bindings
+            Plugin 'ervandew/supertab'               " Autocomplete with tab upon context
+            Plugin 'tpope/vim-repeat'                " Allow repeat with '.' for plugins
+            Plugin 'svermeulen/vim-easyclip'         " Smart copy/cut/delete
             " Git & Gist
-                Bundle 'mattn/gist-vim'
-                Bundle 'mattn/webapi-vim'
-                Bundle 'vim-scripts/gitignore'
-                Bundle 'tpope/vim-fugitive'
+                Plugin 'mattn/gist-vim'                  " Send to Gist
+                Plugin 'mattn/webapi-vim'                " Required for Gist
+                Plugin 'vim-scripts/gitignore'           " Add .gitignore to wildignore locally
+                Plugin 'tpope/vim-fugitive'              " Git integration
             " Code analysys
-                Bundle 'chrisbra/NrrwRgn'
-                Bundle 'majutsushi/tagbar'
-                Bundle 'vim-scripts/SrcExpl'
+                Plugin 'chrisbra/NrrwRgn'                " Select region to safely edit
+                Plugin 'majutsushi/tagbar'               " Get functions and var in code
+                Plugin 'vim-scripts/SrcExpl'             " Explore declarations
             " User-interface
-                Bundle 'kshenoy/vim-signature'
-                Bundle 'christoomey/vim-tmux-navigator'
-                Bundle 'tpope/vim-dispatch'
+                Plugin 'kshenoy/vim-signature'           " Toggle marks column
+                Plugin 'christoomey/vim-tmux-navigator'  " Tmux seamless integration
+                Plugin 'tpope/vim-dispatch'              " Run tests and compilation in spare pane async
+    call vundle#end()
 """ END PLUGINS }}}
 
 
@@ -162,6 +165,8 @@
         au BufLeave * call SetStatusLeaveBuffer()
 
         " Statusline functions
+
+        " Tell if whitespaces are shown
         function! WS_Show()
             if (&list)
                 return "on"
@@ -170,10 +175,12 @@
             endif
         endfunction
 
+        " Tell what foldmethod is used
         function! Foldmethod_Show()
             return  &foldmethod
         endfunction
 
+        " Tell if spellcheck is enabled
         function! Spell_Show()
             if (&spell == 0)
                 return  "off"
@@ -181,6 +188,7 @@
                 return "on(" . &spelllang . ")"
         endfunction
 
+        " Tell if tabs are true tabs or spaces
         function! Tabs_Show()
             if &expandtab
                 return "off"
@@ -189,10 +197,12 @@
             endif
         endfunction
 
+        " Return tabs length infos
         function! Tabs_Info()
             return &shiftwidth . &softtabstop . &tabstop
         endfunction
 
+        " Return file encodind
         function! Encoding()
             if (&fileencoding == "utf-8") && (&ff == "unix")
                 return "[✔]"
@@ -207,6 +217,7 @@
             endif
         endfunction
 
+        " Return file size
         function! FileSize()
                 let bytes = getfsize(expand("%:p"))
                 if bytes <= 0
@@ -223,7 +234,7 @@
     function! MyTabLine()
         let s = ''
         for i in range(tabpagenr('$'))
-            let tabnr = i + 1 " range() starts at 0
+            let tabnr = i + 1
             let winnr = tabpagewinnr(tabnr)
             let buflist = tabpagebuflist(tabnr)
             let bufnr = buflist[winnr - 1]
@@ -311,6 +322,7 @@
         autocmd FileType php                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
         autocmd FileType html,xhtml,htm,xml,css  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
         autocmd FileType haml                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=haml\ %\ %:t:r.html
+        autocmd FileType cucumber                set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
         autocmd FileType scss,sass               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=sass\ %\ %:t:r.css
         autocmd FileType less                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
         autocmd FileType coffee                  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
@@ -358,7 +370,7 @@
         set updatecount=200           " Swap file after X chars changed
         set patchmode=                " No origin file
 
-        " Save folds upon exit
+        " Save folds upon exit // THOSE FUCKERS SCREW UP HALF MY PLUGINS !
         " autocmd BufWinLeave *.* mkview
         " autocmd BufWinEnter *.* silent loadview
 """ }}} END OPTIONS
@@ -417,7 +429,7 @@
         nnoremap <C-w>mm <C-w><bar>
 
     " Utilities
-        " Intelligent commands
+        " Smart commands
         command! WQ wq
         command! Wq wq
         command! W up
@@ -450,8 +462,6 @@
         inoremap ;; <Esc>
         inoremap jj <Esc>
         map ; .
-        " Run rspec
-        nnoremap <leader>spc :Dispatch rspec --drb<CR>
         " Redraw
         nnoremap <leader>rd :redraw!<CR>
         " Select all text
@@ -485,11 +495,6 @@
         " Treat wrapped lines as normal lines
         nnoremap j gj
         nnoremap k gk
-        " Learn to use hjkl instead of arrows
-        " nnoremap <up> <nop>
-        " nnoremap <down> <nop>
-        " nnoremap <left> <nop>
-        " nnoremap <right> <nop>
         " Move a line of text using ,m{j,k}
         nmap <leader>mj mz:m+<CR>
         nmap <leader>mk mz:m-2<CR>
@@ -572,6 +577,12 @@
     nnoremap <silent> <F4> :YRShow<CR>
     inoremap <silent> <F4> <ESC>:YRShow<CR>
 
+    " Rspec
+    nnoremap <leader>spc :Dispatch rspec --drb<CR>
+    nnoremap <leader>spn :call RunNearestSpec()<CR>
+    nnoremap <leader>sps :call RunLastSpec()<CR>
+    nnoremap <leader>spa :call RunAllSpecs()<CR>
+
     " Gundo
     nnoremap <silent> <F5> :GundoToggle<CR>
     inoremap <silent> <F5> <ESC>:GundoToggle<CR>
@@ -579,6 +590,17 @@
     " Tagbar
     nnoremap <silent> <F6> :TagbarToggle<CR>
     inoremap <silent> <F6> <ESC>:TagbarToggle<CR>
+
+    " Fugitive
+    nnoremap <leader>gwr :Gw<CR>
+    nnoremap <leader>gcm :Gcommit<CR>
+    nnoremap <leader>gst :Gstatus<CR>
+    nnoremap <leader>gdf :Gdiff<CR>
+
+    " Vundle
+    nnoremap <leader>bo :Bvsplit<CR>
+    nnoremap <leader>bd :Bpedit<CR>
+    nnoremap <leader>be :Bedit<CR>
 
     " Signature
     nnoremap <F7> :SignatureToggle<CR>
@@ -836,13 +858,13 @@
     let g:yankring_window_width = 30
 
     " Autopairs
+    let g:AutoPairsShortcutToggle = '<leader>ap'
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
     autocmd FileType eruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|', '<%':'%>', '<%=':'%>'}
     autocmd FileType haml let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"'"}
-    let g:AutoPairsShortcutToggle = '<leader>ap'
 
     " Signature
     let g:SignatureMarkOrder = "\m."
@@ -851,6 +873,9 @@
     let g:SignaturePurgeConfirmation = 0
     let g:SignaturePrioritizeMarks = 0
     let g:SignaturePeriodicRefresh = 1
+
+    " Rspec
+    let g:rspec_command = "Dispatch rspec --drb {spec}"
 
     " Gundo
     let g:gundo_width = 30
