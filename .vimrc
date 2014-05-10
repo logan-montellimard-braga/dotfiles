@@ -26,6 +26,7 @@
             Plugin 'vim-scripts/mru.vim'             " Recently opened files
             Plugin 'mileszs/ack.vim'                 " Ack is the new grep
             Plugin 'Lokaltog/vim-easymotion'         " Quick motions
+            Plugin 'bronson/vim-visual-star-search'  " * works with visual mode
             Plugin 'tommcdo/vim-exchange'            " Swap words and lines
             Plugin 'qstrahl/vim-dentures'            " Select blocs by indent level
             Plugin 'tpope/vim-surround'              " Change surroundings
@@ -44,11 +45,14 @@
                 Plugin 'tpope/vim-cucumber'              " Cucumber support
                 Plugin 'thoughtbot/vim-rspec'            " Rspec support
                 Plugin 'tpope/vim-bundler'               " Bundler wrapper
-                Plugin 'tpope/vim-haml'                  " Haml support
+                Plugin 'tpope/vim-haml'                  " Haml and SASS support
+                Plugin 'groenewege/vim-less'             " Less support
+                Plugin 'pangloss/vim-javascript'         " Javascript enhanced
                 Plugin 'kchmck/vim-coffee-script'        " Coffeescript support
                 Plugin 'tpope/vim-ragtag'                " Web tags boilerplate
                 Plugin 'tristen/vim-sparkup'             " HTML Zen-coding
                 Plugin 'miripiruni/CSScomb-for-Vim'      " Clean CSS files
+                Plugin 'hail2u/vim-css3-syntax'          " CSS3 Support
             " Publication
                 Plugin 'jcf/vim-latex'                   " Latex Suite
                 Plugin 'tpope/vim-abolish'               " Avoid typos
@@ -63,6 +67,7 @@
             Plugin 'ervandew/supertab'               " Autocomplete with tab upon context
             Plugin 'tpope/vim-repeat'                " Allow repeat with '.' for plugins
             Plugin 'svermeulen/vim-easyclip'         " Smart copy/cut/delete
+            Plugin 'tpope/vim-capslock'              " Software capslock. Cool with remapped capslock
             " Git & Gist
                 Plugin 'mattn/gist-vim'                  " Send to Gist
                 Plugin 'mattn/webapi-vim'                " Required for Gist
@@ -72,6 +77,7 @@
                 Plugin 'chrisbra/NrrwRgn'                " Select region to safely edit
                 Plugin 'majutsushi/tagbar'               " Get functions and var in code
                 Plugin 'vim-scripts/SrcExpl'             " Explore declarations
+                Plugin 'tpope/vim-characterize'          " Get encoding infos of character
             " User-interface
                 Plugin 'kshenoy/vim-signature'           " Toggle marks column
                 Plugin 'christoomey/vim-tmux-navigator'  " Tmux seamless integration
@@ -125,6 +131,7 @@
             setl statusline+=\ [%{FileSize()}]               " get size of the current file
             setl statusline+=%1*%y%*                         " filetype
             setl statusline+=%{Encoding()}                   " encoding
+            setl statusline+=%1*%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%*
             setl statusline+=\ %1*%{fugitive#statusline()}%* " git integration
             setl statusline+=%=                              " left/right separator
             setl statusline+=[¶:%1*%{WS_Show()}%*            " show whitespace showing mode " 
@@ -163,8 +170,6 @@
             call SetStatus()
         endfunction
         au BufLeave * call SetStatusLeaveBuffer()
-
-        " Statusline functions
 
         " Tell if whitespaces are shown
         function! WS_Show()
@@ -306,29 +311,26 @@
         set cindent
 
         " Filetype specific indentation & compilation
+        autocmd FileType make                    set local noexpandtab
         autocmd FileType asciidoc                set nocindent noautoindent
-        autocmd FileType ruby,eruby              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
-        autocmd FileType sh,zsh,bash             set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=./%
-        autocmd FileType cpp                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=g++\ %\ -o\ %:t:r
-        autocmd FileType c,cpp                   setlocal comments -=:// comments +=f://
-        autocmd FileType vhdl                    set shiftwidth=2 softtabstop=2 tabstop=2
-        autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
+        autocmd FileType sh,zsh,bash             set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=./%
         autocmd FileType python                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
         autocmd FileType perl                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
         autocmd FileType java                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
         autocmd FileType haskell                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
         autocmd FileType lua                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
         autocmd FileType c                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
+        autocmd FileType cpp                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=g++\ %\ -o\ %:t:r
         autocmd FileType php                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
-        autocmd FileType html,xhtml,htm,xml,css  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=iceweasel\ %
+        autocmd FileType html,xml,css,yaml       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=iceweasel\ %
+        autocmd FileType javascript              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=js\ %
         autocmd FileType haml                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=haml\ %\ %:t:r.html
-        autocmd FileType cucumber                set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
         autocmd FileType scss,sass               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=sass\ %\ %:t:r.css
         autocmd FileType less                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
         autocmd FileType coffee                  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
-        autocmd BufNewFile,BufReadPost *.coffee  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
-        autocmd FileType javascript,arduino      set shiftwidth=2 softtabstop=2 tabstop=2
-        autocmd FileType make                    set local noexpandtab
+        autocmd FileType ruby,eruby              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType cucumber                set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
+        autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
 
         " Make & view for c & c++ & hs
         autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
@@ -410,6 +412,10 @@
         map <leader>q <C-w>q
         map <leader>bn ]b
         map <leader>bp [b
+        nnoremap <left> :bprevious<CR>
+        nnoremap <right> :bnext<CR>
+        nnoremap <up> gt
+        nnoremap <down> gT
         map <leader>wol :only<CR>
         nnoremap <leader>rr <C-w>r
         nnoremap <leader>rR <C-w>R
@@ -481,7 +487,11 @@
         " Compile and view latex
         noremap <leader>vl :silent! call Tex_ViewLaTeX()<CR>
         " Reindent whole file
-        nnoremap <leader>if mfgg=G'fzz
+        nnoremap <leader>df mfgg=G'fzz
+        " Replace var name in current scope
+        nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
+        " Replace var name if whole file
+        nnoremap gR gD:%s/<C-R>///gc<left><left><left>"}]
 
     " Motions
         " Move faster
@@ -490,7 +500,7 @@
         noremap Kj <Esc>i<Enter><Esc>
         noremap KJ <Esc>r<Enter>
         " Go to the 80th char of the line
-        noremap <leader>oo 80\|
+        noremap <leader>ov 80\|
         inoremap <silent>ùù <Esc>80\|
         " Treat wrapped lines as normal lines
         nnoremap j gj
@@ -606,6 +616,17 @@
     nnoremap <F7> :SignatureToggle<CR>
     inoremap <F7> <ESC>:SignatureToggle<CR>a
 
+    " Capslock
+    imap <C-w>w <Plug>CapsLockToggle
+    nmap <C-w>w <Plug>CapsLockToggle
+    imap <C-w><C-w> <Plug>CapsLockToggle
+    nmap <C-w><C-w> <Plug>CapsLockToggle
+    nmap <leader>i i<Plug>CapsLockToggle
+    nmap <leader>oo o<Plug>CapsLockToggle
+    nmap <leader>O O<Plug>CapsLockToggle
+    nmap <leader>a a<Plug>CapsLockToggle
+    nmap <leader>A A<Plug>CapsLockToggle
+
     " EasyClip
     nmap dx <Plug>MoveMotionLinePlug
     xmap dx <Plug>MoveMotionXPlug
@@ -654,6 +675,18 @@
             set foldcolumn=10
         elseif (&foldcolumn>=10)
             set foldcolumn=0
+        endif
+    endfunction
+
+    " Toggle indent level
+    noremap <silent><leader>dl :call ChangeIndentLevel()<CR>
+    function! ChangeIndentLevel()
+        if ( (&sw==2) || (&ts==2) || (&sts==2) )
+            set sw=4 ts=4 sts=4
+        elseif ( (&sw==4) || (&ts==4) || (&sts==4) )
+            set sw=8 ts=8 sts=8
+        else
+            set sw=2 ts=2 sts=2
         endif
     endfunction
 
@@ -902,6 +935,10 @@
     " PHP
     let php_sql_query = 1
     let php_htmlInStrings = 1
+
+    " Javascript
+    let g:javascript_enable_domhtmlcss = 1
+    let g:javascript_conceal = 1
 
     " Matchit
     let b:match_ignorecase = 1
