@@ -20,26 +20,28 @@
     call vundle#begin()
     Plugin 'gmarik/vundle'                      " Manage plugins
         " Files & navigation
-            Plugin 'kien/ctrlp.vim'                  " Fuzzy finder
+            Plugin 'szw/vim-ctrlspace'               " Manage workspaces
+            Plugin 'Shougo/unite.vim'                " Find everything
+            Plugin 'Shougo/vimproc.vim'              " Ditto, but async !
+            Plugin 'Shougo/neomru.vim'               " Add recent files to unite
+            Plugin 'airblade/vim-rooter'             " CD to project root
             Plugin 'scrooloose/nerdtree'             " Files tree
-            Plugin 'fholgado/minibufexpl.vim'        " Buffers menu
-            Plugin 'vim-scripts/mru.vim'             " Recently opened files
-            Plugin 'mileszs/ack.vim'                 " Ack is the new grep
             Plugin 'Lokaltog/vim-easymotion'         " Quick motions
             Plugin 'bronson/vim-visual-star-search'  " * works with visual mode
             Plugin 'tommcdo/vim-exchange'            " Swap words and lines
             Plugin 'qstrahl/vim-dentures'            " Select blocs by indent level
             Plugin 'tpope/vim-surround'              " Change surroundings
+            Plugin 'Shougo/CamelCaseMotion'          " Move inside Camel or snake case words
+            Plugin 'wesQ3/vim-windowswap'            " Swap windows easily in layout
         " Languages helpers
             Plugin 'scrooloose/syntastic'            " Syntax checker
             Plugin 'nathanaelkane/vim-indent-guides' " Show indent lines
             Plugin 'tpope/vim-commentary'            " Toggle universal comments
             Plugin 'tpope/vim-endwise'               " Auto close blocks
-            Plugin 'godlygeek/tabular'               " Page layout
             Plugin 'tsaleh/vim-matchit'              " Expands %
             Plugin 'vim-scripts/Auto-Pairs'          " Auto close structures
             Plugin 'vim-scripts/Align'               " Align texts by symbols
-            Plugin 'vim-scripts/AutoComplPop'        " Autocomplete popup
+            Plugin 'Valloric/YouCompleteMe'          " Killer auto completion
             " Web developpment and Ruby
                 Plugin 'tpope/vim-rails'                 " Rails utilities
                 Plugin 'tpope/vim-cucumber'              " Cucumber support
@@ -47,6 +49,8 @@
                 Plugin 'tpope/vim-bundler'               " Bundler wrapper
                 Plugin 'tpope/vim-haml'                  " Haml and SASS support
                 Plugin 'groenewege/vim-less'             " Less support
+                Plugin 'darthdeus/vim-emblem'            " Emblem.js support
+                Plugin 'mustache/vim-mustache-handlebars' " Handlebars support
                 Plugin 'pangloss/vim-javascript'         " Javascript enhanced
                 Plugin 'kchmck/vim-coffee-script'        " Coffeescript support
                 Plugin 'tpope/vim-ragtag'                " Web tags boilerplate
@@ -56,32 +60,36 @@
             " Publication
                 Plugin 'jcf/vim-latex'                   " Latex Suite
                 Plugin 'tpope/vim-abolish'               " Avoid typos
+                Plugin 'plasticboy/vim-markdown'         " Markdown support
             " Snippets
                 Plugin 'SirVer/ultisnips'                " Code snippets plugin
                 Plugin 'honza/vim-snippets'              " Said code snippets
         " Utility
             Plugin 'sjl/gundo.vim'                   " Undo tree history
-            Plugin 'tpope/vim-speeddating'           " Correct use of date inc/dec
-            Plugin 'vim-scripts/YankRing.vim'        " Store yanked texts
+            Plugin 'AndrewRadev/switch.vim'          " Switch common patterns
+            Plugin 'AndrewRadev/splitjoin.vim'       " From single line statements to multilines
             Plugin 'tpope/vim-unimpaired'            " Cool bindings
-            Plugin 'ervandew/supertab'               " Autocomplete with tab upon context
+            Plugin 'PeterRincker/vim-argumentative'  " Easily switch arguments
+            Plugin 'wellle/targets.vim'              " Awesome text-objects
             Plugin 'tpope/vim-repeat'                " Allow repeat with '.' for plugins
             Plugin 'svermeulen/vim-easyclip'         " Smart copy/cut/delete
-            Plugin 'tpope/vim-capslock'              " Software capslock. Cool with remapped capslock
+            Plugin 'ConradIrwin/vim-bracketed-paste' " Auto paste mode
             " Git & Gist
                 Plugin 'mattn/gist-vim'                  " Send to Gist
                 Plugin 'mattn/webapi-vim'                " Required for Gist
                 Plugin 'vim-scripts/gitignore'           " Add .gitignore to wildignore locally
                 Plugin 'tpope/vim-fugitive'              " Git integration
+                Plugin 'airblade/vim-gitgutter'          " Git diff integration
             " Code analysys
                 Plugin 'chrisbra/NrrwRgn'                " Select region to safely edit
                 Plugin 'majutsushi/tagbar'               " Get functions and var in code
-                Plugin 'vim-scripts/SrcExpl'             " Explore declarations
-                Plugin 'tpope/vim-characterize'          " Get encoding infos of character
+                Plugin 'wesleyche/SrcExpl'               " Explore declarations
             " User-interface
                 Plugin 'kshenoy/vim-signature'           " Toggle marks column
                 Plugin 'christoomey/vim-tmux-navigator'  " Tmux seamless integration
+                Plugin 't9md/vim-choosewin'              " Tmux display-pane in vim
                 Plugin 'tpope/vim-dispatch'              " Run tests and compilation in spare pane async
+                Plugin 'takac/vim-hardtime'              " Learn good habits
     call vundle#end()
 """ END PLUGINS }}}
 
@@ -91,6 +99,10 @@
     set viminfo='100,f1       " save folds upon exit
     " Interface
         set nocompatible                                                   " don't vi-compatible
+        set mousehide                                                      " don't show pointer when typing
+        set synmaxcol=2048                                                 " don't highlight lines past 2048 chars
+        set virtualedit=block,insert                                       " allow cursor in non existing places
+        set diffopt+=iwhite                                                " ignore whitespaces in diff
         set noshowmode                                                     " don't show mode
         set shortmess=aTs                                                  " Shorten error messages
         set termencoding=utf-8                                             " Work with URXVT
@@ -266,7 +278,7 @@
         set foldnestmax=10          " max 10 nested folds
         set foldlevelstart=99       " folds open by default
         set textwidth=80            " lines should be 80-char long
-        set formatoptions+=lwcroqnj " auto format
+        set formatoptions+=lwcqnj " auto format
         set formatoptions-=t        " auto format : don't format text
         set wrapmargin=2            " 2 chars border for wrapping
         set nojoinspaces            " don't duplicate spaces when joining
@@ -289,7 +301,8 @@
         set history=1000                      " Number of history actions to keep
         set undolevels=1000                   " Number of undos to keep
         au BufRead,BufNewFile *.txt set ft=sh " opens .txt with highlight
-        set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~
+        au BufNewFile,BufRead *.qss set ft=css
+        set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.ico,*.sqlite3,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~
 
     " Editing
         set spelllang=fr               " Frenchie here
@@ -311,26 +324,28 @@
         set cindent
 
         " Filetype specific indentation & compilation
-        autocmd FileType make                    set local noexpandtab
-        autocmd FileType asciidoc                set nocindent noautoindent
-        autocmd FileType sh,zsh,bash             set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=./%
-        autocmd FileType python                  set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
-        autocmd FileType perl                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
-        autocmd FileType java                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
-        autocmd FileType haskell                 set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
-        autocmd FileType lua                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
-        autocmd FileType c                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
-        autocmd FileType cpp                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=g++\ %\ -o\ %:t:r
-        autocmd FileType php                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
-        autocmd FileType html,xml,css,yaml       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=iceweasel\ %
-        autocmd FileType javascript              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=js\ %
-        autocmd FileType haml                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=haml\ %\ %:t:r.html
-        autocmd FileType scss,sass               set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=sass\ %\ %:t:r.css
-        autocmd FileType less                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
-        autocmd FileType coffee                  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
-        autocmd FileType ruby,eruby              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
-        autocmd FileType cucumber                set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
-        autocmd FileType tex                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
+        autocmd FileType make                       set noexpandtab
+        autocmd FileType asciidoc                   set nocindent noautoindent
+        autocmd FileType sh,zsh,bash                set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=./%
+        autocmd FileType python                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
+        autocmd FileType perl                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
+        autocmd FileType java                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+        autocmd FileType haskell                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
+        autocmd FileType lua                        set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
+        autocmd FileType c                          set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
+        autocmd FileType cpp                        set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
+        autocmd FileType scala                      set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=scalac\ %
+        autocmd FileType php                        set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=php\ %
+        autocmd FileType html,xml,css,yaml,markdown set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=iceweasel\ %
+        autocmd FileType markdown                   set commentstring=[//]:\ #\ (%s)
+        autocmd FileType javascript                 set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=js\ %
+        autocmd FileType haml                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=haml\ %\ %:t:r.html
+        autocmd FileType scss,sass                  set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=sass\ %\ %:t:r.css
+        autocmd FileType less                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
+        autocmd FileType coffee                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
+        autocmd FileType ruby,eruby                 set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType cucumber                   set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
+        autocmd FileType tex                        set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
 
         " Make & view for c & c++ & hs
         autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
@@ -396,7 +411,6 @@
         noremap ]k :bd<CR>
         noremap [k :bd<CR>
         nnoremap <leader>bk :bp<bar>sp<bar>bn<bar>bd<CR>
-        nnoremap <leader>bq :bp<bar>sp<bar>bn<bar>bd<CR>
         " Split windows/buffers into new windows/buffers
         nmap <leader>s<left>   :leftabove  vnew<CR>
         nmap <leader>s<right>  :rightbelow vnew<CR>
@@ -405,17 +419,17 @@
         nnoremap <leader>sv <C-w>v<C-w>l
         nnoremap <leader>sh <C-w>s<C-w>l
         " Easy window navigation
-        map <leader>h <C-w>h
-        map <leader>j <C-w>j
-        map <leader>k <C-w>k
-        map <leader>l <C-w>l
         map <leader>q <C-w>q
         map <leader>bn ]b
         map <leader>bp [b
-        nnoremap <left> :bprevious<CR>
-        nnoremap <right> :bnext<CR>
-        nnoremap <up> gt
-        nnoremap <down> gT
+        nnoremap <left> <NOP>
+        nnoremap <right> <NOP>
+        nnoremap <up> <NOP>
+        nnoremap <down> <NOP>
+        " nnoremap <left> :bprevious<CR>
+        " nnoremap <right> :bnext<CR>
+        " nnoremap <up> gt
+        " nnoremap <down> gT
         map <leader>wol :only<CR>
         nnoremap <leader>rr <C-w>r
         nnoremap <leader>rR <C-w>R
@@ -449,7 +463,7 @@
         " General compilation
         nnoremap <leader>ma :Make<CR>
         nnoremap <leader>!ma :Make!<CR>
-        " Open current file in sublimetext (stupid teachers needing a visual editor to help, that's for you ;) )
+        " Open current file in sublimetext
         nnoremap <leader>st :! sublimetext % &<CR>
         " Convert file code to html
         noremap <leader>we :runtime!syntax/2html.vim<CR>
@@ -464,10 +478,9 @@
         " delete trailing whitespaces
         nnoremap <leader>W my :%s/\s\+$//<cr>:let @/=''<CR>'y
         " Standard remaps
-        noremap ;; a
         inoremap ;; <Esc>
         inoremap jj <Esc>
-        map ; .
+        " map ; .
         " Redraw
         nnoremap <leader>rd :redraw!<CR>
         " Select all text
@@ -492,6 +505,23 @@
         nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
         " Replace var name if whole file
         nnoremap gR gD:%s/<C-R>///gc<left><left><left>"}]
+        " Underline current line with =, -
+        nmap <silent> <leader>ul= :t.\|s/./=/g\|:nohls<cr>
+        nmap <silent> <leader>ul- :t.\|s/./-/g\|:nohls<cr>
+        " Resize buffer to needed size
+        nmap <silent> <leader>sw :execute ":resize " . line('$')<cr>
+        " Make the current file executable
+        nmap <leader>chx :w<cr>:!chmod 755 %<cr>:e<cr>
+
+        "smart indent when entering insert mode with i on empty lines
+        function! IndentWithI()
+            if len(getline('.')) == 0
+                return "\"_ddO"
+            else
+                return "i"
+            endif
+        endfunction
+        nnoremap <expr> i IndentWithI()
 
     " Motions
         " Move faster
@@ -556,6 +586,13 @@
     nnoremap <leader>gpi :Gist -p<CR>
     nnoremap <leader>ggi :Gist -l<CR>
 
+    " Switch
+    nnoremap <silent><leader>l :Switch<CR>
+
+    " Splitjoin
+    nmap <leader>k :SplitjoinJoin<cr>
+    nmap <leader>j :SplitjoinSplit<cr>
+
     " Syntastic
     nnoremap <silent><F1> :call ToggleSyntasticCheck()<CR>
     inoremap <silent><F1> <ESC>:call ToggleSyntasticCheck()<CR>a
@@ -572,6 +609,14 @@
        endif
     endfunction
 
+    " CamelCaseMotion
+    map <S-W> <Plug>CamelCaseMotion_w
+    map <S-B> <Plug>CamelCaseMotion_b
+    map <S-E> <Plug>CamelCaseMotion_e
+
+    " Choosewin
+    nmap  <leader>cw  <Plug>(choosewin)
+
     " Align
     vnoremap <leader>= :Align =<CR>
 
@@ -583,15 +628,17 @@
     nnoremap <F3> :SrcExplToggle<CR>
     inoremap <F3> <ESC>:SrcExplToggle<CR>
 
-    " YankRing
-    nnoremap <silent> <F4> :YRShow<CR>
-    inoremap <silent> <F4> <ESC>:YRShow<CR>
+    " Yankring
+    nnoremap <F4> :Unite -auto-resize -no-start-insert history/yank<CR>
 
     " Rspec
     nnoremap <leader>spc :Dispatch rspec --drb<CR>
     nnoremap <leader>spn :call RunNearestSpec()<CR>
     nnoremap <leader>sps :call RunLastSpec()<CR>
     nnoremap <leader>spa :call RunAllSpecs()<CR>
+
+    " Markdown
+    autocmd FileType markdown nmap <tab> :Toch<CR>
 
     " Gundo
     nnoremap <silent> <F5> :GundoToggle<CR>
@@ -605,9 +652,13 @@
     nnoremap <leader>gwr :Gw<CR>
     nnoremap <leader>gcm :Gcommit<CR>
     nnoremap <leader>gst :Gstatus<CR>
-    nnoremap <leader>gdf :Gdiff<CR>
+    nnoremap <leader>gif :Gdiff<CR>
 
-    " Vundle
+    " Git gutter
+    nnoremap <leader>gtg :GitGutterToggle<CR>
+    nnoremap <leader>gtl :GitGutterLineHighlightsToggle<CR>
+
+    " Bundle
     nnoremap <leader>bo :Bvsplit<CR>
     nnoremap <leader>bd :Bpedit<CR>
     nnoremap <leader>be :Bedit<CR>
@@ -615,17 +666,6 @@
     " Signature
     nnoremap <F7> :SignatureToggle<CR>
     inoremap <F7> <ESC>:SignatureToggle<CR>a
-
-    " Capslock
-    imap <C-w>w <Plug>CapsLockToggle
-    nmap <C-w>w <Plug>CapsLockToggle
-    imap <C-w><C-w> <Plug>CapsLockToggle
-    nmap <C-w><C-w> <Plug>CapsLockToggle
-    nmap <leader>i i<Plug>CapsLockToggle
-    nmap <leader>oo o<Plug>CapsLockToggle
-    nmap <leader>O O<Plug>CapsLockToggle
-    nmap <leader>a a<Plug>CapsLockToggle
-    nmap <leader>A A<Plug>CapsLockToggle
 
     " EasyClip
     nmap dx <Plug>MoveMotionLinePlug
@@ -729,17 +769,28 @@
     noremap <F12> :call <SID>ToggleMouse()<CR>
     inoremap <F12> <ESC>:call <SID>ToggleMouse()<CR>a
 
-    " MiniBufExpl
-    nnoremap <silent> <leader>tb :MBEToggle<cr>
-
     " NrrwRgn
     xmap <leader>nr <Plug>NrrwrgnDo
 
-    " MRU
-    noremap <leader>ru :MRU<CR>
+    " CTRLSpace
+    nmap <leader>; :CtrlSpace<CR>
 
-    " CtrlP
-    nnoremap <leader>pp :CtrlPMixed<CR>
+    " Unite
+    nnoremap <leader>p :Unite -auto-resize file_rec/async directory<CR>
+    nnoremap <leader>dp :Unite -auto-resize directory<CR>
+    nnoremap <leader>dP :Unite -auto-resize directory_rec/async<CR>
+    nnoremap <leader>ru :Unite -auto-resize -quick-match neomru/file<CR>
+    nnoremap <leader>rU :Unite -auto-resize -default-action=cd -no-start-insert neomru/directory<CR>
+    nnoremap <leader>bt :Unite -auto-resize -quick-match buffer<CR>
+    nnoremap <leader>: :Unite -auto-resize -no-start-insert grep:.<CR>
+    nnoremap <leader>L :Unite -auto-resize line<CR>
+    nnoremap <leader>J :Unite -auto-resize -no-start-insert -quick-match jump<CR>
+    nnoremap <leader>sn :Unite -auto-resize ultisnips<CR>
+    nnoremap <leader>yp :Unite -auto-resize -no-start-insert history/yank<CR>
+    nnoremap <leader>u :Unite -auto-resize -no-start-insert change<CR>
+
+    " YCM
+    nnoremap <leader>gd :YcmCompleter GoToImprecise<CR>
 
     " Highlight characters past 80, toggle with <leader>ol
     nnoremap <silent> <leader>ol :call ToggleOverLengthHighlight()<CR>
@@ -877,19 +928,6 @@
     let g:Tex_ViewRuleComplete_pdf = 'zathura $*.pdf &'
     let g:Tex_MultipleCompileFormats = "pdf"
 
-    " Yankring
-    let g:yankring_history_dir = '/home/logan/.vim/plugin'
-    let g:yankring_max_history = 500
-    let g:yankring_min_element_length = 5
-    let g:yankring_max_element_length = 4194304
-    let g:yankring_max_display = 500
-    let g:yankring_persist = 1
-    let g:yankring_dot_repeat_yank = 1
-    let g:yankring_manual_clipboard_check = 1
-    let g:yankring_window_use_horiz = 0
-    let g:yankring_window_use_right = 0
-    let g:yankring_window_width = 30
-
     " Autopairs
     let g:AutoPairsShortcutToggle = '<leader>ap'
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
@@ -949,14 +987,6 @@
     let g:nrrw_rgn_wdth = (winwidth(0)/2)
     let g:nrrw_topbot_leftright = 'botright'
 
-    " MRU
-    let g:MRU_File = '/home/logan/.vim/plugin/mru_files'
-    let g:MRU_Max_Entries = 100
-    let g:MRU_Exclude_Files = '^/tmp/.*\|^/var/tmp/.*\|*.vim\|*.out\|*.swp\|*.vim\|*.o'
-    let g:MRU_Window_Height = 10
-    let g:MRU_Auto_Close = 1
-    let g:MRU_Use_Current_Window = 1
-
     " NERDTree
     let g:NERDTreeWinPos = "left"
     let g:NERDTreeWinSize = 30
@@ -985,16 +1015,56 @@
     hi IndentGuidesOdd   ctermbg=0
     hi IndentGuidesEven  ctermbg=8
 
-    " CtrlP
-    let g:ctrlp_working_path_mode = 'ra'
-    let g:ctrlp_switch_buffer = 1
-    let g:ctrlp_dotfiles = 1
-    let g:ctrlp_clear_cache_on_exit=0
-    let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-        \ 'file': '\v\.(exe|so|dll)$',
-          \ 'link': 'some_bad_symbolic_links',
-            \ }
+    " Unite
+    let g:unite_enable_short_source_names = 1
+    let g:unite_enable_start_insert = 1
+    let s:unite_sources = 'file_rec/async,file_rec,neomru/file,directory_rec/async,directory_rec,neomru/directory'
+    let g:unite_source_rec_max_cache_files = 5000
+    let g:unite_source_history_yank_enable = 1
+    let g:unite_cursor_line_highlight = 'UniteColor'
+    hi UniteColor cterm=bold ctermfg=white ctermbg=9
+    let g:unite_source_history_yank_file=$HOME.'/.vim/yankring.txt'
+    let g:unite_data_directory='~/.vim/.cache/unite'
+    let g:unite_source_history_yank_save_clipboard = 1
+    let g:unite_abbr_highlight = 'Occurences'
+    let g:unite_winheight = 20
+    let g:unite_winwidth = 30
+    let g:unite_split_rule = 'botright'
+    let g:unite_prompt = '# '
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_max_candidates = 50
+    let s:file_rec_ignore = unite#get_all_sources('file_rec/async')['ignore_pattern'] .
+        \ '\|\.\%(jar\|jpg\|gif\|png\)$' .
+        \ '\|opt\|Téléchargements'
+    let g:unite_source_grep_default_opts =
+                \ '-S --line-numbers --nocolor --nogroup --hidden --ignore ' .
+                \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+    let g:unite_source_grep_recursive_opt = ''
+    call unite#custom#source('file,file/new,buffer,file_rec,file_rec/async',
+                \ 'matchers', 'matcher_fuzzy')
+    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+    call unite#custom#source(s:unite_sources, 'max_candidates', 1000)
+    call unite#custom#source('file_rec,directory_rec', 'ignore_pattern', s:file_rec_ignore)
+    call unite#custom#source('neomru/file','ignore_pattern','\v[/\\]doc[/\\]\w+\.txt')
+    call unite#custom#source('buffer,file,file_rec,file_rec/async,neomru/file,directory_rec',
+                \ 'sorters', 'sorter_selecta')
+    augroup vimrc_unite
+        autocmd!
+        autocmd BufLeave \[unite\]* if "nofile" ==# &buftype | setlocal bufhidden=wipe | endif
+        autocmd FileType unite call s:unite_settings()
+    augroup END
+    function! s:unite_settings()
+        setlocal nopaste
+        let b:AutoPairs = {}
+        unmap! <buffer> <c-d>
+        nmap <buffer> <nowait> <C-d> <Plug>(unite_exit)
+        imap <buffer> <nowait> <C-d> <Plug>(unite_exit)
+        nmap <buffer> <nowait> <C-j> <Plug>(unite_toggle_auto_preview)
+        nmap <buffer> <C-z> <Plug>(unite_toggle_transpose_window)
+        imap <buffer> <TAB> <Plug>(unite_select_next_line)
+        imap <buffer> <S-TAB> <Plug>(unite_select_previous_line)
+        imap <buffer> <nowait> <C-w> <Plug>(unite_delete_backward_path)
+    endfunction
 
     " Syntastic
     let g:syntastic_check_on_wq=1
@@ -1004,28 +1074,24 @@
     let g:syntastic_html_checkers = ['tidy', 'validator']
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
-        \ 'active_filetypes':
-            \ ['c', 'php', 'cpp', 'haskell', 'javascript', 'perl', 'python', 'sh'] }
-
-    " AutoComplPop
-    let g:acp_behaviorKeywordLength = 5
-    let g:acp_behaviorKeywordIgnores = ["get","if","while","for","unless","until","rescue","main","iostream","files"]
-    let g:acp_completeOption = '.,w, b, k, u,i,]'
-    let g:acp_behaviorKeywordCommand = "\<C-p>"
-    let g:acp_behaviorFileLength = 4
-    let g:acp_behaviorRubyOmniMethodLength = 4
-    let g:acp_behaviorRubyOmniSymbolLength = 4
-    let g:acp_behaviorHtmlOmniLength = 4
-    let g:acp_behaviorCssOmniPropertyLength = 3
-    let g:acp_behaviorCssOmniValueLength = 3
+        \ 'active_filetypes': [
+            \ 'c'
+            \ , 'css'
+            \ , 'php'
+            \ , 'lua'
+            \ , 'cpp'
+            \ , 'haskell'
+            \ , 'javascript'
+            \ , 'perl'
+            \ , 'python'
+            \ , 'sh'
+        \ ]
+    \ }
 
     " Coffeescript
     let coffee_compile_vert = 1
     let coffee_watch_vert = 1
     let coffee_run_vert = 1
-
-    " Supertab
-    let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
 
     " EasyClip
     let g:EasyClipAutoFormat = 1
@@ -1036,12 +1102,109 @@
     let g:EasyClipUsePasteToggleDefaults = 0
     let g:EasyClipUseYankDefaults = 0
 
+    " Choosewin
+    let g:choosewin_color_label = { 'cterm': [ 4, 15, 'bold'] }
+    let g:choosewin_color_label_current = { 'cterm': [ 12, 16, 'none'] }
+    let g:choosewin_color_other = { 'cterm': [ 0, 8, 'none'] }
+    let g:choosewin_label_fill = 0
+    let g:choosewin_return_on_single_win = 1
+    let g:choosewin_blink_on_land = 0
+    let g:choosewin_label = 'AZEQSDWXCRFVTGB'
+    let g:choosewin_tablabel = 'IOPKLMUJNYH'
+
+
     " UltiSnips
-    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsExpandTrigger="<C-j>"
     let g:UltiSnipsListSnippets="<c-b>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-""" END PLUGINS SETTINGS }}}
+    let g:UltiSnipsJumpForwardTrigger="<C-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<C-k>"
+
+    " YCM
+    let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/.ycm_extra_conf.py'
+    let g:ycm_min_num_of_chars_for_completion = 3
+    let g:ycm_filetype_specific_completion_to_disable = {'cpp':'cpp', 'ruby':'ruby'}
+    let g:ycm_complete_in_comments = 1
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1
+    let g:ycm_server_use_vim_stdout = 1
+    let g:ycm_server_log_level = 'error'
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    let g:ycm_autoclose_preview_window_after_insertion = 1
+
+    " Git gutter
+    let g:gitgutter_realtime = 0
+    let g:gitgutter_eager = 0
+    let g:gitgutter_diff_args = '-w'
+    let g:gitgutter_escape_grep = 1
+
+    " Rooter
+    let g:rooter_use_lcd = 1
+
+    " Switch
+    let g:switch_custom_definitions = [
+                \ ['left', 'right']
+                \ , ['top', 'bottom']
+                \ , ['up', 'down']
+                \ , ['width', 'height']
+                \ , ['center', 'justify']
+                \ , ['hidden', 'visible', 'scroll', 'auto']
+                \ , ['solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset']
+                \ , ['wrong', 'right']
+                \ , ['yes', 'no']
+                \ , ['should', 'should_not']
+                \ , ['before', 'after']
+                \ , ['begin', 'end']
+                \ , ['if', 'unless']
+                \ , ['while', 'until']
+                \ , ['include', 'extend']
+                \ , ['padding', 'margin']
+                \ , ['inline', 'bloc', 'table', 'none']
+                \ , ['foo', 'bar', 'baz', 'quux']
+                \ , ['transparent', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan']
+                \ , ['white', 'black']
+                \ ]
+
+    " CTRLSpace
+    let g:ctrlspace_set_default_mapping = 0
+    let g:ctrlspace_max_files = 250
+    let g:ctrlspace_max_search_results = 100
+    let g:ctrlspace_height = 2
+    let g:ctrlspace_max_height = 20
+    let g:ctrlspace_search_resonators = ['.', '/', '\', '_', '-', '%', '$', '#', '@']
+    let g:ctrlspace_symbols = {
+        \ "cs"      : "#",
+        \ "tab"     : "TAB",
+        \ "all"     : "ALL",
+        \ "open"    : "OPEN",
+        \ "tabs"    : "- ",
+        \ "c_tab"   : "+ ",
+        \ "load"    : "LOAD",
+        \ "save"    : "SAVE",
+        \ "prv"     : "*",
+        \ "s_left"  : "[",
+        \ "s_right" : "]"
+        \ }
+    let g:ctrlspace_unicode_font = 1
+    hi CtrlSpaceSelected cterm=bold ctermfg=15 ctermbg=9
+    hi CtrlSpaceNormal   ctermfg=none ctermbg=none cterm=none
+    hi CtrlSpaceSearch   ctermfg=0 ctermbg=3 cterm=none
+    hi CtrlSpaceStatus   ctermfg=15  ctermbg=4 cterm=bold
+
+
+    " Hardtime
+    let g:hardtime_default_on = 0
+    let g:list_of_normal_keys = [ "h", "j", "k", "l", "-", "+" ]
+    let g:list_of_visual_keys = [ "-", "+" ]
+    let g:hardtime_timeout = 2000
+    let g:hardtime_showmsg = 0
+    let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+    let g:hardtime_ignore_quickfix = 1
+    let g:hardtime_allow_different_key = 1
+    let g:hardtime_maxcount = 1
+    au BufEnter     * :HardTimeOn
+
+    " Mustache handlebars
+    let g:mustache_abbreviations = 1
+""" END PLUGINS SETTINGS }}i}
 
 
 """"" END VIM CONFIGURATION FILE {{{{{
