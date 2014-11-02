@@ -33,22 +33,32 @@
             Plugin 'tpope/vim-surround'              " Change surroundings
             Plugin 'Shougo/CamelCaseMotion'          " Move inside Camel or snake case words
             Plugin 'wesQ3/vim-windowswap'            " Swap windows easily in layout
+            Plugin 'vim-scripts/SearchComplete'      " Autocompletion in search
         " Languages helpers
             Plugin 'scrooloose/syntastic'            " Syntax checker
-            Plugin 'nathanaelkane/vim-indent-guides' " Show indent lines
+            Plugin 'Yggdroot/indentLine'             " Show indent lines
             Plugin 'tpope/vim-commentary'            " Toggle universal comments
             Plugin 'tpope/vim-endwise'               " Auto close blocks
+            Plugin 'kien/rainbow_parentheses.vim'    " Rainbow parentheses
+            Plugin 'Valloric/MatchTagAlways'         " Match XML tags
+            Plugin 'justinmk/vim-matchparenalways'   " Match parens position
             Plugin 'tsaleh/vim-matchit'              " Expands %
             Plugin 'vim-scripts/Auto-Pairs'          " Auto close structures
             Plugin 'vim-scripts/Align'               " Align texts by symbols
             Plugin 'Valloric/YouCompleteMe'          " Killer auto completion
+            Plugin 'octol/vim-cpp-enhanced-highlight' " CPP better syntax
+            " Clojure
+                Plugin 'tpope/vim-fireplace'         " Clojure REPL
+                Plugin 'tpope/vim-leiningen'         " Leiningen integration
+                " Plugin 'vim-scripts/paredit.vim'     " S-expression better support
+                Plugin 'guns/vim-sexp'               " S-expressions better support
+                Plugin 'tpope/vim-sexp-mappings-for-regular-people'
             " Web developpment and Ruby
                 Plugin 'tpope/vim-rails'                 " Rails utilities
                 Plugin 'tpope/vim-cucumber'              " Cucumber support
                 Plugin 'thoughtbot/vim-rspec'            " Rspec support
                 Plugin 'tpope/vim-bundler'               " Bundler wrapper
                 Plugin 'tpope/vim-haml'                  " Haml and SASS support
-                Plugin 'groenewege/vim-less'             " Less support
                 Plugin 'darthdeus/vim-emblem'            " Emblem.js support
                 Plugin 'mustache/vim-mustache-handlebars' " Handlebars support
                 Plugin 'pangloss/vim-javascript'         " Javascript enhanced
@@ -146,7 +156,7 @@
             setl statusline+=%1*%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%*
             setl statusline+=\ %1*%{fugitive#statusline()}%* " git integration
             setl statusline+=%=                              " left/right separator
-            setl statusline+=[¶:%1*%{WS_Show()}%*            " show whitespace showing mode " 
+            setl statusline+=[¶:%1*%{WS_Show()}%*            " show whitespace showing mode "
             setl statusline+=\ ✔:%1*%{Spell_Show()}%*        " spellcheck infos
             setl statusline+=\ ☱:%1*%{Foldmethod_Show()}%*]  " foldmethod infos
             setl statusline+=\ [➔:%1*%{Tabs_Show()}%*        " tabs showing status
@@ -344,6 +354,8 @@
         autocmd FileType less                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lessc\ %\ \>\ %:t:r.css
         autocmd FileType coffee                     set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=coffee\ -c\ %
         autocmd FileType ruby,eruby                 set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ruby\ %
+        autocmd FileType clojure                    set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=lein\ run
+        autocmd FileType lisp                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=clisp\ %
         autocmd FileType cucumber                   set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
         autocmd FileType tex                        set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
 
@@ -579,6 +591,10 @@
             set background=light
         endif
     endfunction
+
+    " indentLine
+    au VimEnter     * :IndentLinesDisable
+    nnoremap <leader>ig :IndentLinesToggle<CR>
 
     " Gist
     nnoremap <leader>gi :Gist<CR>
@@ -930,6 +946,8 @@
 
     " Autopairs
     let g:AutoPairsShortcutToggle = '<leader>ap'
+    let g:AutoPairsShortcutBackInsert = '' " `â`
+    let g:AutoPairsShortcutJump = '' " `î`
     let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
@@ -970,13 +988,25 @@
                      \ "Source_Explorer",
                      \ ]
 
+    " MatchTagAlways
+    let g:mta_filetypes = {
+                \ 'html' : 1,
+                \ 'php' : 1,
+                \ 'xhtml' : 1,
+                \ 'xml' : 1,
+                \}
+    let g:mta_use_matchparen_group = 0
+    let g:mta_set_default_matchtag_color = 0
+    highlight MatchTag ctermfg=white ctermbg=none cterm=bold
+
     " PHP
     let php_sql_query = 1
     let php_htmlInStrings = 1
 
     " Javascript
     let g:javascript_enable_domhtmlcss = 1
-    let g:javascript_conceal = 1
+    let b:javascript_fold = 1
+    let g:javascript_conceal = 0
 
     " Matchit
     let b:match_ignorecase = 1
@@ -1010,10 +1040,8 @@
     hi EasyMotionTarget2Second cterm=bold ctermfg=white ctermbg=14
     hi EasyMotionShade cterm=none ctermfg=white ctermbg=10
 
-    " Indent-guide
-    let g:indent_guides_auto_colors = 0
-    hi IndentGuidesOdd   ctermbg=0
-    hi IndentGuidesEven  ctermbg=8
+    " indentLine
+    let g:indentLine_char = '┆'
 
     " Unite
     let g:unite_enable_short_source_names = 1
@@ -1130,6 +1158,9 @@
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
 
+    " YUNOcommit
+    let g:YUNOcommit_after = 15
+
     " Git gutter
     let g:gitgutter_realtime = 0
     let g:gitgutter_eager = 0
@@ -1189,21 +1220,37 @@
     hi CtrlSpaceSearch   ctermfg=0 ctermbg=3 cterm=none
     hi CtrlSpaceStatus   ctermfg=15  ctermbg=4 cterm=bold
 
+    " Rainbow parentheses
+    let g:rbpt_max = 16
+    let g:rbpt_loadcmd_toggle = 0
+    au Syntax lisp,clojure,scheme RainbowParenthesesToggle
+    au Syntax lisp,clojure,scheme RainbowParenthesesLoadRound
+    " au Syntax lisp,clojure,scheme RainbowParenthesesLoadSquare
+    au Syntax lisp,clojure,scheme RainbowParenthesesLoadBraces
 
     " Hardtime
-    let g:hardtime_default_on = 0
+    let g:hardtime_default_on = 1
     let g:list_of_normal_keys = [ "h", "j", "k", "l", "-", "+" ]
     let g:list_of_visual_keys = [ "-", "+" ]
-    let g:hardtime_timeout = 2000
+    let g:hardtime_timeout = 1500
     let g:hardtime_showmsg = 0
     let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
     let g:hardtime_ignore_quickfix = 1
     let g:hardtime_allow_different_key = 1
     let g:hardtime_maxcount = 1
-    au BufEnter     * :HardTimeOn
 
     " Mustache handlebars
     let g:mustache_abbreviations = 1
+
+    " C++
+    hi cppSTLconstant ctermfg=3 ctermbg=none cterm=none
+    hi cppSTLfunction ctermfg=4 ctermbg=none cterm=none
+    hi cCustomFunc ctermfg=14 ctermbg=none cterm=none
+    hi cCustomClass ctermfg=1 ctermbg=none cterm=none
+
+    " Sexp
+    let g:sexp_insert_after_wrap = 0
+    let g:sexp_enable_insert_mode_mappings = 0
 """ END PLUGINS SETTINGS }}i}
 
 
