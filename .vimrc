@@ -12,95 +12,88 @@
 """ INITIALISATION {{{
     filetype off                   " required to init
     set rtp+=~/.vim/ftplugin/      " Add filetype plugins
-    set rtp+=~/.vim/bundle/vundle/ " Let vundle manage itself
 """ END INITIALISATION }}}
 
 
 """ PLUGINS {{{
-    call vundle#begin()
-    Plugin 'gmarik/vundle'                      " Manage plugins
-        " Files & navigation
-            Plugin 'szw/vim-ctrlspace'               " Manage workspaces
-            Plugin 'Shougo/unite.vim'                " Find everything
-            Plugin 'Shougo/vimproc.vim'              " Ditto, but async !
-            Plugin 'Shougo/neomru.vim'               " Add recent files to unite
-            Plugin 'airblade/vim-rooter'             " CD to project root
-            Plugin 'scrooloose/nerdtree'             " Files tree
-            Plugin 'Lokaltog/vim-easymotion'         " Quick motions
-            Plugin 'bronson/vim-visual-star-search'  " * works with visual mode
-            Plugin 'tommcdo/vim-exchange'            " Swap words and lines
-            Plugin 'qstrahl/vim-dentures'            " Select blocs by indent level
-            Plugin 'tpope/vim-surround'              " Change surroundings
-            Plugin 'Shougo/CamelCaseMotion'          " Move inside Camel or snake case words
-            Plugin 'wesQ3/vim-windowswap'            " Swap windows easily in layout
-            Plugin 'vim-scripts/SearchComplete'      " Autocompletion in search
-        " Languages helpers
-            Plugin 'scrooloose/syntastic'            " Syntax checker
-            Plugin 'Yggdroot/indentLine'             " Show indent lines
-            Plugin 'tpope/vim-commentary'            " Toggle universal comments
-            Plugin 'tpope/vim-endwise'               " Auto close blocks
-            Plugin 'kien/rainbow_parentheses.vim'    " Rainbow parentheses
-            Plugin 'Valloric/MatchTagAlways'         " Match XML tags
-            Plugin 'justinmk/vim-matchparenalways'   " Match parens position
-            Plugin 'tsaleh/vim-matchit'              " Expands %
-            Plugin 'vim-scripts/Auto-Pairs'          " Auto close structures
-            Plugin 'vim-scripts/Align'               " Align texts by symbols
-            Plugin 'Valloric/YouCompleteMe'          " Killer auto completion
-            Plugin 'octol/vim-cpp-enhanced-highlight' " CPP better syntax
-            " Clojure
-                Plugin 'tpope/vim-fireplace'         " Clojure REPL
-                Plugin 'tpope/vim-leiningen'         " Leiningen integration
-                " Plugin 'vim-scripts/paredit.vim'     " S-expression better support
-                Plugin 'guns/vim-sexp'               " S-expressions better support
-                Plugin 'tpope/vim-sexp-mappings-for-regular-people'
-            " Web developpment and Ruby
-                Plugin 'tpope/vim-rails'                 " Rails utilities
-                Plugin 'tpope/vim-cucumber'              " Cucumber support
-                Plugin 'thoughtbot/vim-rspec'            " Rspec support
-                Plugin 'tpope/vim-bundler'               " Bundler wrapper
-                Plugin 'tpope/vim-haml'                  " Haml and SASS support
-                Plugin 'darthdeus/vim-emblem'            " Emblem.js support
-                Plugin 'mustache/vim-mustache-handlebars' " Handlebars support
-                Plugin 'pangloss/vim-javascript'         " Javascript enhanced
-                Plugin 'kchmck/vim-coffee-script'        " Coffeescript support
-                Plugin 'tpope/vim-ragtag'                " Web tags boilerplate
-                Plugin 'tristen/vim-sparkup'             " HTML Zen-coding
-                Plugin 'miripiruni/CSScomb-for-Vim'      " Clean CSS files
-                Plugin 'hail2u/vim-css3-syntax'          " CSS3 Support
-            " Publication
-                Plugin 'jcf/vim-latex'                   " Latex Suite
-                Plugin 'tpope/vim-abolish'               " Avoid typos
-                Plugin 'plasticboy/vim-markdown'         " Markdown support
-            " Snippets
-                Plugin 'SirVer/ultisnips'                " Code snippets plugin
-                Plugin 'honza/vim-snippets'              " Said code snippets
-        " Utility
-            Plugin 'sjl/gundo.vim'                   " Undo tree history
-            Plugin 'AndrewRadev/switch.vim'          " Switch common patterns
-            Plugin 'AndrewRadev/splitjoin.vim'       " From single line statements to multilines
-            Plugin 'tpope/vim-unimpaired'            " Cool bindings
-            Plugin 'PeterRincker/vim-argumentative'  " Easily switch arguments
-            Plugin 'wellle/targets.vim'              " Awesome text-objects
-            Plugin 'tpope/vim-repeat'                " Allow repeat with '.' for plugins
-            Plugin 'svermeulen/vim-easyclip'         " Smart copy/cut/delete
-            Plugin 'ConradIrwin/vim-bracketed-paste' " Auto paste mode
-            " Git & Gist
-                Plugin 'mattn/gist-vim'                  " Send to Gist
-                Plugin 'mattn/webapi-vim'                " Required for Gist
-                Plugin 'vim-scripts/gitignore'           " Add .gitignore to wildignore locally
-                Plugin 'tpope/vim-fugitive'              " Git integration
-                Plugin 'airblade/vim-gitgutter'          " Git diff integration
-            " Code analysys
-                Plugin 'chrisbra/NrrwRgn'                " Select region to safely edit
-                Plugin 'majutsushi/tagbar'               " Get functions and var in code
-                Plugin 'wesleyche/SrcExpl'               " Explore declarations
-            " User-interface
-                Plugin 'kshenoy/vim-signature'           " Toggle marks column
-                Plugin 'christoomey/vim-tmux-navigator'  " Tmux seamless integration
-                Plugin 't9md/vim-choosewin'              " Tmux display-pane in vim
-                Plugin 'tpope/vim-dispatch'              " Run tests and compilation in spare pane async
-                Plugin 'takac/vim-hardtime'              " Learn good habits
-    call vundle#end()
+    call plug#begin('~/.vim/bundle')
+    " Files & navigation
+    Plug 'szw/vim-ctrlspace'                                                        " Manage workspaces
+    Plug 'Shougo/unite.vim'                                                         " Find everything
+    Plug 'Shougo/vimproc.vim'                                                       " Ditto, but async !
+    Plug 'Shougo/neomru.vim'                                                        " Add recent files to unite
+    Plug 'airblade/vim-rooter'                                                      " CD to project root
+    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }                          " Files tree
+    Plug 'Lokaltog/vim-easymotion'                                                  " Quick motions
+    Plug 'bronson/vim-visual-star-search'                                           " * works with visual mode
+    Plug 'tommcdo/vim-exchange'                                                     " Swap words and lines
+    Plug 'qstrahl/vim-dentures'                                                     " Select blocs by indent level
+    Plug 'tpope/vim-surround'                                                       " Change surroundings
+    Plug 'bkad/CamelCaseMotion'                                                     " Move inside Camel or snake case words
+    Plug 'wesQ3/vim-windowswap'                                                     " Swap windows easily in layout
+    Plug 'vim-scripts/SearchComplete'                                               " Autocompletion in search
+    " Languages helpers
+    Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' }                         " Syntax checker
+    Plug 'Yggdroot/indentLine'                                                      " Show indent lines
+    Plug 'tpope/vim-commentary'                                                     " Toggle universal comments
+    Plug 'tpope/vim-endwise'                                                        " Auto close blocks
+    Plug 'kien/rainbow_parentheses.vim', { 'for': ['lisp', 'clojure', 'scheme'] }   " Rainbow parentheses
+    Plug 'Valloric/MatchTagAlways', { 'for': ['xml', 'html', 'svg'] }               " Match XML tags
+    Plug 'justinmk/vim-matchparenalways', { 'for': ['lisp', 'clojure', 'scheme'] }  " Match parens position
+    Plug 'tmhedberg/matchit'                                                        " Expands %
+    Plug 'vim-scripts/Auto-Pairs'                                                   " Auto close structures
+    Plug 'vim-scripts/Align'                                                        " Align texts by symbols
+    Plug 'Valloric/YouCompleteMe'                                                   " Killer auto completion
+    Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                       " CPP better syntax
+    " Clojure
+    Plug 'tpope/vim-fireplace', { 'for': 'clojure' }                                " Clojure REPL
+    " Plug 'tpope/vim-leiningen'                                                      " Leiningen integration
+    Plug 'guns/vim-sexp', { 'for': ['lisp', 'clojure', 'scheme'] }                  " S-expressions better support
+    Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['lisp', 'clojure', 'scheme'] }
+    " Web developpment and Ruby
+    Plug 'tpope/vim-rails', { 'for': 'ruby' }                                       " Rails utilities
+    Plug 'tpope/vim-cucumber', { 'for': 'cucumber' }                                " Cucumber support
+    Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }                                  " Rspec support
+    Plug 'tpope/vim-haml', { 'for': 'haml' }                                        " Haml and SASS support
+    Plug 'pangloss/vim-javascript', {'for': 'javascript'}                           " Javascript enhanced
+    Plug 'kchmck/vim-coffee-script', { 'for': ['coffeescript', 'coffee'] }          " Coffeescript support
+    Plug 'tpope/vim-ragtag', { 'for': ['html', 'haml'] }                            " Web tags boilerplate
+    Plug 'tristen/vim-sparkup', { 'for': 'html' }                                   " HTML Zen-coding
+    Plug 'miripiruni/CSScomb-for-Vim', { 'for': ['css', 'scss'] }                   " Clean CSS files
+    Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }                                 " CSS3 Support
+    " Publication
+    Plug 'jcf/vim-latex', {'for': 'latex'}                                          " Latex Suite
+    Plug 'tpope/vim-abolish'                                                        " Avoid typos
+    Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'mkd']}                    " Markdown support
+    " Snippets
+    Plug 'SirVer/ultisnips'                                                         " Code snippets plugin
+    Plug 'honza/vim-snippets'                                                       " Said code snippets
+    " Utility
+    Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }                                   " Undo tree history
+    Plug 'AndrewRadev/switch.vim', { 'on': 'Switch'  }                              " Switch common patterns
+    Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] } " From single line statements to multilines
+    Plug 'tpope/vim-unimpaired'                                                     " Cool bindings
+    Plug 'wellle/targets.vim'                                                       " Awesome text-objects
+    Plug 'tpope/vim-repeat'                                                         " Allow repeat with '.' for plugins
+    Plug 'svermeulen/vim-easyclip'                                                  " Smart copy/cut/delete
+    Plug 'ConradIrwin/vim-bracketed-paste'                                          " Auto paste mode
+    " Git & Gist
+    Plug 'mattn/gist-vim', { 'on': 'Gist' }                                         " Send to Gist
+    Plug 'mattn/webapi-vim', { 'on': 'Gist' }                                       " Required for Gist
+    Plug 'vim-scripts/gitignore'                                                    " Add .gitignore to wildignore locally
+    Plug 'tpope/vim-fugitive'                                                       " Git integration
+    Plug 'airblade/vim-gitgutter'                                                   " Git diff integration
+    " Code analysys
+    Plug 'chrisbra/NrrwRgn'                                                         " Select region to safely edit
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }                              " Get functions and var in code
+    Plug 'wesleyche/SrcExpl', { 'on': 'SrcExplToggle' }                             " Explore declarations
+    " User-interface
+    Plug 'myusuf3/numbers.vim'                                                      " Toggle line numbers automatically
+    Plug 'kshenoy/vim-signature'                                                    " Toggle marks column
+    Plug 'MattesGroeger/vim-bookmarks'                                              " Bookmarks
+    Plug 'christoomey/vim-tmux-navigator'                                           " Tmux seamless integration
+    Plug 'tpope/vim-dispatch'                                                       " Run tests and compilation in spare pane async
+    call plug#end()
 """ END PLUGINS }}}
 
 
@@ -525,6 +518,10 @@
         " Make the current file executable
         nmap <leader>chx :w<cr>:!chmod 755 %<cr>:e<cr>
 
+        " jumps in change history
+        nnoremap <BS> g;
+        " nnoremap <CR> g,
+
         "smart indent when entering insert mode with i on empty lines
         function! IndentWithI()
             if len(getline('.')) == 0
@@ -629,9 +626,6 @@
     map <S-W> <Plug>CamelCaseMotion_w
     map <S-B> <Plug>CamelCaseMotion_b
     map <S-E> <Plug>CamelCaseMotion_e
-
-    " Choosewin
-    nmap  <leader>cw  <Plug>(choosewin)
 
     " Align
     vnoremap <leader>= :Align =<CR>
@@ -792,7 +786,8 @@
     nmap <leader>; :CtrlSpace<CR>
 
     " Unite
-    nnoremap <leader>p :Unite -auto-resize file_rec/async directory<CR>
+    nnoremap <leader>p :Unite -auto-resize file_rec file directory<CR>
+    nnoremap <leader>P :Unite -auto-resize file directory<CR>
     nnoremap <leader>dp :Unite -auto-resize directory<CR>
     nnoremap <leader>dP :Unite -auto-resize directory_rec/async<CR>
     nnoremap <leader>ru :Unite -auto-resize -quick-match neomru/file<CR>
@@ -804,6 +799,7 @@
     nnoremap <leader>sn :Unite -auto-resize ultisnips<CR>
     nnoremap <leader>yp :Unite -auto-resize -no-start-insert history/yank<CR>
     nnoremap <leader>u :Unite -auto-resize -no-start-insert change<CR>
+    nnoremap <leader>cr :Unite -auto-resize -no-start-insert register<CR>
 
     " YCM
     nnoremap <leader>gd :YcmCompleter GoToImprecise<CR>
@@ -1200,21 +1196,9 @@
     let g:ctrlspace_max_search_results = 100
     let g:ctrlspace_height = 2
     let g:ctrlspace_max_height = 20
+    let g:ctrlspace_use_ruby_bindings = 1
     let g:ctrlspace_search_resonators = ['.', '/', '\', '_', '-', '%', '$', '#', '@']
-    let g:ctrlspace_symbols = {
-        \ "cs"      : "#",
-        \ "tab"     : "TAB",
-        \ "all"     : "ALL",
-        \ "open"    : "OPEN",
-        \ "tabs"    : "- ",
-        \ "c_tab"   : "+ ",
-        \ "load"    : "LOAD",
-        \ "save"    : "SAVE",
-        \ "prv"     : "*",
-        \ "s_left"  : "[",
-        \ "s_right" : "]"
-        \ }
-    let g:ctrlspace_unicode_font = 1
+    let g:ctrlspace_unicode_font = 0
     hi CtrlSpaceSelected cterm=bold ctermfg=15 ctermbg=9
     hi CtrlSpaceNormal   ctermfg=none ctermbg=none cterm=none
     hi CtrlSpaceSearch   ctermfg=0 ctermbg=3 cterm=none
@@ -1223,21 +1207,9 @@
     " Rainbow parentheses
     let g:rbpt_max = 16
     let g:rbpt_loadcmd_toggle = 0
-    au Syntax lisp,clojure,scheme RainbowParenthesesToggle
+    au Syntax lisp,clojure,scheme RainbowParenthesesActivate
     au Syntax lisp,clojure,scheme RainbowParenthesesLoadRound
-    " au Syntax lisp,clojure,scheme RainbowParenthesesLoadSquare
     au Syntax lisp,clojure,scheme RainbowParenthesesLoadBraces
-
-    " Hardtime
-    let g:hardtime_default_on = 1
-    let g:list_of_normal_keys = [ "h", "j", "k", "l", "-", "+" ]
-    let g:list_of_visual_keys = [ "-", "+" ]
-    let g:hardtime_timeout = 1500
-    let g:hardtime_showmsg = 0
-    let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
-    let g:hardtime_ignore_quickfix = 1
-    let g:hardtime_allow_different_key = 1
-    let g:hardtime_maxcount = 1
 
     " Mustache handlebars
     let g:mustache_abbreviations = 1
@@ -1251,7 +1223,31 @@
     " Sexp
     let g:sexp_insert_after_wrap = 0
     let g:sexp_enable_insert_mode_mappings = 0
-""" END PLUGINS SETTINGS }}i}
+
+    " Bookmark
+    let g:bookmark_auto_save_file = $HOME . '/.vim/bookmarks'
+    let g:bookmark_auto_close = 1
+    let g:bookmark_show_warning = 0
+    let g:bookmark_highlight_lines = 0
+    highlight BookmarkSign ctermbg=10 ctermfg=3
+    highlight BookmarkAnnotationSign ctermbg=10 ctermfg=4
+    highlight BookmarkLine ctermbg=none ctermfg=none
+    highlight BookmarkAnnotationLine ctermbg=10 ctermfg=none
+
+    " Railscast theme settings
+    highlight CursorColumn ctermbg=11
+    highlight CursorColumn ctermbg=11
+    highlight ColorColumn ctermbg=11
+    highlight CursorLine ctermbg=11
+    highlight CursorLineNr ctermbg=11
+    highlight LineNr ctermfg=8 ctermbg=11
+
+    " Scratch buffer
+    let g:scratch_autohide = &hidden
+    let g:scratch_filetype = "sh"
+    let g:scratch_height = 0.3
+    let g:scratch_top = 0
+""" END PLUGINS SETTINGS }}}
 
 
-""""" END VIM CONFIGURATION FILE {{{{{
+""""" END VIM CONFIGURATION FILE }}}}}
