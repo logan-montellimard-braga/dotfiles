@@ -19,11 +19,13 @@
     call plug#begin('~/.vim/bundle')
     " Files & navigation
     Plug 'szw/vim-ctrlspace'                                                        " Manage workspaces
+    Plug 'gcmt/wildfire.vim'                                                        " Select next text objects
     Plug 'Shougo/unite.vim'                                                         " Find everything
     Plug 'Shougo/vimproc.vim'                                                       " Ditto, but async !
     Plug 'Shougo/neomru.vim'                                                        " Add recent files to unite
     Plug 'airblade/vim-rooter'                                                      " CD to project root
-    Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }                          " Files tree
+    Plug 'jistr/vim-nerdtree-tabs'                                                  " Nerdtree tabs
+    Plug 'scrooloose/nerdtree'                                                      " Files tree
     Plug 'Lokaltog/vim-easymotion'                                                  " Quick motions
     Plug 'bronson/vim-visual-star-search'                                           " * works with visual mode
     Plug 'tommcdo/vim-exchange'                                                     " Swap words and lines
@@ -32,7 +34,13 @@
     Plug 'bkad/CamelCaseMotion'                                                     " Move inside Camel or snake case words
     Plug 'wesQ3/vim-windowswap'                                                     " Swap windows easily in layout
     Plug 'vim-scripts/SearchComplete'                                               " Autocompletion in search
+    Plug 'xolox/vim-misc'                                                           " Misc for other plugins
+    Plug 'xolox/vim-easytags'                                                       " Auto generate tags
     " Languages helpers
+    Plug 'elixir-lang/vim-elixir', {'for': 'elixir'}
+    Plug 'lambdatoast/elm.vim', {'for': 'elm'}
+    Plug 'leafgarland/typescript-vim', {'for': 'typescript'}
+    Plug 'jrozner/vim-antlr', {'for': 'antlr'}
     Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' }                         " Syntax checker
     Plug 'Yggdroot/indentLine'                                                      " Show indent lines
     Plug 'tpope/vim-commentary'                                                     " Toggle universal comments
@@ -43,26 +51,40 @@
     Plug 'tmhedberg/matchit'                                                        " Expands %
     Plug 'vim-scripts/Auto-Pairs'                                                   " Auto close structures
     Plug 'vim-scripts/Align'                                                        " Align texts by symbols
-    Plug 'Valloric/YouCompleteMe'                                                   " Killer auto completion
+    Plug 'Valloric/YouCompleteMe', { 'frozen': 1 }                                                   " Killer auto completion
     Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }                       " CPP better syntax
+    Plug 'fatih/vim-go', {'for': 'go'}                                              " Golang support
+    Plug 'loganbraga/hobbes.vim'                                                    " Hobbes support
+    Plug 'StanAngeloff/php.vim', {'for': 'php'}                                     " PHP up-to-date support
+    " Plug 'arnaud-lb/vim-php-namespace', {'for': 'php'}
+    " Plug 'spf13/PIV', {'for': 'php'}
+    Plug 'klen/python-mode', {'for': 'python'}
+    Plug 'rust-lang/rust.vim', {'for': 'rust'}
+    Plug 'racer-rust/vim-racer', {'for': 'rust'}
+    " Ocaml
+    Plug 'rgrinberg/vim-ocaml', {'for': 'ocaml'}
+    Plug 'the-lambda-church/merlin', {'for': 'ocaml'}
+    " Haskell
+    Plug 'neovimhaskell/haskell-vim', {'for': 'haskell'}                            " Better syntax
+    Plug 'bitc/vim-hdevtools', {'for': 'haskell'}
     " Clojure
     Plug 'tpope/vim-fireplace', { 'for': 'clojure' }                                " Clojure REPL
-    " Plug 'tpope/vim-leiningen'                                                      " Leiningen integration
     Plug 'guns/vim-sexp', { 'for': ['lisp', 'clojure', 'scheme'] }                  " S-expressions better support
     Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': ['lisp', 'clojure', 'scheme'] }
+    Plug 'venantius/vim-eastwood', {'for': 'clojure'}                               " Eastwood clojure linter
     " Web developpment and Ruby
     Plug 'tpope/vim-rails', { 'for': 'ruby' }                                       " Rails utilities
-    Plug 'tpope/vim-cucumber', { 'for': 'cucumber' }                                " Cucumber support
     Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }                                  " Rspec support
     Plug 'tpope/vim-haml', { 'for': 'haml' }                                        " Haml and SASS support
     Plug 'pangloss/vim-javascript', {'for': 'javascript'}                           " Javascript enhanced
+    Plug 'mustache/vim-mustache-handlebars'                                         " Handlebars support
     Plug 'kchmck/vim-coffee-script', { 'for': ['coffeescript', 'coffee'] }          " Coffeescript support
     Plug 'tpope/vim-ragtag', { 'for': ['html', 'haml'] }                            " Web tags boilerplate
     Plug 'tristen/vim-sparkup', { 'for': 'html' }                                   " HTML Zen-coding
     Plug 'miripiruni/CSScomb-for-Vim', { 'for': ['css', 'scss'] }                   " Clean CSS files
     Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }                                 " CSS3 Support
     " Publication
-    Plug 'jcf/vim-latex', {'for': 'latex'}                                          " Latex Suite
+    Plug 'jcf/vim-latex'                                                            " Latex Suite
     Plug 'tpope/vim-abolish'                                                        " Avoid typos
     Plug 'plasticboy/vim-markdown', {'for': ['markdown', 'mkd']}                    " Markdown support
     " Snippets
@@ -71,12 +93,13 @@
     " Utility
     Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }                                   " Undo tree history
     Plug 'AndrewRadev/switch.vim', { 'on': 'Switch'  }                              " Switch common patterns
-    Plug 'AndrewRadev/splitjoin.vim', { 'on': ['SplitjoinJoin', 'SplitjoinSplit'] } " From single line statements to multilines
+    Plug 'AndrewRadev/splitjoin.vim'                                                " From single line statements to multilines
     Plug 'tpope/vim-unimpaired'                                                     " Cool bindings
     Plug 'wellle/targets.vim'                                                       " Awesome text-objects
     Plug 'tpope/vim-repeat'                                                         " Allow repeat with '.' for plugins
     Plug 'svermeulen/vim-easyclip'                                                  " Smart copy/cut/delete
     Plug 'ConradIrwin/vim-bracketed-paste'                                          " Auto paste mode
+    Plug 'vasconcelloslf/vim-interestingwords'                                      " Highlight multiple words
     " Git & Gist
     Plug 'mattn/gist-vim', { 'on': 'Gist' }                                         " Send to Gist
     Plug 'mattn/webapi-vim', { 'on': 'Gist' }                                       " Required for Gist
@@ -84,7 +107,6 @@
     Plug 'tpope/vim-fugitive'                                                       " Git integration
     Plug 'airblade/vim-gitgutter'                                                   " Git diff integration
     " Code analysys
-    Plug 'chrisbra/NrrwRgn'                                                         " Select region to safely edit
     Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }                              " Get functions and var in code
     Plug 'wesleyche/SrcExpl', { 'on': 'SrcExplToggle' }                             " Explore declarations
     " User-interface
@@ -93,6 +115,7 @@
     Plug 'MattesGroeger/vim-bookmarks'                                              " Bookmarks
     Plug 'christoomey/vim-tmux-navigator'                                           " Tmux seamless integration
     Plug 'tpope/vim-dispatch'                                                       " Run tests and compilation in spare pane async
+    Plug 'osyo-manga/vim-over'                                                      " Previsualize substitutes
     call plug#end()
 """ END PLUGINS }}}
 
@@ -304,8 +327,11 @@
         set history=1000                      " Number of history actions to keep
         set undolevels=1000                   " Number of undos to keep
         au BufRead,BufNewFile *.txt set ft=sh " opens .txt with highlight
+        au BufRead,BufNewFile *.gradle set ft=groovy
+        au BufRead,BufNewFile *.toml set ft=config
+        au BufRead,BufNewFile *.edn set ft=clojure " opens .edn files as clojure
         au BufNewFile,BufRead *.qss set ft=css
-        set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.ico,*.sqlite3,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~
+        set wildignore=*/tmp/*,*.so,*.swp,*.zip,*.rar,*.tar,*.ico,*.sqlite3,*.gz,*.hg,*.git,*.DS_Store,*.bak,*.pyc,*.o,*.ojb,*.a,*.pdf,*.jpg,*.jpeg,*.gif,*.png,*.bmp,*.xbm,*.avi,*.mkv,*.mp4,*.mp3,.*.flac,*.iso,*.~,*.class
 
     " Editing
         set spelllang=fr               " Frenchie here
@@ -332,8 +358,8 @@
         autocmd FileType sh,zsh,bash                set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=./%
         autocmd FileType python                     set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=python\ %
         autocmd FileType perl                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=perl\ %
-        autocmd FileType java                       set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
-        autocmd FileType haskell                    set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=ghc\ %
+        autocmd FileType java                       set nolist noexpandtab shiftwidth=4 softtabstop=4 tabstop=4 makeprg=javac\ %
+        autocmd FileType haskell,ocaml              set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=ghc\ %
         autocmd FileType lua                        set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=lua\ %
         autocmd FileType c                          set shiftwidth=4 softtabstop=4 tabstop=4 makeprg=gcc\ %\ -o\ %:t:r
         autocmd FileType cpp                        set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=g++\ %\ -o\ %:t:r
@@ -351,12 +377,18 @@
         autocmd FileType lisp                       set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=clisp\ %
         autocmd FileType cucumber                   set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=cucumber\ %
         autocmd FileType tex                        set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=pdflatex\ %
+        autocmd FileType go                         set shiftwidth=2 softtabstop=2 tabstop=2 makeprg=go\ run\ %
 
         " Make & view for c & c++ & hs
         autocmd FileType c nnoremap <leader>mkv :w <bar> exec '!gcc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
         autocmd FileType cpp nnoremap <leader>mkv :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
         autocmd FileType cpp nnoremap <leader>gtk :w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' `pkg-config gtkmm-2.4 --cflags --libs`'<CR>
         autocmd FileType haskell nnoremap <leader>mkv :w <bar> exec '!ghc '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>'
+        autocmd FileType go set listchars=tab:\ \ ,trail:.,extends:>,precedes:<,nbsp:!,conceal:? "lol
+        autocmd FileType haskell nnoremap <buffer> <leader><F1> :HdevtoolsType<CR>
+        autocmd FileType haskell nnoremap <buffer> <leader><F2> :HdevtoolsClear<CR>
+        autocmd FileType haskell nnoremap <buffer> <leader><F3> :HdevtoolsInfo<CR>
+        autocmd BufEnter *.hs set formatprg=pointfree
 
     " Searching
         set incsearch                                       " live-search
@@ -519,7 +551,7 @@
         nmap <leader>chx :w<cr>:!chmod 755 %<cr>:e<cr>
 
         " jumps in change history
-        nnoremap <BS> g;
+        " nnoremap <BS> g;
         " nnoremap <CR> g,
 
         "smart indent when entering insert mode with i on empty lines
@@ -622,6 +654,9 @@
        endif
     endfunction
 
+    " Vim-over
+    nnoremap <leader>œ :OverCommandLine %s/<CR>
+
     " CamelCaseMotion
     map <S-W> <Plug>CamelCaseMotion_w
     map <S-B> <Plug>CamelCaseMotion_b
@@ -631,8 +666,8 @@
     vnoremap <leader>= :Align =<CR>
 
     "  NERDTree
-    nnoremap <silent> <F2> :NERDTreeToggle<CR>
-    inoremap <silent> <F2> <ESC>:NERDTreeToggle<CR>
+    nnoremap <silent> <F2> :NERDTreeTabsToggle<CR>
+    inoremap <silent> <F2> <ESC>:NERDTreeTabsToggle<CR>
 
     " SrcExpl
     nnoremap <F3> :SrcExplToggle<CR>
@@ -649,6 +684,13 @@
 
     " Markdown
     autocmd FileType markdown nmap <tab> :Toch<CR>
+
+    " Interesting words
+    nnoremap <silent> <leader>oc :call InterestingWords('n')<cr>
+    nnoremap <silent> <leader>oC :call UncolorAllWords()<cr>
+
+    nnoremap <silent> n :call WordNavigation('forward')<cr>
+    nnoremap <silent> N :call WordNavigation('backward')<cr>
 
     " Gundo
     nnoremap <silent> <F5> :GundoToggle<CR>
@@ -779,9 +821,6 @@
     noremap <F12> :call <SID>ToggleMouse()<CR>
     inoremap <F12> <ESC>:call <SID>ToggleMouse()<CR>a
 
-    " NrrwRgn
-    xmap <leader>nr <Plug>NrrwrgnDo
-
     " CTRLSpace
     nmap <leader>; :CtrlSpace<CR>
 
@@ -801,8 +840,15 @@
     nnoremap <leader>u :Unite -auto-resize -no-start-insert change<CR>
     nnoremap <leader>cr :Unite -auto-resize -no-start-insert register<CR>
 
+    " Merlin
+    nnoremap <leader>oi :MerlinTypeOf<CR>
+
     " YCM
     nnoremap <leader>gd :YcmCompleter GoToImprecise<CR>
+
+    " Wildfire
+    nmap <leader>wf <Plug>(wildfire-quick-select)
+    vmap <BS> <Plug>(wildfire-water)
 
     " Highlight characters past 80, toggle with <leader>ol
     nnoremap <silent> <leader>ol :call ToggleOverLengthHighlight()<CR>
@@ -842,7 +888,7 @@
     endfunction
 
     " Highlight occurences of the word under cursor
-    nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
+    " nnoremap <silent> <leader>oc :call ToggleOccurences()<cr>
     hi Occurences ctermfg=none ctermbg=11 cterm=none
     let g:occurences = 0
     function! ToggleOccurences()
@@ -944,12 +990,15 @@
     let g:AutoPairsShortcutToggle = '<leader>ap'
     let g:AutoPairsShortcutBackInsert = '' " `â`
     let g:AutoPairsShortcutJump = '' " `î`
-    let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
+    let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+    autocmd FileType xml,html let g:AutoPairs = {'(':')', '[':']', '<':'>', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType c,cpp let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
+    autocmd FileType clojure,haskell let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"'}
     autocmd FileType ruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|'}
     autocmd FileType eruby let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '|':'|', '<%':'%>', '<%=':'%>'}
     autocmd FileType haml let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`'}
     autocmd FileType tex let b:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', "`":"'"}
+    autocmd FileType hobbes let b:AutoPairs = {'`':'`', '/':'/', '*':'*', '%':'%', '^':'^', '<':'>', '_':'_', '--':'--', '[':']'}
 
     " Signature
     let g:SignatureMarkOrder = "\m."
@@ -969,13 +1018,17 @@
     let g:gundo_help = 0
 
     " Tagbar
-    let g:tagbar_compact = 1
-    let g:tagbar_indent = 2
+    let g:tagbar_compact = 0
+    let g:tagbar_indent = 0
     let g:tagbar_show_linenumbers = 0
     let g:tagbar_singleclick = 1
     let g:tagbar_iconchars = ['+', '-']
-    let g:tagbar_width = 30
+    let g:tagbar_width = 35
     let g:tagbar_left = 0
+    let g:tagbar_autofocus = 1
+    let g:tagbar_show_visibility = 1
+    let g:tagbar_foldlevel = 5
+    let g:tagbar_zoomwidth = 0
 
     " SrcExpl
     let g:SrcExpl_pluginList = [
@@ -999,6 +1052,25 @@
     let php_sql_query = 1
     let php_htmlInStrings = 1
 
+    " Python
+    let python_highlight_all = 1
+
+    " Python Mode
+    let g:pymode_rope = 1
+    let g:pymode_doc = 1
+    let g:pymode_doc_key = 'K'
+    let g:pymode_lint = 1
+    let g:pymode_lint_checker = "pyflakes,pep8"
+    let g:pymode_lint_write = 1
+    let g:pymode_virtualenv = 1
+    let g:pymode_breakpoint = 1
+    let g:pymode_breakpoint_bind = '<leader>bbk'
+    let g:pymode_syntax = 1
+    let g:pymode_syntax_all = 1
+    let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+    let g:pymode_syntax_space_errors = g:pymode_syntax_all
+    let g:pymode_folding = 0
+
     " Javascript
     let g:javascript_enable_domhtmlcss = 1
     let b:javascript_fold = 1
@@ -1007,22 +1079,24 @@
     " Matchit
     let b:match_ignorecase = 1
 
-    " NrrwRgn
-    let g:nrrw_rgn_vert = 1
-    let g:nrrw_rgn_hl = 'Search'
-    let g:nrrw_rgn_wdth = (winwidth(0)/2)
-    let g:nrrw_topbot_leftright = 'botright'
-
     " NERDTree
     let g:NERDTreeWinPos = "left"
-    let g:NERDTreeWinSize = 30
+    let g:NERDTreeWinSize = 35
     let g:NERDTreeHijackNetrw=1
     let g:NERDTreeHighlightCursorline = 1
     let g:NERDTreeQuitOnOpen = 1
-    let g:NERDTreeShowLineNumbers = 1
+    let g:NERDTreeShowLineNumbers = 0
     let g:NERDTreeMinimalUI = 0
-    let g:NERDTreeIgnore=['\.vim$', '\~$', '\.out$']
-    let g:NERDTreeSortOrder=['\/$', '\.rb$', '\.cpp', '\.php$', '\.hs', '*', '\.swp$', '\.bak$', '\~$']
+    let g:NERDTreeIgnore=['\.vim$', '\~$', '\.out$', '\.swp$', '\.bak$', '\.jar$', '\.exe$']
+    let g:NERDTreeSortOrder=['\/$', '\.clj$', '\.rb$', '\.cpp', '\.php$', '\.html', '\.\w*$', '*', '\~$']
+    let g:NERDTreeRespectWildIgnore = 1
+
+    "NERDTreeTabs
+    let g:nerdtree_tabs_autofind = 1
+
+    " Interesting words
+    let g:interestingWordsTermColors = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '12', '13', '14', '15']
+    let g:interestingWordsRandomiseColors = 1
 
     " EasyMotion
     let g:EasyMotion_leader_key = '<Leader><Leader>'
@@ -1037,7 +1111,7 @@
     hi EasyMotionShade cterm=none ctermfg=white ctermbg=10
 
     " indentLine
-    let g:indentLine_char = '┆'
+    let g:indentLine_char = '│'
 
     " Unite
     let g:unite_enable_short_source_names = 1
@@ -1094,8 +1168,13 @@
     let g:syntastic_check_on_wq=1
     let g:syntastic_cpp_check_header = 1
     let g:syntastic_cpp_compiler_options = ' -std=c++0x'
+    let g:syntastic_elixir_checkers = ['elixir']
+    let g:syntastic_enable_elixir_checker = 1
     let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+    let g:syntastic_javascript_checkers = ['jshint']
+    let g:syntastic_python_checkers = ['pep8', 'pyflakes', 'python']
     let g:syntastic_html_checkers = ['tidy', 'validator']
+    let g:syntastic_ocaml_checkers = ['merlin']
     let g:syntastic_mode_map = {
         \ 'mode': 'passive',
         \ 'active_filetypes': [
@@ -1105,12 +1184,19 @@
             \ , 'lua'
             \ , 'cpp'
             \ , 'haskell'
+            \ , 'ocaml'
             \ , 'javascript'
             \ , 'perl'
             \ , 'python'
+            \ , 'rust'
             \ , 'sh'
+            \ , 'elixir'
         \ ]
     \ }
+
+    " Racer
+    let g:racer_cmd = "/home/logan/bin/racer/target/release/racer"
+    let $RUST_SRC_PATH="/home/logan/bin/rust-src/src/"
 
     " Coffeescript
     let coffee_compile_vert = 1
@@ -1153,9 +1239,6 @@
     let g:ycm_server_log_level = 'error'
     let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
-
-    " YUNOcommit
-    let g:YUNOcommit_after = 15
 
     " Git gutter
     let g:gitgutter_realtime = 0
@@ -1204,6 +1287,10 @@
     hi CtrlSpaceSearch   ctermfg=0 ctermbg=3 cterm=none
     hi CtrlSpaceStatus   ctermfg=15  ctermbg=4 cterm=bold
 
+    " haskell-vim
+    hi haskellOperators cterm=none ctermfg=3 ctermbg=none
+    hi haskellBacktick cterm=none ctermfg=6 ctermbg=none
+
     " Rainbow parentheses
     let g:rbpt_max = 16
     let g:rbpt_loadcmd_toggle = 0
@@ -1242,11 +1329,17 @@
     highlight CursorLineNr ctermbg=11
     highlight LineNr ctermfg=8 ctermbg=11
 
-    " Scratch buffer
-    let g:scratch_autohide = &hidden
-    let g:scratch_filetype = "sh"
-    let g:scratch_height = 0.3
-    let g:scratch_top = 0
+    " Vim easytags
+    let g:easytags_async = 1
+    set tags=./tags
+    let g:easytags_dynamic_files = 1
+    let g:easytags_updatetime_min = 10000
+    let g:easytags_suppress_report = 1
+    let g:easytags_by_filetype = '/home/logan/.vim/tags/'
+
+    " Merlin
+    let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+    execute "set rtp+=" . g:opamshare . "/merlin/vim"
 """ END PLUGINS SETTINGS }}}
 
 
